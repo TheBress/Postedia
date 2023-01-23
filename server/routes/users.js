@@ -1,8 +1,14 @@
 import express from "express";
-import { getUserById } from "../controllers/users.js";
+import {
+  addRemoveFriend,
+  getUserById,
+  getUserFriends,
+} from "../controllers/users.js";
 
 const router = express.Router();
 
-router.get("/", getUserById);
+router.get("/:id", getUserById);
+router.get("/friends/:id", getUserFriends);
+router.patch("/:id/:friendId", addRemoveFriend);
 
 export default router;
