@@ -21,4 +21,13 @@ export interface User {
 
 export interface Post {
   _id: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  location: string;
+  description: string;
+  picturePath: string;
+  userPicturePath: string;
+  likes: boolean[];
+  comments: string[];
 }
