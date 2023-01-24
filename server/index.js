@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import userRoutes from "./routes/users.js";
 import authRoutes from "./routes/auth.js";
+import postRoutes from "./routes/posts.js";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(cors());
 
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
+app.use("/posts", postRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server listen on port ${PORT}`);

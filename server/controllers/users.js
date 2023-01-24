@@ -1,10 +1,12 @@
 import { checkUserFriends, sanitizeFriends } from "../functions/index.js";
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 export const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
+
+    delete user.password;
 
     res.status(200).json(user);
   } catch (error) {
