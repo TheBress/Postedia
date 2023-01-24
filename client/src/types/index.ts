@@ -1,5 +1,4 @@
 export interface InitialState {
-  mode: "light" | "dark";
   user: null | User;
   token: null;
   posts: Post[];
