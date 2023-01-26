@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/layout";
+import { Text, Box } from "@chakra-ui/react";
 
 export const NotFoundPage = () => {
   return (
@@ -10,7 +10,7 @@ export const NotFoundPage = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <Text fontSize="4rem" color="white">
+      <Text fontSize={{ lg: "4rem", sm: "2rem", base: "1rem" }} color="white">
         Error 404 - Page Not Found
       </Text>
     </Box>

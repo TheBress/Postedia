@@ -5,6 +5,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../src/state";
 import { Provider } from "react-redux";
 import "./App.css";
+import { ChakraProvider } from "@chakra-ui/provider";
+import { theme } from "./styles";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,8 +18,10 @@ const store = configureStore({
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ChakraProvider theme={theme}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ChakraProvider>
   </React.StrictMode>
 );
