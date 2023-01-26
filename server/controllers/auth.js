@@ -1,18 +1,10 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      picturePath,
-      friends,
-      location,
-      occupation,
-    } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -22,7 +14,8 @@ export const register = async (req, res) => {
       lastName,
       email,
       password: passwordHash,
-      picturePath,
+      picturePath:
+        "https://images.daznservices.com/di/library/DAZN_News/b4/f1/erling-haaland-manchester-city-premier-league_kfb9ryd3se7t18lahfw3o4zbb.jpg?t=-535409166",
       friends,
       location,
       occupation,
