@@ -19,7 +19,7 @@ export const Register = () => {
       <Box
         width={{ lg: "40vw", md: "60vw", sm: "90vw" }}
         background="white.100"
-        minHeight={{ lg: "72vh", base: "60vh" }}
+        minHeight="72vh"
         borderRadius="20px"
       >
         <Text
@@ -29,10 +29,10 @@ export const Register = () => {
           pt="8"
           fontSize="1.8rem"
         >
-          Welcome to MERN Social network
+          Welcome to Postedia
         </Text>
 
-        <form onSubmit={handleSubmit}>
+        <form className="register" onSubmit={handleSubmit}>
           <InputBox
             value={registerUser.email}
             name="email"

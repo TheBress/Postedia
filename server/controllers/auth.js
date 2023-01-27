@@ -1,10 +1,24 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { randomImage } from "../functions/index.js";
 
 export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (!regex.test(email))
+      res.status(404).json({ msg: "Email field must have email format." });
+
+    const user = await User.findOne({ email: email });
+
+    if (user) res.status(404).json({ msg: "This user already exists." });
+
+    if (password.length < 8)
+      res
+        .status(404)
+        .json({ msg: "Password must have at least 8 characters." });
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -14,11 +28,7 @@ export const register = async (req, res) => {
       lastName,
       email,
       password: passwordHash,
-      picturePath:
-        "https://images.daznservices.com/di/library/DAZN_News/b4/f1/erling-haaland-manchester-city-premier-league_kfb9ryd3se7t18lahfw3o4zbb.jpg?t=-535409166",
-      friends,
-      location,
-      occupation,
+      picturePath: randomImage(),
       viewedProfile: 0,
       impressions: 0,
     });
@@ -26,7 +36,7 @@ export const register = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ msg: error.message });
   }
 };
 

@@ -1,3 +1,14 @@
+import { Navbar } from "../components/Navbar";
+import { GetUser } from "../hooks/getUser";
+
 export const Home = () => {
-  return <div>Home</div>;
+  const { user } = GetUser();
+
+  if (!user) return null;
+
+  return (
+    <>
+      <Navbar profileImage={user?.picturePath} />
+    </>
+  );
 };

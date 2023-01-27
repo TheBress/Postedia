@@ -7,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.get("/:id", getUserById);
+router.get("/:token", getUserById);
 router.get("/friends/:id", getUserFriends);
 router.patch("/:id/:friendId", addRemoveFriend);
 

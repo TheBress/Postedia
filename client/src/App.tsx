@@ -6,19 +6,16 @@ import { Profile } from "./pages/Profile";
 import { Register } from "./pages/Register";
 
 function App() {
-  const isAuth: boolean = Boolean(localStorage.getItem("MERN_SOCIAL_TOKEN"));
+  const isAuth: boolean = Boolean(localStorage.getItem("POSTEDIA_TOKEN"));
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/"
           element={isAuth ? <Home /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/register"
-          element={isAuth ? <Register /> : <Navigate to="/login" />}
         />
         <Route
           path="/profile/:userId"

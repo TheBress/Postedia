@@ -1,9 +1,13 @@
 import { checkUserFriends, sanitizeFriends } from "../functions/index.js";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 export const getUserById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { token } = req.params;
+
+    const { id } = jwt.decode(token);
+
     const user = await User.findById(id);
 
     delete user.password;

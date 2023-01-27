@@ -41,7 +41,7 @@ export const useConnect = () => {
           token: loggedInUser.token,
         })
       );
-      await localStorage.setItem("MERN_SOCIAL_TOKEN", loggedInUser.token);
+      await localStorage.setItem("POSTEDIA_TOKEN", loggedInUser.token);
       navigate("/");
     } else {
       setError(loggedInUser.msg);

@@ -1,6 +1,6 @@
 export interface InitialState {
   user: null | User;
-  token: null;
+  token: null | string;
   posts: Post[];
 }
 

@@ -11,6 +11,7 @@ export const SubmitButton = ({ text }: Props) => {
       background="blue.100"
       color="primary.black"
       margin="auto"
+      mb="2"
       type="submit"
       mt="1.5"
       fontSize="1.3rem"
