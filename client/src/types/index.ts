@@ -1,9 +1,3 @@
-export interface InitialState {
-  user: null | User;
-  token: null | string;
-  posts: Post[];
-}
-
 export interface User {
   _id: string;
   firstName: string;
@@ -16,6 +10,8 @@ export interface User {
   occupation: string;
   viewedProfile: number;
   impressions: number;
+  twitterUrl: string;
+  linkedinUrl: string;
 }
 
 export interface Post {
@@ -41,4 +37,21 @@ export interface RegisterUser {
   lastName: string;
   email: string;
   password: string;
+}
+
+export interface Input {
+  type: string;
+  name: string;
+  value: string;
+  onChange: (e: React.FormEvent<HTMLInputElement>) => void;
+}
+
+export interface UpdatedUser {
+  occupation: string;
+  location: string;
+  twitterUrl: string;
+  linkedinUrl: string;
+  viewedProfile: number;
+  impressions: number;
+  _id: any;
 }

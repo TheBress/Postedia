@@ -1,6 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { InputBox } from "../../components/InputBox";
+import { InputBox } from "../../components/Inputs/InputBox";
 import { SubmitButton } from "../../components/SubmitButton";
 import { useConnect } from "./connect";
 

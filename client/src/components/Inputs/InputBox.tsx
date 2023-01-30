@@ -1,13 +1,7 @@
-import { capitalizeWord } from "../functions";
+import { capitalizeWord } from "../../functions";
+import { Input } from "../../types";
 
-interface Props {
-  type: string;
-  name: string;
-  value: string;
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void;
-}
-
-export const InputBox = ({ type, name, value, onChange }: Props) => {
+export const InputBox = ({ type, name, value, onChange }: Input) => {
   return (
     <div className="inputBox">
       <input

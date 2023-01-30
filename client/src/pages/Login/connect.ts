@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setLogin } from "../../state";
 import { LoginUser } from "../../types";
 
 export const useConnect = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
   const [loginUser, setLoginUser] = useState<LoginUser>({
@@ -35,12 +32,6 @@ export const useConnect = () => {
     });
 
     if (!loggedInUser.msg) {
-      dispatch(
-        setLogin({
-          user: loggedInUser.user,
-          token: loggedInUser.token,
-        })
-      );
       await localStorage.setItem("POSTEDIA_TOKEN", loggedInUser.token);
       navigate("/");
     } else {

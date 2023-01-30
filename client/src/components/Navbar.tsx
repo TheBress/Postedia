@@ -18,14 +18,12 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { NavLink } from "./NavLink";
-import { Links } from "../functions";
 
 interface Props {
   profileImage: string;
 }
 
 export const Navbar = ({ profileImage }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
   const logout = () => {
@@ -42,15 +40,6 @@ export const Navbar = ({ profileImage }: Props) => {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <IconButton
-            size={"md"}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
-            display={{ md: "none" }}
-            background="transparent"
-            _hover={{ background: "transparent", color: "white.100" }}
-            onClick={isOpen ? onClose : onOpen}
-          />
           <HStack spacing={8} alignItems={"center"}>
             <Link to="/">
               {" "}
@@ -60,11 +49,7 @@ export const Navbar = ({ profileImage }: Props) => {
               as={"nav"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
-            >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
+            ></HStack>
           </HStack>
           <Flex alignItems={"center"}>
             <Menu>
@@ -91,16 +76,6 @@ export const Navbar = ({ profileImage }: Props) => {
             </Menu>
           </Flex>
         </Flex>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );

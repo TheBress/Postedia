@@ -4,6 +4,7 @@ import { User } from "../types";
 export const GetUser = () => {
   const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [isRefetched, setIsRefetched] = useState<boolean>(false);
   const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
@@ -21,7 +22,11 @@ export const GetUser = () => {
       .then((data) => setUser(data))
       .catch((e) => setError(e))
       .finally(() => setLoading(false));
-  }, []);
+  }, [isRefetched]);
 
-  return { user, loading, error };
+  const refetch = () => {
+    setIsRefetched(!isRefetched);
+  };
+
+  return { user, loading, error, refetch };
 };
