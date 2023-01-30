@@ -7,6 +7,7 @@ const colors = {
   },
   white: {
     100: "#e6e7e8",
+    200: "#e0dede",
   },
   black: {
     100: "#272829",

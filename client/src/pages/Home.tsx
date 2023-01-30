@@ -1,4 +1,6 @@
+import { Grid } from "@chakra-ui/react";
 import { Navbar } from "../components/Navbar";
+import { ProfileCard } from "../components/ProfileCard";
 import { GetUser } from "../hooks/getUser";
 
 export const Home = () => {
@@ -9,6 +11,10 @@ export const Home = () => {
   return (
     <>
       <Navbar profileImage={user?.picturePath} />
+
+      <Grid templateColumns="repeat(3,1fr)">
+        <ProfileCard user={user} />
+      </Grid>
     </>
   );
 };
