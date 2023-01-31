@@ -3,32 +3,28 @@ import {
   Flex,
   Avatar,
   HStack,
-  IconButton,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
-  Stack,
   Image,
 } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
 
-import { Link, useNavigate } from "react-router-dom";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { NavLink } from "./NavLink";
+import { Link } from "react-router-dom";
+import { setLogout } from "../redux";
 
 interface Props {
   profileImage: string;
 }
 
 export const Navbar = ({ profileImage }: Props) => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const logout = () => {
-    localStorage.removeItem("POSTEDIA_TOKEN");
-    navigate("/login");
+    dispatch(setLogout());
   };
 
   return (
@@ -65,13 +61,7 @@ export const Navbar = ({ profileImage }: Props) => {
               <MenuList>
                 <MenuItem>Profile</MenuItem>
                 <MenuDivider />
-                <MenuItem
-                  onClick={() => {
-                    logout();
-                  }}
-                >
-                  Logout
-                </MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

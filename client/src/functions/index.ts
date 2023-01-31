@@ -1,4 +1,5 @@
-import { UpdatedUser, User } from "../types";
+import { useSelector } from "react-redux";
+import { InitialState, UpdatedUser, User } from "../types";
 
 export const capitalizeWord = (word: string): string => {
   return word.charAt(0).toUpperCase() + word.slice(1);
@@ -16,4 +17,36 @@ export const sanitizeUser = (user: User): UpdatedUser => {
   };
 
   return updatedUser;
+};
+
+export const emptyUser = (): User => {
+  const user: User = {
+    _id: "",
+    lastName: "",
+    firstName: "",
+    email: "",
+    password: "",
+    picturePath: "",
+    friends: [],
+    location: "",
+    occupation: "",
+    viewedProfile: 0,
+    impressions: 0,
+    twitterUrl: "",
+    linkedinUrl: "",
+  };
+
+  return user;
+};
+
+export const IsAuth = (): boolean => {
+  return Boolean(useSelector((state: InitialState) => state.token));
+};
+
+export const ProfileCardInfo = () => {
+  const isEdited = useSelector((state: InitialState) => state.isEdited);
+  const user = useSelector((state: InitialState) => state.user);
+  const sanitizedUser: UpdatedUser = sanitizeUser(user);
+
+  return { isEdited, user, sanitizedUser };
 };

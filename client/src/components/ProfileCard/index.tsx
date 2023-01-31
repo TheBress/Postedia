@@ -1,19 +1,15 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { UpdatedUser, User } from "../../types";
-import { MdModeEdit } from "react-icons/md";
+import { MdClose, MdModeEdit } from "react-icons/md";
 
-import { useState } from "react";
 import { Card } from "./Card";
 import { Form } from "./Form";
-import { sanitizeUser } from "../../functions";
+import { ProfileCardInfo } from "../../functions";
+import { useDispatch } from "react-redux";
+import { setIsEdited } from "../../redux";
 
-interface Props {
-  user: User;
-}
-
-export const ProfileCard = ({ user }: Props) => {
-  const [isEdited, setisEdited] = useState<boolean>(false);
-  const sanitiedUser: UpdatedUser = sanitizeUser(user);
+export const ProfileCard = () => {
+  const { user, isEdited, sanitizedUser } = ProfileCardInfo();
+  const dispatch = useDispatch();
 
   return (
     <Box background="white.200" m="10" p="5" borderRadius="5px">
@@ -23,20 +19,24 @@ export const ProfileCard = ({ user }: Props) => {
           <Text fontWeight="600" fontSize="1.2rem">
             {user.firstName} {user.lastName}
           </Text>
-          <Text fontSize="0.9rem">{user.friends.length} friends</Text>
+          <Text fontSize="0.9rem">{user.friends?.length} friends</Text>
         </Box>
         <Box
           onClick={() => {
-            setisEdited(!isEdited);
+            dispatch(setIsEdited());
           }}
           ml="auto"
           cursor="pointer"
         >
-          <MdModeEdit size="20" />
+          {isEdited ? (
+            <MdClose className="icon" size="25" />
+          ) : (
+            <MdModeEdit className="icon" size="20" />
+          )}
         </Box>
       </Flex>
 
-      {!isEdited ? <Card user={user} /> : <Form user={sanitiedUser} />}
+      {!isEdited ? <Card user={user} /> : <Form user={sanitizedUser} />}
     </Box>
   );
 };

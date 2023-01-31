@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setLogin } from "../../redux";
 import { LoginUser } from "../../types";
 
 export const useConnect = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = useState<string>("");
   const [loginUser, setLoginUser] = useState<LoginUser>({
     email: "",
@@ -32,7 +35,12 @@ export const useConnect = () => {
     });
 
     if (!loggedInUser.msg) {
-      await localStorage.setItem("POSTEDIA_TOKEN", loggedInUser.token);
+      dispatch(
+        setLogin({
+          user: loggedInUser.user,
+          token: loggedInUser.token,
+        })
+      );
       navigate("/");
     } else {
       setError(loggedInUser.msg);

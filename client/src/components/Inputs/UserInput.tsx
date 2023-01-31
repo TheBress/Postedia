@@ -10,6 +10,11 @@ export const UserInput = ({ type, name, value, onChange }: InputTs) => {
       value={value}
       onChange={onChange}
       name={name}
+      borderColor="black"
+      borderRadius="2rem"
+      mb="2"
+      _hover={{ borderColor: "black" }}
+      _focus={{ borderColor: "blue.100" }}
     />
   );
 };

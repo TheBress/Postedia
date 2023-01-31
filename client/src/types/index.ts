@@ -1,3 +1,10 @@
+export interface InitialState {
+  user: User;
+  posts: Post[];
+  token: string;
+  isEdited: boolean;
+}
+
 export interface User {
   _id: string;
   firstName: string;

@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Flex, Input, Text } from "@chakra-ui/react";
-import { MdLocationPin, MdWork, MdModeEdit } from "react-icons/md";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { MdLocationPin, MdWork } from "react-icons/md";
 import { BsTwitter, BsLinkedin } from "react-icons/bs";
-import { UpdatedUser, User } from "../../types";
+import { UpdatedUser } from "../../types";
 import { useConnect } from "./connect";
 import { UserInput } from "../Inputs/UserInput";
 
@@ -13,7 +13,7 @@ export const Form = ({ user }: Props) => {
   const { updatedUser, handleChange, handleSubmit } = useConnect(user);
 
   return (
-    <form className="user" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <Box p="3" borderBottom="1px solid black">
         <Flex gap="20px" mb="1" alignItems="center">
           <MdLocationPin size="25" />
@@ -75,7 +75,12 @@ export const Form = ({ user }: Props) => {
         </Flex>
       </Box>
 
-      <Button type="submit" mr="right">
+      <Button
+        float="right"
+        type="submit"
+        background="blue.100"
+        _hover={{ background: "blue.200", color: "white" }}
+      >
         Save changes
       </Button>
     </form>

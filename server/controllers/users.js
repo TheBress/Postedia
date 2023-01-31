@@ -4,9 +4,7 @@ import User from "../models/User.js";
 
 export const getUserById = async (req, res) => {
   try {
-    const { token } = req.params;
-
-    const { id } = jwt.decode(token);
+    const { id } = req.params;
 
     const user = await User.findById(id);
 
@@ -57,15 +55,18 @@ export const addRemoveFriend = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { location, occupation, twitterUrl, linkedinUrl } = req.body;
-    const { id } = req.params;
+    const { location, occupation, twitterUrl, linkedinUrl, _id } = req.body;
 
-    const updatedUser = await User.findByIdAndUpdate(id, {
-      location,
-      occupation,
-      twitterUrl,
-      linkedinUrl,
-    });
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        location,
+        occupation,
+        twitterUrl,
+        linkedinUrl,
+      },
+      { new: true }
+    );
 
     res.status(200).json(updatedUser);
   } catch (error) {

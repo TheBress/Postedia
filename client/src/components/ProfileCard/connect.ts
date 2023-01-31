@@ -1,22 +1,14 @@
-import { useMemo, useState } from "react";
-import { GetUser } from "../../hooks/getUser";
+import { useState } from "react";
+import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { setIsEdited, setUser } from "../../redux";
 import { UpdatedUser } from "../../types";
 
 export const useConnect = (user: UpdatedUser) => {
-  const [updatedUser, setUpdatedUser] = useState<UpdatedUser>({
-    occupation: "",
-    location: "",
-    twitterUrl: "",
-    linkedinUrl: "",
-    viewedProfile: 0,
-    impressions: 0,
-    _id: "",
-  });
-  const { refetch } = GetUser();
+  const dispatch = useDispatch();
 
-  useMemo(() => setUpdatedUser(user), [user]);
+  const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(user);
 
-  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
     setUpdatedUser({
       ...updatedUser,
       [e.currentTarget.name]: e.currentTarget.value,
@@ -26,16 +18,21 @@ export const useConnect = (user: UpdatedUser) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await fetch(
-      `${process.env.REACT_APP_API_URL}/users/update/${updatedUser._id}`,
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/update`,
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(updatedUser),
       }
-    ).then(() => {
-      refetch();
+    ).then((res) => {
+      return res.json();
     });
+
+    dispatch(setUser({ user: response }));
+    dispatch(setIsEdited());
   };
 
   return { updatedUser, handleChange, handleSubmit };

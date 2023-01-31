@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { NotFoundPage } from "./components/404";
+import { IsAuth } from "./functions";
+import { NotFoundPage } from "./pages/404";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Profile } from "./pages/Profile";
 import { Register } from "./pages/Register";
 
 function App() {
-  const isAuth: boolean = Boolean(localStorage.getItem("POSTEDIA_TOKEN"));
+  const isAuth: boolean = IsAuth();
 
   return (
     <BrowserRouter>

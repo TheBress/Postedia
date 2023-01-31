@@ -1,8 +1,7 @@
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { MdLocationPin, MdWork, MdModeEdit } from "react-icons/md";
-import { BsTwitter, BsLinkedin } from "react-icons/bs";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { MdLocationPin, MdWork } from "react-icons/md";
 import { User } from "../../types";
-import { Link } from "react-router-dom";
+import { SocialMedia } from "../SocialMedia";
 
 interface Props {
   user: User;
@@ -12,7 +11,7 @@ export const Card = ({ user }: Props) => {
   return (
     <>
       <Box p="3" borderBottom="1px solid black">
-        <Flex gap="20px" mb="1" alignItems="center">
+        <Flex gap="20px" mb="2" alignItems="center">
           <MdLocationPin size="25" />
           <Text>{user.location}</Text>
         </Flex>
@@ -22,7 +21,12 @@ export const Card = ({ user }: Props) => {
         </Flex>
       </Box>
 
-      <Box p="3" borderBottom="1px solid black">
+      <Box
+        p="3"
+        borderBottom={
+          user.twitterUrl || user.linkedinUrl ? "1px solid black" : ""
+        }
+      >
         <Flex>
           <Text fontSize="0.9rem">Who´s viewed your profile</Text>
           <Text fontWeight="600" ml="auto">
@@ -37,31 +41,23 @@ export const Card = ({ user }: Props) => {
         </Flex>
       </Box>
 
-      {user.twitterUrl || user.linkedinUrl ? (
+      {(user.twitterUrl || user.linkedinUrl) && (
         <Box p="3">
           <Text mb="2" fontSize="1.2rem" fontWeight="600">
             Social Profiles
           </Text>
           {user.twitterUrl && (
-            <Flex mb="1" gap="3.5" alignItems="center">
-              <BsTwitter size="20" />
-
-              <Text fontWeight="600" fontSize="0.9rem">
-                Twitter
-              </Text>
-            </Flex>
+            <SocialMedia name="Twitter" url={user.twitterUrl} />
           )}
           {user.linkedinUrl && (
-            <Flex gap="3.5" alignItems="center">
-              <BsLinkedin size="20" />
-
-              <Text fontWeight="600" fontSize="0.9rem">
-                Linkedin
-              </Text>
-            </Flex>
+            <SocialMedia
+              name="Linkedin"
+              url={user.linkedinUrl}
+              isLinkedin={true}
+            />
           )}
         </Box>
-      ) : null}
+      )}
     </>
   );
 };

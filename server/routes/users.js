@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get("/:token", getUserById);
+router.get("/:id", getUserById);
 router.get("/friends/:id", getUserFriends);
 router.patch("/:id/:friendId", addRemoveFriend);
-router.post("/update/:id", updateProfile);
+router.patch("/update", updateProfile);
 
 export default router;

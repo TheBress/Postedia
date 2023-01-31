@@ -4,7 +4,7 @@
   padding: 0;
 }
 
-form:not(.user) {
+.register {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -64,5 +64,13 @@ form:not(.user) {
 }
 
 .link:hover {
+  color: #3a9dc7;
+}
+
+.icon {
+  transition: color 0.2s;
+}
+
+.icon:hover {
   color: #3a9dc7;
 }
