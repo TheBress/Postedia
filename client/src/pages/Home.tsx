@@ -2,8 +2,8 @@ import { Box, Grid } from "@chakra-ui/react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Ad } from "../components/Ad";
 import { FriendsList } from "../components/Friends/FriendsList";
-// import { Feed } from "../components/Feed";
-import { MyPost } from "../components/MyPost";
+import { Feed } from "../components/Feed";
+import { NewPost } from "../components/MyPost";
 import { Navbar } from "../components/Navbar";
 import { ProfileCard } from "../components/ProfileCard";
 import { InitialState } from "../types";
@@ -15,13 +15,13 @@ export const Home = () => {
 
   return (
     <>
-      <Navbar profileImage={user.picturePath} />
+      <Navbar />
 
       <Grid templateColumns="repeat(3,1fr)">
         <ProfileCard />
         <Box>
-          <MyPost userImage={user.picturePath} />
-          {/* <Feed posts={posts} /> */}
+          <NewPost />
+          <Feed />
         </Box>
         <Box>
           <Ad />

@@ -11,16 +11,14 @@ import {
   MenuDivider,
   Image,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import { setLogout } from "../redux";
+import { InitialState } from "../types";
 
-interface Props {
-  profileImage: string;
-}
-
-export const Navbar = ({ profileImage }: Props) => {
+export const Navbar = () => {
+  const { picturePath } = useSelector((state: InitialState) => state.user);
   const dispatch = useDispatch();
 
   const logout = () => {
@@ -56,7 +54,7 @@ export const Navbar = ({ profileImage }: Props) => {
                 cursor={"pointer"}
                 minW={0}
               >
-                <Avatar size={"md"} src={profileImage} mr="5" />
+                <Avatar size={"md"} src={picturePath} mr="5" />
               </MenuButton>
               <MenuList>
                 <MenuItem>Profile</MenuItem>
