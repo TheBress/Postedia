@@ -13,11 +13,11 @@ export const Card = ({ user }: Props) => {
       <Box p="3" borderBottom="1px solid black">
         <Flex gap="20px" mb="2" alignItems="center">
           <MdLocationPin size="25" />
-          <Text>{user.location}</Text>
+          <Text>{user.location ? user.location : "No location"}</Text>
         </Flex>
         <Flex gap="20px" alignItems="center">
           <MdWork size="22" />
-          <Text>{user.occupation}</Text>
+          <Text>{user.occupation ? user.occupation : "No occupation"}</Text>
         </Flex>
       </Box>
 

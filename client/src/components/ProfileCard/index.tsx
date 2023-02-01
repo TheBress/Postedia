@@ -12,14 +12,20 @@ export const ProfileCard = () => {
   const dispatch = useDispatch();
 
   return (
-    <Box background="white.200" m="10" p="5" borderRadius="5px">
+    <Box
+      background="white.200"
+      m="10"
+      p="5"
+      borderRadius="5px"
+      height={!isEdited ? "50vh" : "auto"}
+    >
       <Flex gap="20px" borderBottom="1px solid black" p="3">
         <Avatar size="lg" src={user.picturePath} />
         <Box>
           <Text fontWeight="600" fontSize="1.2rem">
             {user.firstName} {user.lastName}
           </Text>
-          <Text fontSize="0.9rem">{user.friends?.length} friends</Text>
+          <Text fontSize="0.9rem">{user.friends.length} friends</Text>
         </Box>
         <Box
           onClick={() => {

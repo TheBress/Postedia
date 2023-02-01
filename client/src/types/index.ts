@@ -12,7 +12,7 @@ export interface User {
   email: string;
   password: string;
   picturePath: string;
-  friends: string[];
+  friends: Friend[];
   location: string;
   occupation: string;
   viewedProfile: number;
@@ -61,4 +61,13 @@ export interface UpdatedUser {
   viewedProfile: number;
   impressions: number;
   _id: any;
+}
+
+export interface Friend {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  location: string;
+  occupation: string;
+  picturePath: string;
 }
