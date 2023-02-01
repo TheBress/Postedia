@@ -1,5 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { BsTwitter, BsLinkedin } from "react-icons/bs";
+import { goTo } from "../functions";
 
 interface Props {
   name: string;
@@ -8,16 +9,14 @@ interface Props {
 }
 
 export const SocialMedia = ({ name, isLinkedin, url }: Props) => {
-  const goLink = (): void => {
-    window.location.href = url;
-  };
-
   return (
     <Flex mb="3" gap="3.5" alignItems="center">
       {isLinkedin ? <BsLinkedin size="20" /> : <BsTwitter size="20" />}
 
       <Text
-        onClick={goLink}
+        onClick={() => {
+          goTo(url);
+        }}
         _hover={{ textDecoration: "underline" }}
         fontWeight="600"
         fontSize="0.9rem"

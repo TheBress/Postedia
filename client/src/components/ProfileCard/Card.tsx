@@ -1,13 +1,12 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { MdLocationPin, MdWork } from "react-icons/md";
-import { User } from "../../types";
+import { useSelector } from "react-redux";
+import { InitialState } from "../../types";
 import { SocialMedia } from "../SocialMedia";
 
-interface Props {
-  user: User;
-}
+export const Card = () => {
+  const user = useSelector((state: InitialState) => state.user);
 
-export const Card = ({ user }: Props) => {
   return (
     <>
       <Box p="3" borderBottom="1px solid black">

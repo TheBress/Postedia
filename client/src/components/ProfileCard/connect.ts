@@ -1,12 +1,17 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { sanitizeUser } from "../../functions";
 import { setIsEdited, setUser } from "../../redux";
-import { UpdatedUser } from "../../types";
+import { InitialState, UpdatedUser } from "../../types";
 
-export const useConnect = (user: UpdatedUser) => {
+export const useConnect = () => {
   const dispatch = useDispatch();
+  const isEdited = useSelector((state: InitialState) => state.isEdited);
+  const user = useSelector((state: InitialState) => state.user);
+  const sanitizedUser: UpdatedUser = sanitizeUser(user);
 
-  const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(user);
+  const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
     setUpdatedUser({
@@ -35,5 +40,13 @@ export const useConnect = (user: UpdatedUser) => {
     dispatch(setIsEdited());
   };
 
-  return { updatedUser, handleChange, handleSubmit };
+  return {
+    updatedUser,
+    handleChange,
+    handleSubmit,
+    dispatch,
+    isEdited,
+    user,
+    sanitizedUser,
+  };
 };

@@ -1,16 +1,11 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { MdLocationPin, MdWork } from "react-icons/md";
 import { BsTwitter, BsLinkedin } from "react-icons/bs";
-import { UpdatedUser } from "../../types";
 import { useConnect } from "./connect";
 import { UserInput } from "../Inputs/UserInput";
 
-interface Props {
-  user: UpdatedUser;
-}
-
-export const Form = ({ user }: Props) => {
-  const { updatedUser, handleChange, handleSubmit } = useConnect(user);
+export const Form = () => {
+  const { updatedUser, handleChange, handleSubmit } = useConnect();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -39,13 +34,13 @@ export const Form = ({ user }: Props) => {
         <Flex>
           <Text fontSize="0.9rem">Who´s viewed your profile</Text>
           <Text fontWeight="600" ml="auto">
-            {user.viewedProfile}
+            {updatedUser.viewedProfile}
           </Text>
         </Flex>
         <Flex>
           <Text fontSize="0.9rem">Impressions of your last post</Text>
           <Text ml="auto" fontWeight="600">
-            {user.impressions}
+            {updatedUser.impressions}
           </Text>
         </Flex>
       </Box>

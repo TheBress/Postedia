@@ -43,10 +43,6 @@ export const IsAuth = (): boolean => {
   return Boolean(useSelector((state: InitialState) => state.token));
 };
 
-export const ProfileCardInfo = () => {
-  const isEdited = useSelector((state: InitialState) => state.isEdited);
-  const user = useSelector((state: InitialState) => state.user);
-  const sanitizedUser: UpdatedUser = sanitizeUser(user);
-
-  return { isEdited, user, sanitizedUser };
+export const goTo = (url: string) => {
+  window.location.href = url;
 };

@@ -3,13 +3,11 @@ import { MdClose, MdModeEdit } from "react-icons/md";
 
 import { Card } from "./Card";
 import { Form } from "./Form";
-import { ProfileCardInfo } from "../../functions";
-import { useDispatch } from "react-redux";
 import { setIsEdited } from "../../redux";
+import { useConnect } from "./connect";
 
 export const ProfileCard = () => {
-  const { user, isEdited, sanitizedUser } = ProfileCardInfo();
-  const dispatch = useDispatch();
+  const { isEdited, dispatch, user } = useConnect();
 
   return (
     <Box
@@ -42,7 +40,7 @@ export const ProfileCard = () => {
         </Box>
       </Flex>
 
-      {!isEdited ? <Card user={user} /> : <Form user={sanitizedUser} />}
+      {!isEdited ? <Card /> : <Form />}
     </Box>
   );
 };

@@ -1,13 +1,13 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { goTo } from "../functions";
 
 export const Ad = () => {
-  const goTo = () => {
-    window.location.href = "https://www.zalando.es";
-  };
   return (
     <Box
       cursor="pointer"
-      onClick={goTo}
+      onClick={() => {
+        goTo("https://www.zalando.es");
+      }}
       background="white.200"
       mt="3"
       m="10"
