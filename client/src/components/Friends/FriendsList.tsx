@@ -12,7 +12,7 @@ export const FriendsList = ({ userId }: Props) => {
 
   useEffect(() => {
     getFriends();
-  }, [getFriends]);
+  }, []);
 
   return (
     <>
@@ -22,7 +22,14 @@ export const FriendsList = ({ userId }: Props) => {
             Friends list
           </Text>
           {friends.map((friend, index) => (
-            <Friend friend={friend} key={index} myKey={index} />
+            <Friend
+              friendID={friend._id}
+              name={`${friend.firstName} ${friend.lastName}`}
+              userPicturePath={friend.picturePath}
+              subtitle={friend.occupation}
+              key={index}
+              myKey={index}
+            />
           ))}
         </Box>
       ) : null}

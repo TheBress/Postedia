@@ -9,6 +9,8 @@ export const useConnect = (friendId?: string, userId?: string) => {
   const { _id } = useSelector((state: InitialState) => state.user);
   const dispatch = useDispatch();
 
+  const isUser = friendId === _id;
+
   const isFriend = Boolean(friends.find((friendM) => friendM._id === friendId));
 
   const patchFriend = async () => {
@@ -36,5 +38,5 @@ export const useConnect = (friendId?: string, userId?: string) => {
     dispatch(setFriends({ friends: data }));
   };
 
-  return { isFriend, patchFriend, friends, getFriends };
+  return { isFriend, patchFriend, friends, getFriends, isUser };
 };

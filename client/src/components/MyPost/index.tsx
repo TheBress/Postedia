@@ -1,14 +1,13 @@
 import { Avatar, Box, Flex, Input } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { InitialState } from "../../types";
+import { useConnect } from "./connect";
 import { PostOptions } from "./PostOptions";
 
 export const NewPost = () => {
-  const { picturePath } = useSelector((state: InitialState) => state.user);
+  const { picturePath, post, handleChange, handleSubmit } = useConnect();
 
   return (
     <Box background="white.200" m="10" p="5" borderRadius="5px">
-      <form>
+      <form onSubmit={handleSubmit}>
         <Flex
           pb="3"
           alignItems="center"
@@ -19,7 +18,9 @@ export const NewPost = () => {
           <Input
             borderRadius="2rem"
             placeholder="What´s on your mind"
-            name="textPost"
+            name="description"
+            value={post.description}
+            onChange={handleChange}
             border="1px solid black"
             _hover={{ borderColor: "black" }}
             _focus={{ borderColor: "blue.100" }}
