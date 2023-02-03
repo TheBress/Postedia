@@ -16,7 +16,7 @@ export const Home = () => {
       <Navbar />
 
       <Grid templateColumns="repeat(3,1fr)">
-        <ProfileCard />
+        <ProfileCard user={user} />
         <Box>
           <NewPost />
           <Feed />

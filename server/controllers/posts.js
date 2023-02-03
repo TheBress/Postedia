@@ -31,12 +31,13 @@ export const likePost = async (req, res) => {
     if (!isLiked) post.likes.set(userId, true);
     else post.likes.delete(userId);
 
-    const updatePost = await Post.findByIdAndUpdate(id, { likes: post.likes });
-    await updatePost.save();
+    const updatePost = await Post.findByIdAndUpdate(
+      id,
+      { likes: post.likes },
+      { new: true }
+    );
 
-    const posts = await Post.find();
-
-    res.status(200).json(posts);
+    res.status(200).json(updatePost);
   } catch (error) {
     res.status(404).json({ msg: error.message });
   }

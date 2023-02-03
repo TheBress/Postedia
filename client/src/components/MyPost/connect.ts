@@ -39,6 +39,8 @@ export const useConnect = () => {
       return res.json();
     });
 
+    setPost({ ...post, description: "" });
+
     if (posts) dispatch(setPosts({ posts }));
   };
 

@@ -1,5 +1,6 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import { useConnect } from "./connect";
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
   myKey?: number;
   userPicturePath: string;
   subtitle: string;
+  mt?: string;
 }
 
 export const Friend = ({
@@ -16,15 +18,23 @@ export const Friend = ({
   name,
   userPicturePath,
   subtitle,
+  mt,
 }: Props) => {
   const { isFriend, patchFriend, isUser } = useConnect(friendID);
 
   return (
-    <Flex key={myKey} mt="2" gap="3" alignItems="center">
+    // <Link to={`/profile/${friendID}`}>
+    <Flex
+      cursor="pointer"
+      key={myKey}
+      mt={!mt ? "0" : mt}
+      gap="3"
+      alignItems="center"
+    >
       <Avatar src={userPicturePath} />
 
       <Box>
-        <Text fontWeight="600">{name}</Text>
+        <Text fontWeight="600">{isUser ? "You" : name}</Text>
         <Text fontSize="0.8rem">{subtitle}</Text>
       </Box>
 
@@ -32,7 +42,6 @@ export const Friend = ({
         <Box
           onClick={patchFriend}
           ml="auto"
-          cursor="pointer"
           _hover={{ color: "blue.100" }}
           transition=".3s"
         >
@@ -44,5 +53,6 @@ export const Friend = ({
         </Box>
       )}
     </Flex>
+    // </Link>
   );
 };

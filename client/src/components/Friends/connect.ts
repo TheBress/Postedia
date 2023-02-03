@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Friend as FriendType, InitialState } from "../../types";
+import { InitialState } from "../../types";
 import { setFriends } from "../../redux";
 
 export const useConnect = (friendId?: string, userId?: string) => {
-  const friends: FriendType[] = useSelector(
-    (state: InitialState) => state.user.friends
-  );
+  const friends = useSelector((state: InitialState) => state.user.friends);
+
   const { _id } = useSelector((state: InitialState) => state.user);
   const dispatch = useDispatch();
 

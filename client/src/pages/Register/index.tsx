@@ -43,6 +43,7 @@ export const Register = () => {
             value={registerUser.password}
             name="password"
             type="password"
+            isPassword
             onChange={handleChange}
           />
           <InputBox

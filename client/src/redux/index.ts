@@ -36,6 +36,13 @@ export const authSlice = createSlice({
     setIsEdited: (state) => {
       state.isEdited = !state.isEdited;
     },
+    setPost: (state, action) => {
+      const updatedPosts = state.posts.map((post) => {
+        if (post._id === action.payload.post._id) return action.payload.post;
+        return post;
+      });
+      state.posts = updatedPosts;
+    },
   },
 });
 
@@ -46,5 +53,6 @@ export const {
   setLogin,
   setIsEdited,
   setLogout,
+  setPost,
 } = authSlice.actions;
 export default authSlice.reducer;

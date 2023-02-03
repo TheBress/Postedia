@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 router.get("/", getFeedPosts);
-router.get("/:userId/posts", getUserPosts);
+router.get("/:userId", getUserPosts);
 router.patch("/:id/like", likePost);
 router.post("/", createPost);
 

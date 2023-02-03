@@ -5,7 +5,7 @@ import { sanitizeUser } from "../../functions";
 import { setIsEdited, setUser } from "../../redux";
 import { InitialState, UpdatedUser } from "../../types";
 
-export const useConnect = () => {
+export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
   const isEdited = useSelector((state: InitialState) => state.isEdited);
   const user = useSelector((state: InitialState) => state.user);
@@ -46,7 +46,7 @@ export const useConnect = () => {
     handleSubmit,
     dispatch,
     isEdited,
-    user,
+    isUser: userId === user._id,
     sanitizedUser,
   };
 };

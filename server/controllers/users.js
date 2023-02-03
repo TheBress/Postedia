@@ -1,5 +1,4 @@
 import { checkUserFriends, sanitizeFriends } from "../functions/index.js";
-import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 export const getUserById = async (req, res) => {
@@ -7,8 +6,6 @@ export const getUserById = async (req, res) => {
     const { id } = req.params;
 
     const user = await User.findById(id);
-
-    delete user.password;
 
     res.status(200).json(user);
   } catch (error) {
@@ -47,6 +44,8 @@ export const addRemoveFriend = async (req, res) => {
 
     const formattedFriends = await sanitizeFriends(friends);
 
+    console.log(formattedFriends.length);
+
     res.status(200).json(formattedFriends);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -57,6 +56,14 @@ export const updateProfile = async (req, res) => {
   try {
     const { location, occupation, twitterUrl, linkedinUrl, _id } = req.body;
 
+    const user = await User.findById(_id);
+
+    const friends = await Promise.all(
+      user.friends.map((id) => User.findById(id))
+    );
+
+    const formattedFriends = await sanitizeFriends(friends);
+
     const updatedUser = await User.findByIdAndUpdate(
       _id,
       {
@@ -64,6 +71,7 @@ export const updateProfile = async (req, res) => {
         occupation,
         twitterUrl,
         linkedinUrl,
+        friends: formattedFriends,
       },
       { new: true }
     );

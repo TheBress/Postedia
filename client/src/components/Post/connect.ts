@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "../../redux";
+import { setPost } from "../../redux";
 import { InitialState, Post } from "../../types";
 
 export const useConnect = (post: Post) => {
@@ -22,8 +22,8 @@ export const useConnect = (post: Post) => {
         body: JSON.stringify({ userId: _id }),
       }
     );
-    const posts = await response.json();
-    dispatch(setPosts({ posts: posts }));
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
   };
 
   return { fullName, likeCount, likePost, isLiked };

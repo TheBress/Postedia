@@ -5,9 +5,14 @@ import { Card } from "./Card";
 import { Form } from "./Form";
 import { setIsEdited } from "../../redux";
 import { useConnect } from "./connect";
+import { User } from "../../types";
 
-export const ProfileCard = () => {
-  const { isEdited, dispatch, user } = useConnect();
+interface Props {
+  user: User;
+}
+
+export const ProfileCard = ({ user }: Props) => {
+  const { isEdited, dispatch, isUser } = useConnect(user._id);
 
   return (
     <Box
@@ -15,7 +20,7 @@ export const ProfileCard = () => {
       m="10"
       p="5"
       borderRadius="5px"
-      height={!isEdited ? "50vh" : "auto"}
+      height={!isEdited ? "50vh" : "67vh"}
     >
       <Flex gap="20px" borderBottom="1px solid black" p="3">
         <Avatar size="lg" src={user.picturePath} />
@@ -25,19 +30,21 @@ export const ProfileCard = () => {
           </Text>
           <Text fontSize="0.9rem">{user.friends.length} friends</Text>
         </Box>
-        <Box
-          onClick={() => {
-            dispatch(setIsEdited());
-          }}
-          ml="auto"
-          cursor="pointer"
-        >
-          {isEdited ? (
-            <MdClose className="icon" size="25" />
-          ) : (
-            <MdModeEdit className="icon" size="20" />
-          )}
-        </Box>
+        {isUser && (
+          <Box
+            onClick={() => {
+              dispatch(setIsEdited());
+            }}
+            ml="auto"
+            cursor="pointer"
+          >
+            {isEdited ? (
+              <MdClose className="icon" size="25" />
+            ) : (
+              <MdModeEdit className="icon" size="20" />
+            )}
+          </Box>
+        )}
       </Flex>
 
       {!isEdited ? <Card /> : <Form />}

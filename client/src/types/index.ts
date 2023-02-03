@@ -51,6 +51,7 @@ export interface Input {
   name: string;
   value: string;
   onChange: (e: React.FormEvent<HTMLInputElement>) => void;
+  isPassword?: boolean;
 }
 
 export interface UpdatedUser {

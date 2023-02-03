@@ -44,6 +44,7 @@ export const Login = () => {
             name="password"
             type="password"
             onChange={handleChange}
+            isPassword
           />
 
           <Text pb="2" as="span" margin="auto" fontSize="0.9rem">

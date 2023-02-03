@@ -22,7 +22,7 @@
   margin-bottom: 30px;
 }
 
-.inputBox span {
+.inputBox span:not(.iconInput) {
   position: absolute;
   left: 10.5%;
   top: 12%;
@@ -49,8 +49,8 @@
   border: 2px solid #5dc7f5;
 }
 
-.inputBox input:focus ~ span,
-.inputBox input:valid ~ span {
+.inputBox input:focus ~ span:not(.iconInput),
+.inputBox input:valid ~ span:not(.iconInput) {
   color: #5dc7f5;
   font-size: 1.5rem;
   background: #e6e7e8;
@@ -73,4 +73,10 @@
 
 .icon:hover {
   color: #3a9dc7;
+}
+
+.iconInput {
+  position: absolute;
+  right: 11%;
+  cursor: pointer;
 }

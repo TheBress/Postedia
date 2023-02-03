@@ -9,15 +9,15 @@ export const register = async (req, res) => {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (!regex.test(email))
-      res.status(404).json({ msg: "Email field must have email format." });
+      res.status(400).json({ msg: "Email field must have email format." });
 
     const user = await User.findOne({ email: email });
 
-    if (user) res.status(404).json({ msg: "This user already exists." });
+    if (user) res.status(400).json({ msg: "This user already exists." });
 
     if (password.length < 8)
       res
-        .status(404)
+        .status(400)
         .json({ msg: "Password must have at least 8 characters." });
 
     const salt = await bcrypt.genSalt();
