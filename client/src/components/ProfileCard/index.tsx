@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const ProfileCard = ({ user }: Props) => {
-  const { isEdited, dispatch, isUser } = useConnect(user._id);
+  const { isEdited, dispatch, isUser, friends } = useConnect(user._id);
 
   return (
     <Box
@@ -28,7 +28,7 @@ export const ProfileCard = ({ user }: Props) => {
           <Text fontWeight="600" fontSize="1.2rem">
             {user.firstName} {user.lastName}
           </Text>
-          <Text fontSize="0.9rem">{user.friends.length} friends</Text>
+          <Text fontSize="0.9rem">{friends.length} friends</Text>
         </Box>
         {isUser && (
           <Box

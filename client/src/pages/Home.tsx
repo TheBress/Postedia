@@ -11,6 +11,8 @@ import { InitialState } from "../types";
 export const Home = () => {
   const user = useSelector((state: InitialState) => state.user);
 
+  if (!user) return null;
+
   return (
     <>
       <Navbar />

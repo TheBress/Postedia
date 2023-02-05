@@ -1,6 +1,5 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
 import { useConnect } from "./connect";
 
 interface Props {
@@ -10,6 +9,7 @@ interface Props {
   userPicturePath: string;
   subtitle: string;
   mt?: string;
+  userId?: string;
 }
 
 export const Friend = ({
@@ -20,10 +20,9 @@ export const Friend = ({
   subtitle,
   mt,
 }: Props) => {
-  const { isFriend, patchFriend, isUser } = useConnect(friendID);
+  const { isFriend, patchFriend, isUser, goToFriend } = useConnect(friendID);
 
   return (
-    // <Link to={`/profile/${friendID}`}>
     <Flex
       cursor="pointer"
       key={myKey}
@@ -31,9 +30,9 @@ export const Friend = ({
       gap="3"
       alignItems="center"
     >
-      <Avatar src={userPicturePath} />
+      <Avatar cursor="pointer" onClick={goToFriend} src={userPicturePath} />
 
-      <Box>
+      <Box cursor="pointer" onClick={goToFriend}>
         <Text fontWeight="600">{isUser ? "You" : name}</Text>
         <Text fontSize="0.8rem">{subtitle}</Text>
       </Box>
@@ -53,6 +52,5 @@ export const Friend = ({
         </Box>
       )}
     </Flex>
-    // </Link>
   );
 };

@@ -9,6 +9,7 @@ export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
   const isEdited = useSelector((state: InitialState) => state.isEdited);
   const user = useSelector((state: InitialState) => state.user);
+  const friends = useSelector((state: InitialState) => state.user.friends);
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
@@ -48,5 +49,6 @@ export const useConnect = (userId?: string) => {
     isEdited,
     isUser: userId === user._id,
     sanitizedUser,
+    friends,
   };
 };
