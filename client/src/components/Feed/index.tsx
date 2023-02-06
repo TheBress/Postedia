@@ -10,8 +10,6 @@ interface Props {
 export const Feed = ({ userId }: Props) => {
   const { posts } = useConnect(userId);
 
-  // console.log(posts);
-
   return (
     <Box background="white.200" mt="3" m="10" p="5" borderRadius="5px">
       {posts.map((post, index) => (

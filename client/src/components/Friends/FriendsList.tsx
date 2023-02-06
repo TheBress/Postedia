@@ -8,11 +8,11 @@ interface Props {
 }
 
 export const FriendsList = ({ userId }: Props) => {
-  const { getFriends, friends } = useConnect("", userId);
+  const { getFriends, friends, path } = useConnect("", userId);
 
   useEffect(() => {
     getFriends();
-  }, []);
+  }, [path, userId]);
 
   return (
     <>

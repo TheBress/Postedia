@@ -6,21 +6,21 @@ import { useNavigate } from "react-router-dom";
 export const useConnect = (friendId?: string, userId?: string) => {
   const friends = useSelector((state: InitialState) => state.user.friends);
   const navigate = useNavigate();
+  const path: string = window.location.pathname;
 
-  const isProfile = window.location.pathname.includes("profile");
+  const isProfile = path.includes("profile");
 
   const { _id } = useSelector((state: InitialState) => state.user);
   const dispatch = useDispatch();
 
-  const isUser = friendId === _id;
+  const isUser: boolean = friendId === _id;
 
-  const id = isProfile ? _id : friendId;
-
-  const isFriend = friends.some((friendM) => friendM._id === id);
+  const isFriend: boolean = Boolean(
+    friends.find((friendM) => friendM._id === friendId || friendM._id === _id)
+  );
 
   const goToFriend = () => {
-    navigate(`/profile/${friendId}`);
-    navigate(0);
+    !isUser ? navigate(`/profile/${friendId}`) : navigate(`/`);
   };
 
   const patchFriend = async () => {
@@ -46,8 +46,18 @@ export const useConnect = (friendId?: string, userId?: string) => {
       }
     );
     const data = await response.json();
+    console.log(userId, data);
+
     dispatch(setFriends({ friends: data }));
   };
 
-  return { isFriend, patchFriend, friends, getFriends, isUser, goToFriend };
+  return {
+    isFriend,
+    patchFriend,
+    friends,
+    getFriends,
+    isUser,
+    goToFriend,
+    path,
+  };
 };

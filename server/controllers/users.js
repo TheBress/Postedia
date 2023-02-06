@@ -43,7 +43,7 @@ export const addRemoveFriend = async (req, res) => {
 
     await checkUserFriends(user, friend, friendId, id);
 
-    const mapUser = Boolean(profile) ? friend : user;
+    const mapUser = profile === "true" ? friend : user;
 
     const friends = await Promise.all(
       mapUser.friends.map((id) => User.findById(id))
