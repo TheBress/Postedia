@@ -1,6 +1,7 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Friend } from ".";
+import { FriendsContainer } from "../Styled/Containers/Friends";
 import { useConnect } from "./connect";
 
 interface Props {
@@ -8,18 +9,18 @@ interface Props {
 }
 
 export const FriendsList = ({ userId }: Props) => {
-  const { getFriends, friends, path } = useConnect("", userId);
+  const { getFriends, friends } = useConnect("", userId);
 
   useEffect(() => {
     getFriends();
-  }, [path, userId]);
+  }, [userId]);
 
   return (
-    <>
-      <Box background="white.200" mt="3" m="10" p="5" borderRadius="5px">
-        <Text fontWeight="600" fontSize="1.2rem">
-          {friends.length ? "Friends list" : "No friends"}
-        </Text>
+    <FriendsContainer>
+      <Text fontWeight="600" fontSize="1.2rem">
+        {friends.length ? "Friends list" : "No friends"}
+      </Text>
+      <>
         {friends.map((friend, index) => (
           <Friend
             friendID={friend._id}
@@ -28,10 +29,11 @@ export const FriendsList = ({ userId }: Props) => {
             subtitle={friend.occupation}
             key={index}
             myKey={index}
+            userId={userId}
             mt="4"
           />
         ))}
-      </Box>
-    </>
+      </>
+    </FriendsContainer>
   );
 };

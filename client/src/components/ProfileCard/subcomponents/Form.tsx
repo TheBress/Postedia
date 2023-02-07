@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { MdLocationPin, MdWork } from "react-icons/md";
 import { BsTwitter, BsLinkedin } from "react-icons/bs";
-import { useConnect } from "./connect";
-import { UserInput } from "../Inputs/UserInput";
+import { useConnect } from "../connect";
+import { UserInput } from "../../Styled/Inputs/UserInput";
 
 export const Form = () => {
   const { updatedUser, handleChange, handleSubmit } = useConnect();

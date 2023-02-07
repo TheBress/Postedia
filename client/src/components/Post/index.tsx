@@ -8,14 +8,16 @@ import { useConnect } from "./connect";
 interface Props {
   post: PostType;
   myKey: number;
+  userId?: string;
 }
 
-export const Post = ({ post, myKey }: Props) => {
+export const Post = ({ post, myKey, userId }: Props) => {
   const { fullName, likeCount, likePost, isLiked } = useConnect(post);
 
   return (
     <Box key={myKey} background="white" p="6" borderRadius="10px" mb="5">
       <Friend
+        userId={userId}
         name={fullName}
         friendID={post.userId}
         userPicturePath={post.userPicturePath}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../../redux";
 import { InitialState } from "../../types";
@@ -6,6 +6,7 @@ import { InitialState } from "../../types";
 export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
   const posts = useSelector((state: InitialState) => state.posts);
+  const { _id } = useSelector((state: InitialState) => state.user);
   const path = window.location.pathname;
 
   const getPosts = async () => {
@@ -34,9 +35,8 @@ export const useConnect = (userId?: string) => {
   };
 
   useEffect(() => {
-    if (!userId) getPosts();
-    else getUserPosts();
+    !userId ? getPosts() : getUserPosts();
   }, [path, userId]);
 
-  return { posts };
+  return { posts, _id };
 };

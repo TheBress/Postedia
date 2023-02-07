@@ -1,11 +1,11 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { MdClose, MdModeEdit } from "react-icons/md";
 
-import { Card } from "./Card";
-import { Form } from "./Form";
+import { Card } from "./subcomponents/Card";
 import { setIsEdited } from "../../redux";
 import { useConnect } from "./connect";
 import { User } from "../../types";
+import { Form } from "./subcomponents/Form";
 
 interface Props {
   user: User;

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { BiLogOut } from "react-icons/bi";
 
 import { Link } from "react-router-dom";
-import { setLogout } from "../redux";
+import { setLogout } from "../../redux";
 
 export const Navbar = () => {
   const dispatch = useDispatch();

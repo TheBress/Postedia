@@ -39,3 +39,19 @@ export const randomImage = () => {
 
   return images[random];
 };
+
+export const sanitizeUser = (user) => {
+  return {
+    _id: user._id,
+    email: user.email,
+    firstName: user.firstName,
+    impressions: user.impressions,
+    lastName: user.lastName,
+    linkedinUrl: user.linkedinUrl,
+    location: user.location,
+    occupation: user.occupation,
+    picturePath: user.picturePath,
+    twitterUrl: user.twitterUrl,
+    viewedProfile: user.viewedProfile,
+  };
+};

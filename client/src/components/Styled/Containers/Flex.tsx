@@ -1,10 +1,7 @@
 import { Flex } from "@chakra-ui/react";
+import { ChildrenProps } from "../../../types/props";
 
-interface Props {
-  children: JSX.Element[];
-}
-
-export const FlexContainer = ({ children }: Props) => {
+export const FlexContainer = ({ children }: ChildrenProps) => {
   return (
     <Flex
       gap="4px"

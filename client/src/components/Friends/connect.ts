@@ -1,31 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
 import { InitialState } from "../../types";
-import { setFriends } from "../../redux";
 import { useNavigate } from "react-router-dom";
+import { setFriends, setUserFriends } from "../../redux";
 
 export const useConnect = (friendId?: string, userId?: string) => {
+  const { _id } = useSelector((state: InitialState) => state.user);
   const friends = useSelector((state: InitialState) => state.user.friends);
+  const userFriends = useSelector((state: InitialState) => state.userFriends);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const path: string = window.location.pathname;
-
   const isProfile = path.includes("profile");
-
-  const { _id } = useSelector((state: InitialState) => state.user);
-  const dispatch = useDispatch();
 
   const isUser: boolean = friendId === _id;
 
   const isFriend: boolean = Boolean(
-    friends.find((friendM) => friendM._id === friendId || friendM._id === _id)
+    friends.find((friend) => friend._id === friendId)
   );
 
-  const goToFriend = () => {
+  const goToFriend = (): void => {
     !isUser ? navigate(`/profile/${friendId}`) : navigate(`/`);
   };
 
   const patchFriend = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}/${isProfile}`,
+      `${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}/${userId}`,
       {
         method: "PATCH",
         headers: {
@@ -35,7 +34,8 @@ export const useConnect = (friendId?: string, userId?: string) => {
     );
     const data = await response.json();
 
-    dispatch(setFriends({ friends: data }));
+    dispatch(setFriends({ friends: data.user }));
+    dispatch(setUserFriends({ friends: data.friend }));
   };
 
   const getFriends = async () => {
@@ -46,18 +46,17 @@ export const useConnect = (friendId?: string, userId?: string) => {
       }
     );
     const data = await response.json();
-    console.log(userId, data);
 
-    dispatch(setFriends({ friends: data }));
+    if (!isProfile) dispatch(setFriends({ friends: data }));
+    else dispatch(setUserFriends({ friends: data }));
   };
 
   return {
     isFriend,
     patchFriend,
-    friends,
     getFriends,
     isUser,
     goToFriend,
-    path,
+    friends: isProfile ? userFriends : friends,
   };
 };

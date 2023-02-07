@@ -26,5 +26,5 @@ export const useConnect = (post: Post) => {
     dispatch(setPost({ post: updatedPost }));
   };
 
-  return { fullName, likeCount, likePost, isLiked };
+  return { fullName, likeCount, likePost, isLiked, _id };
 };

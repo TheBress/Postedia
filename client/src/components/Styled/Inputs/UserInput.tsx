@@ -1,8 +1,8 @@
 import { Input } from "@chakra-ui/react";
-import { capitalizeWord } from "../../functions";
-import { Input as InputTs } from "../../types";
+import { capitalizeWord } from "../../../functions";
+import { InputProps } from "../../../types/props";
 
-export const UserInput = ({ type, name, value, onChange }: InputTs) => {
+export const UserInput = ({ type, name, value, onChange }: InputProps) => {
   return (
     <Input
       placeholder={capitalizeWord(name)}

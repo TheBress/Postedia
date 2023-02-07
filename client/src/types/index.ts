@@ -3,6 +3,7 @@ export interface InitialState {
   posts: Post[];
   token: string;
   isEdited: boolean;
+  userFriends: Friend[];
 }
 
 export interface User {
@@ -44,14 +45,6 @@ export interface RegisterUser {
   lastName: string;
   email: string;
   password: string;
-}
-
-export interface Input {
-  type: string;
-  name: string;
-  value: string;
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void;
-  isPassword?: boolean;
 }
 
 export interface UpdatedUser {

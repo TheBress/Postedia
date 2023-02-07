@@ -1,16 +1,7 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
+import { FriendProps } from "../../types/props";
 import { useConnect } from "./connect";
-
-interface Props {
-  friendID: string;
-  name: string;
-  myKey?: number;
-  userPicturePath: string;
-  subtitle: string;
-  mt?: string;
-  userId?: string;
-}
 
 export const Friend = ({
   friendID,
@@ -19,8 +10,12 @@ export const Friend = ({
   userPicturePath,
   subtitle,
   mt,
-}: Props) => {
-  const { isFriend, patchFriend, isUser, goToFriend } = useConnect(friendID);
+  userId,
+}: FriendProps) => {
+  const { isFriend, patchFriend, isUser, goToFriend } = useConnect(
+    friendID,
+    userId
+  );
 
   return (
     <Flex
@@ -30,10 +25,12 @@ export const Friend = ({
       gap="3"
       alignItems="center"
     >
-      <Avatar cursor="pointer" onClick={goToFriend} src={userPicturePath} />
+      <Avatar src={userPicturePath} />
 
       <Box cursor="pointer" onClick={goToFriend}>
-        <Text fontWeight="600">{isUser ? "You" : name}</Text>
+        <Text _hover={{ color: "blue.100" }} transition="0.2s" fontWeight="600">
+          {isUser ? "You" : name}
+        </Text>
         <Text fontSize="0.8rem">{subtitle}</Text>
       </Box>
 

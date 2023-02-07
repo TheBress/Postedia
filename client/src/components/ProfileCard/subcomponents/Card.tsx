@@ -1,8 +1,8 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { MdLocationPin, MdWork } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { InitialState } from "../../types";
-import { SocialMedia } from "../SocialMedia";
+import { InitialState } from "../../../types";
+import { SocialMedia } from "./SocialMedia";
 
 export const Card = () => {
   const user = useSelector((state: InitialState) => state.user);

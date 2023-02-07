@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { capitalizeWord } from "../../functions";
-import { Input } from "../../types";
+import { capitalizeWord } from "../../../functions";
+import { InputProps } from "../../../types/props";
 
 export const InputBox = ({
   type,
@@ -9,7 +9,7 @@ export const InputBox = ({
   value,
   onChange,
   isPassword,
-}: Input) => {
+}: InputProps) => {
   const [isSeen, setIsSeen] = useState<boolean>(false);
 
   return (

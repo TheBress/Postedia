@@ -7,10 +7,6 @@ export const getUserById = async (req, res) => {
 
     const user = await User.findById(id);
 
-    user.friends = user.friends.filter((id) => id);
-
-    user.save();
-
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -36,22 +32,30 @@ export const getUserFriends = async (req, res) => {
 
 export const addRemoveFriend = async (req, res) => {
   try {
-    const { id, friendId, profile } = req.params;
+    const { id, friendId, profileId } = req.params;
 
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
+    const profileUser = await User.findById(profileId);
 
-    await checkUserFriends(user, friend, friendId, id);
+    checkUserFriends(user, friend, friendId, id);
 
-    const mapUser = profile === "true" ? friend : user;
+    const chosenUser = friendId === profileId ? friend : profileUser;
 
-    const friends = await Promise.all(
-      mapUser.friends.map((id) => User.findById(id))
+    const friendsUser = await Promise.all(
+      user.friends.map((id) => User.findById(id))
     );
 
-    const formattedFriends = await sanitizeFriends(friends);
+    const friendsFriend = await Promise.all(
+      chosenUser.friends.map((id) => User.findById(id))
+    );
 
-    res.status(200).json(formattedFriends);
+    const formattedUserFriends = sanitizeFriends(friendsUser);
+    const formattedFriendFriends = sanitizeFriends(friendsFriend);
+
+    res
+      .status(200)
+      .json({ user: formattedUserFriends, friend: formattedFriendFriends });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

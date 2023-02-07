@@ -1,19 +1,9 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { goTo } from "../functions";
+import { Flex, Image, Text } from "@chakra-ui/react";
+import { AdContainer } from "./Styled/Containers/Ad";
 
 export const Ad = () => {
   return (
-    <Box
-      cursor="pointer"
-      onClick={() => {
-        goTo("https://www.zalando.es");
-      }}
-      background="white.200"
-      mt="3"
-      m="10"
-      p="5"
-      borderRadius="5px"
-    >
+    <AdContainer>
       <Flex alignItems="center">
         <Text fontSize="1.2rem" fontWeight="600">
           Sponsored
@@ -33,6 +23,6 @@ export const Ad = () => {
           zalando.es
         </Text>
       </Flex>
-    </Box>
+    </AdContainer>
   );
 };

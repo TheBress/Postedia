@@ -1,6 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { BsTwitter, BsLinkedin } from "react-icons/bs";
-import { goTo } from "../functions";
+import { goTo } from "../../../functions";
 
 interface Props {
   name: string;

@@ -1,6 +1,5 @@
-import { Box } from "@chakra-ui/react";
-
 import { Post } from "../Post";
+import { FeedContainer } from "../Styled/Containers/Feed";
 import { useConnect } from "./connect";
 
 interface Props {
@@ -8,13 +7,18 @@ interface Props {
 }
 
 export const Feed = ({ userId }: Props) => {
-  const { posts } = useConnect(userId);
+  const { posts, _id } = useConnect(userId);
 
   return (
-    <Box background="white.200" mt="3" m="10" p="5" borderRadius="5px">
+    <FeedContainer>
       {posts.map((post, index) => (
-        <Post post={post} myKey={index} key={index} />
+        <Post
+          post={post}
+          myKey={index}
+          key={index}
+          userId={userId ? userId : _id}
+        />
       ))}
-    </Box>
+    </FeedContainer>
   );
 };

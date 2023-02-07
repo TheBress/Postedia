@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "../../redux";
-import { InitialState, Post } from "../../types";
+import { setPosts } from "../../../redux";
+import { InitialState, Post } from "../../../types";
 
 export const useConnect = () => {
   const user = useSelector((state: InitialState) => state.user);

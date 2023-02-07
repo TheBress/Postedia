@@ -1,11 +1,11 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { BsImage } from "react-icons/bs";
 import { AiOutlineLink, AiOutlineGif } from "react-icons/ai";
-import { FlexContainer } from "./FlexFiles";
+import { FlexContainer } from "../../Styled/Containers/Flex";
 
 export const PostOptions = () => {
   return (
-    <Flex gap="4rem" pt="2">
+    <Flex gap={{ xl: "4rem", sm: "3rem" }} pt="2">
       <FlexContainer>
         <BsImage />
         <Text>Image</Text>
