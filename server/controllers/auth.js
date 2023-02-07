@@ -6,7 +6,7 @@ import { randomImage } from "../functions/index.js";
 export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
-    console.log(email);
+
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (!regex.test(email))
@@ -53,7 +53,6 @@ export const login = async (req, res) => {
 
     res.status(200).json({ token, user });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ msg: err.message });
   }
 };
