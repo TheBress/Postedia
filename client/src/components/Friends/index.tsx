@@ -37,6 +37,7 @@ export const Friend = ({
         <Box
           onClick={patchFriend}
           ml="auto"
+          cursor="pointer"
           _hover={{ color: "blue.100" }}
           transition=".3s"
         >

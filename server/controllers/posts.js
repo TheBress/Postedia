@@ -76,8 +76,9 @@ export const addComment = async (req, res) => {
 
   const post = await Post.findById(id);
   const user = await User.findById(idUser);
+  const createdAt = new Date();
 
-  post.comments.push({ user, comment });
+  post.comments.push({ user, comment, createdAt });
 
   await post.save();
 

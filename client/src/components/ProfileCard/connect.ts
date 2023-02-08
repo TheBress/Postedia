@@ -3,14 +3,16 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { sanitizeUser } from "../../functions";
 import { setIsEdited, setUser, setUserFriends } from "../../redux";
-import { InitialState, UpdatedUser } from "../../types";
+import { InitialState, Post, UpdatedUser } from "../../types";
 
 export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
   const isEdited = useSelector((state: InitialState) => state.isEdited);
   const user = useSelector((state: InitialState) => state.user);
   const userFriends = useSelector((state: InitialState) => state.userFriends);
   const friends = useSelector((state: InitialState) => state.user.friends);
+  const posts = useSelector((state: InitialState) => state.posts);
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = window.location.pathname.includes("profile");
 
@@ -23,6 +25,20 @@ export const useConnect = (userId?: string) => {
     );
     const data = await response.json();
     dispatch(setUserFriends({ friends: data }));
+  };
+
+  const getUserPosts = async () => {
+    const posts = await fetch(
+      `${process.env.REACT_APP_API_URL}/posts/${userId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then((res) => {
+      return res.json();
+    });
+
+    setUserPosts(posts);
   };
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
@@ -56,6 +72,7 @@ export const useConnect = (userId?: string) => {
 
   useEffect(() => {
     getFriends();
+    if (!isProfile) getUserPosts();
   }, []);
 
   return {
@@ -66,6 +83,7 @@ export const useConnect = (userId?: string) => {
     isEdited,
     isUser: userId === user._id,
     sanitizedUser,
-    friends: !isProfile ? friends : userFriends,
+    friendsNumber: !isProfile ? friends.length : userFriends.length,
+    postNumber: !isProfile ? userPosts.length : posts.length,
   };
 };

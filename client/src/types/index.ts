@@ -32,12 +32,14 @@ export interface Post {
   picturePath: string;
   userPicturePath: string;
   likes: boolean[];
+  createdAt: string;
   comments: Comment[];
 }
 
 export interface Comment {
   user: User;
   comment: string;
+  createdAt: string;
 }
 
 export interface UpdateComment {

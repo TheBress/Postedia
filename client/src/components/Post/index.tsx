@@ -13,8 +13,15 @@ interface Props {
 }
 
 export const Post = ({ post, myKey, userId }: Props) => {
-  const { fullName, likeCount, likePost, isLiked, isComment, changeIsComment } =
-    useConnect(post);
+  const {
+    fullName,
+    likeCount,
+    likePost,
+    isLiked,
+    isComment,
+    changeIsComment,
+    createdAt,
+  } = useConnect(post);
 
   return (
     <Box key={myKey} background="white" p="6" borderRadius="10px" mb="5">
@@ -28,7 +35,7 @@ export const Post = ({ post, myKey, userId }: Props) => {
       <Text mt="4">{post.description}</Text>
       {post.picturePath && <Image src={post.picturePath} />}
 
-      <Flex pt="2" gap="5">
+      <Flex pt="2" gap="5" alignItems="center">
         <Flex
           _hover={{ color: "blue.100" }}
           alignItems="center"
@@ -53,6 +60,10 @@ export const Post = ({ post, myKey, userId }: Props) => {
         </Flex>
       </Flex>
       {isComment && <Comments comments={post.comments} postId={post._id} />}
+
+      <Text fontSize="0.7rem" textAlign="right" mt={isComment ? "8px" : "0"}>
+        {createdAt}
+      </Text>
     </Box>
   );
 };

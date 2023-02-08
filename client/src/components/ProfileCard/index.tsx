@@ -7,13 +7,16 @@ import { useConnect } from "./connect";
 import { User } from "../../types";
 import { Form } from "./subcomponents/Form";
 import { ProfileContainer } from "../Styled/Containers/Profile";
+import { sanitizeText } from "../../functions";
 
 interface Props {
   user: User;
 }
 
 export const ProfileCard = ({ user }: Props) => {
-  const { isEdited, dispatch, isUser, friends } = useConnect(user._id);
+  const { isEdited, dispatch, isUser, friendsNumber, postNumber } = useConnect(
+    user._id
+  );
 
   return (
     <ProfileContainer isEdited={isEdited}>
@@ -23,7 +26,12 @@ export const ProfileCard = ({ user }: Props) => {
           <Text fontWeight="600" fontSize="1.2rem">
             {user.firstName} {user.lastName}
           </Text>
-          <Text fontSize="0.9rem">{friends.length} friends</Text>
+          <Flex gap="5px">
+            <Text fontSize="0.9rem">
+              {sanitizeText(friendsNumber, "friend")}
+            </Text>
+            <Text fontSize="0.9rem">{sanitizeText(postNumber, "post")}</Text>
+          </Flex>
         </Box>
         {isUser && (
           <Box

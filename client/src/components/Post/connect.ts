@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { formatDate } from "../../functions";
 import { setPost } from "../../redux";
 import { InitialState, Post } from "../../types";
 
@@ -40,5 +41,6 @@ export const useConnect = (post: Post) => {
     _id,
     isComment,
     changeIsComment,
+    createdAt: formatDate(post.createdAt),
   };
 };

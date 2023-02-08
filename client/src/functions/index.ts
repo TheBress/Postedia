@@ -46,3 +46,21 @@ export const IsAuth = (): boolean => {
 export const goTo = (url: string) => {
   window.location.href = url;
 };
+
+export const formatDate = (date: string) => {
+  const newDate = new Date(date);
+
+  const sanitizeDate = (value: number) => {
+    return value < 9 ? `0${value}` : value;
+  };
+
+  return `${sanitizeDate(newDate.getDate())}-${sanitizeDate(
+    newDate.getMonth() + 1
+  )}-${sanitizeDate(newDate.getFullYear())} ${sanitizeDate(
+    newDate.getHours()
+  )}:${sanitizeDate(newDate.getMinutes())}`;
+};
+
+export const sanitizeText = (value: number, name: string) => {
+  return value !== 1 ? `${value} ${name}s` : `${value} ${name}`;
+};
