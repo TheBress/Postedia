@@ -1,7 +1,8 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { BsImage } from "react-icons/bs";
 import { AiOutlineLink, AiOutlineGif } from "react-icons/ai";
 import { FlexContainer } from "../../Styled/Containers/Flex";
+import { PostButton } from "../../Styled/Buttons/Post";
 
 export const PostOptions = () => {
   return (
@@ -21,14 +22,7 @@ export const PostOptions = () => {
         <Text>Gif</Text>
       </FlexContainer>
 
-      <Button
-        background="blue.100"
-        _hover={{ background: "blue.200", color: "white" }}
-        borderRadius="2rem"
-        type="submit"
-      >
-        Post
-      </Button>
+      <PostButton text="Post" />
     </Flex>
   );
 };

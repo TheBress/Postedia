@@ -1,4 +1,5 @@
-import { Avatar, Box, Flex, Input } from "@chakra-ui/react";
+import { Avatar, Box, Flex } from "@chakra-ui/react";
+import { PostInput } from "../../Styled/Inputs/Post";
 import { useConnect } from "./connect";
 import { PostOptions } from "./PostOptions";
 
@@ -15,15 +16,11 @@ export const NewPost = () => {
           borderBottom="1px solid black"
         >
           <Avatar src={picturePath} />
-          <Input
-            borderRadius="2rem"
+          <PostInput
             placeholder="What´s on your mind"
-            name="description"
             value={post.description}
-            onChange={handleChange}
-            border="1px solid black"
-            _hover={{ borderColor: "black" }}
-            _focus={{ borderColor: "blue.100" }}
+            name="description"
+            handleChange={handleChange}
           />
         </Flex>
 

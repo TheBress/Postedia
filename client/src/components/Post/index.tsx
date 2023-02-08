@@ -3,6 +3,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { VscComment } from "react-icons/vsc";
 import { Post as PostType } from "../../types";
 import { Friend } from "../Friends";
+import { Comments } from "./Comments";
 import { useConnect } from "./connect";
 
 interface Props {
@@ -12,7 +13,8 @@ interface Props {
 }
 
 export const Post = ({ post, myKey, userId }: Props) => {
-  const { fullName, likeCount, likePost, isLiked } = useConnect(post);
+  const { fullName, likeCount, likePost, isLiked, isComment, changeIsComment } =
+    useConnect(post);
 
   return (
     <Box key={myKey} background="white" p="6" borderRadius="10px" mb="5">
@@ -27,15 +29,30 @@ export const Post = ({ post, myKey, userId }: Props) => {
       {post.picturePath && <Image src={post.picturePath} />}
 
       <Flex pt="2" gap="5">
-        <Flex alignItems="center" gap="1" cursor="pointer" onClick={likePost}>
+        <Flex
+          _hover={{ color: "blue.100" }}
+          alignItems="center"
+          gap="1"
+          cursor="pointer"
+          onClick={likePost}
+          transition="0.3s"
+        >
           {!isLiked ? <AiOutlineHeart /> : <AiFillHeart color="#3a9dc7" />}
           <Text>{likeCount}</Text>
         </Flex>
-        <Flex alignItems="center" gap="1" cursor="pointer">
+        <Flex
+          _hover={{ color: "blue.100" }}
+          alignItems="center"
+          gap="1"
+          cursor="pointer"
+          transition="0.3s"
+          onClick={changeIsComment}
+        >
           <VscComment />
           <Text>{post.comments.length}</Text>
         </Flex>
       </Flex>
+      {isComment && <Comments comments={post.comments} postId={post._id} />}
     </Box>
   );
 };

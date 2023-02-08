@@ -6,6 +6,7 @@ import { setIsEdited } from "../../redux";
 import { useConnect } from "./connect";
 import { User } from "../../types";
 import { Form } from "./subcomponents/Form";
+import { ProfileContainer } from "../Styled/Containers/Profile";
 
 interface Props {
   user: User;
@@ -15,13 +16,7 @@ export const ProfileCard = ({ user }: Props) => {
   const { isEdited, dispatch, isUser, friends } = useConnect(user._id);
 
   return (
-    <Box
-      background="white.200"
-      m="10"
-      p="5"
-      borderRadius="5px"
-      height={!isEdited ? "50vh" : "67vh"}
-    >
+    <ProfileContainer isEdited={isEdited}>
       <Flex gap="20px" borderBottom="1px solid black" p="3">
         <Avatar size="lg" src={user.picturePath} />
         <Box>
@@ -48,6 +43,6 @@ export const ProfileCard = ({ user }: Props) => {
       </Flex>
 
       {!isEdited ? <Card /> : <Form />}
-    </Box>
+    </ProfileContainer>
   );
 };

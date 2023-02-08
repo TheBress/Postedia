@@ -10,6 +10,7 @@ export interface FriendProps {
 
 export interface ChildrenProps {
   children: JSX.Element[];
+  isEdited?: boolean;
 }
 
 export interface InputProps {

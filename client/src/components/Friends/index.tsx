@@ -18,17 +18,16 @@ export const Friend = ({
   );
 
   return (
-    <Flex
-      cursor="pointer"
-      key={myKey}
-      mt={!mt ? "0" : mt}
-      gap="3"
-      alignItems="center"
-    >
+    <Flex key={myKey} mt={!mt ? "0" : mt} gap="3" alignItems="center">
       <Avatar src={userPicturePath} />
 
-      <Box cursor="pointer" onClick={goToFriend}>
-        <Text _hover={{ color: "blue.100" }} transition="0.2s" fontWeight="600">
+      <Box onClick={goToFriend}>
+        <Text
+          cursor="pointer"
+          _hover={{ color: "blue.100" }}
+          transition="0.2s"
+          fontWeight="600"
+        >
           {isUser ? "You" : name}
         </Text>
         <Text fontSize="0.8rem">{subtitle}</Text>

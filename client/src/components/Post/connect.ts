@@ -1,13 +1,19 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "../../redux";
 import { InitialState, Post } from "../../types";
 
 export const useConnect = (post: Post) => {
+  const [isComment, setisComment] = useState<boolean>(false);
   const fullName: string = `${post.firstName} ${post.lastName}`;
   const { _id } = useSelector((state: InitialState) => state.user);
   const dispatch = useDispatch();
 
   const likeCount: number = Object.keys(post.likes).length;
+
+  const changeIsComment = () => {
+    setisComment(!isComment);
+  };
 
   const isLiked = Object.keys(post.likes).some((value) => value === _id);
 
@@ -26,5 +32,13 @@ export const useConnect = (post: Post) => {
     dispatch(setPost({ post: updatedPost }));
   };
 
-  return { fullName, likeCount, likePost, isLiked, _id };
+  return {
+    fullName,
+    likeCount,
+    likePost,
+    isLiked,
+    _id,
+    isComment,
+    changeIsComment,
+  };
 };

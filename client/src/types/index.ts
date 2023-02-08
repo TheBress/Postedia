@@ -32,7 +32,17 @@ export interface Post {
   picturePath: string;
   userPicturePath: string;
   likes: boolean[];
-  comments: string[];
+  comments: Comment[];
+}
+
+export interface Comment {
+  user: User;
+  comment: string;
+}
+
+export interface UpdateComment {
+  idUser: string;
+  comment: string;
 }
 
 export interface LoginUser {
