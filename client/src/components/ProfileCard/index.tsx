@@ -19,7 +19,11 @@ export const ProfileCard = ({ user }: Props) => {
   );
 
   return (
-    <ProfileContainer isEdited={isEdited}>
+    <ProfileContainer
+      isEdited={isEdited}
+      hasLinkedin={user.linkedinUrl ? true : false}
+      hasTwitter={user.twitterUrl ? true : false}
+    >
       <Flex gap="20px" borderBottom="1px solid black" p="3">
         <Avatar size="lg" src={user.picturePath} />
         <Box>

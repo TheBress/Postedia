@@ -8,9 +8,13 @@ import { ProfileCard } from "../components/ProfileCard";
 import { InitialState } from "../types";
 import { GeneralContainer } from "../components/Styled/Containers/General";
 import { NewPost } from "../components/Post/MyPost";
+import { useConnect } from "../components/ProfileCard/connect";
 
 export const Home = () => {
   const user = useSelector((state: InitialState) => state.user);
+  const { loading } = useConnect();
+
+  if (!loading) return null;
 
   return (
     <>
@@ -23,7 +27,7 @@ export const Home = () => {
           <Feed />
         </Box>
         <Box>
-          <Ad />
+          <Ad userId={user._id} />
           <FriendsList userId={user._id} />
         </Box>
       </GeneralContainer>

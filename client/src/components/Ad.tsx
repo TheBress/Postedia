@@ -1,10 +1,24 @@
 import { Flex, Image, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { randomAd } from "../functions";
 import { Ad as AdType } from "../types";
 import { AdContainer } from "./Styled/Containers/Ad";
 
-export const Ad = () => {
-  const ad: AdType = randomAd();
+interface Props {
+  userId: string;
+}
+
+export const Ad = ({ userId }: Props) => {
+  const [ad, setAd] = useState<AdType>({
+    url: "",
+    name: "",
+    nameUrl: "",
+    image: "",
+  });
+
+  useEffect(() => {
+    setAd(randomAd());
+  }, [userId]);
 
   if (!ad) return null;
 

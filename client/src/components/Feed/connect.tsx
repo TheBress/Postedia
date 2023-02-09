@@ -9,34 +9,34 @@ export const useConnect = (userId?: string) => {
   const { _id } = useSelector((state: InitialState) => state.user);
   const path = window.location.pathname;
 
-  const getPosts = async () => {
-    const posts = await fetch(`${process.env.REACT_APP_API_URL}/posts`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }).then((res) => {
-      return res.json();
-    });
+  useEffect(() => {
+    const getUserPosts = async () => {
+      const posts = await fetch(
+        `${process.env.REACT_APP_API_URL}/posts/${userId}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      ).then((res) => {
+        return res.json();
+      });
 
-    if (posts) dispatch(setPosts({ posts }));
-  };
+      if (posts) dispatch(setPosts({ posts }));
+    };
 
-  const getUserPosts = async () => {
-    const posts = await fetch(
-      `${process.env.REACT_APP_API_URL}/posts/${userId}`,
-      {
+    const getPosts = async () => {
+      const posts = await fetch(`${process.env.REACT_APP_API_URL}/posts`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      }
-    ).then((res) => {
-      return res.json();
-    });
+      }).then((res) => {
+        return res.json();
+      });
 
-    if (posts) dispatch(setPosts({ posts }));
-  };
+      if (posts) dispatch(setPosts({ posts }));
+    };
 
-  useEffect(() => {
     !userId ? getPosts() : getUserPosts();
-  }, [path, userId]);
+  }, [path, userId, dispatch]);
 
   return { posts, _id };
 };

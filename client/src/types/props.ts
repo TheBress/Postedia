@@ -13,6 +13,8 @@ export interface ChildrenProps {
   isEdited?: boolean;
   url?: string;
   hasPosts?: boolean;
+  hasLinkedin?: boolean;
+  hasTwitter?: boolean;
 }
 
 export interface InputProps {

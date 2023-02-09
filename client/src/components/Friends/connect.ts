@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { InitialState } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { setFriends, setUserFriends } from "../../redux";
+import { useEffect } from "react";
 
 export const useConnect = (friendId?: string, userId?: string) => {
   const { _id } = useSelector((state: InitialState) => state.user);
@@ -38,25 +39,29 @@ export const useConnect = (friendId?: string, userId?: string) => {
     dispatch(setUserFriends({ friends: data.friend }));
   };
 
-  const getFriends = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/friends/${userId}`,
-      {
-        method: "GET",
-      }
-    );
-    const data = await response.json();
+  useEffect(() => {
+    const getFriends = async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/users/friends/${userId}`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json();
 
-    if (!isProfile) dispatch(setFriends({ friends: data }));
-    else dispatch(setUserFriends({ friends: data }));
-  };
+      if (!isProfile) dispatch(setFriends({ friends: data }));
+      else dispatch(setUserFriends({ friends: data }));
+    };
+
+    if (userId) getFriends();
+  }, [userId, isProfile, dispatch]);
 
   return {
     isFriend,
     patchFriend,
-    getFriends,
     isUser,
     goToFriend,
     friends: isProfile ? userFriends : friends,
+    _id,
   };
 };

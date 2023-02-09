@@ -64,7 +64,7 @@ export interface UpdatedUser {
   location: string;
   twitterUrl: string;
   linkedinUrl: string;
-  viewedProfile: string[];
+  viewedProfile: number;
   impressions: number;
   _id: any;
 }

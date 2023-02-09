@@ -23,7 +23,7 @@ export const Profile = () => {
         <ProfileCard user={user} />
         <Feed userId={user._id} />
         <Box>
-          <Ad />
+          <Ad userId={user._id} />
           <FriendsList userId={user._id} />
         </Box>
       </GeneralContainer>

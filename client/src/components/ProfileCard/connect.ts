@@ -8,6 +8,7 @@ import { InitialState, Post, UpdatedUser } from "../../types";
 export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const isEdited = useSelector((state: InitialState) => state.isEdited);
   const user = useSelector((state: InitialState) => state.user);
   const userFriends = useSelector((state: InitialState) => state.userFriends);
@@ -15,31 +16,6 @@ export const useConnect = (userId?: string) => {
   const posts = useSelector((state: InitialState) => state.posts);
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = window.location.pathname.includes("profile");
-
-  const getFriends = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/friends/${userId}`,
-      {
-        method: "GET",
-      }
-    );
-    const data = await response.json();
-    dispatch(setUserFriends({ friends: data }));
-  };
-
-  const getUserPosts = async () => {
-    const posts = await fetch(
-      `${process.env.REACT_APP_API_URL}/posts/${userId}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    ).then((res) => {
-      return res.json();
-    });
-
-    setUserPosts(posts);
-  };
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
 
@@ -71,9 +47,40 @@ export const useConnect = (userId?: string) => {
   };
 
   useEffect(() => {
-    getFriends();
+    const getFriends = async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/users/friends/${userId}`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json().finally(() => {
+        setLoading(true);
+      });
+      dispatch(setUserFriends({ friends: data }));
+    };
+
+    const getUserPosts = async () => {
+      const posts = await fetch(
+        `${process.env.REACT_APP_API_URL}/posts/${userId}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .finally(() => {
+          setLoading(true);
+        });
+
+      setUserPosts(posts);
+    };
+
+    if (userId) getFriends();
     if (!isProfile) getUserPosts();
-  }, []);
+  }, [userId, isProfile, dispatch]);
 
   return {
     updatedUser,
@@ -85,5 +92,6 @@ export const useConnect = (userId?: string) => {
     sanitizedUser,
     friendsNumber: !isProfile ? friends.length : userFriends.length,
     postNumber: !isProfile ? userPosts.length : posts.length,
+    loading,
   };
 };

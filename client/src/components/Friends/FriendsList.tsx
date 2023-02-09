@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { Friend } from ".";
+import { getFriendsListName } from "../../functions";
 import { FriendsContainer } from "../Styled/Containers/Friends";
 import { useConnect } from "./connect";
 
@@ -9,16 +9,12 @@ interface Props {
 }
 
 export const FriendsList = ({ userId }: Props) => {
-  const { getFriends, friends } = useConnect("", userId);
-
-  useEffect(() => {
-    getFriends();
-  }, [userId]);
+  const { friends, _id } = useConnect("", userId);
 
   return (
     <FriendsContainer>
       <Text fontWeight="600" fontSize="1.2rem">
-        {friends.length ? "Friends list" : "No friends"}
+        {getFriendsListName(friends.length, userId, _id)}
       </Text>
       <>
         {friends.map((friend, index) => (

@@ -4,7 +4,7 @@ import { ChildrenProps } from "../../../types/props";
 export const FeedContainer = ({ children, hasPosts }: ChildrenProps) => {
   return (
     <Box
-      maxHeight={hasPosts ? "57.5vh" : "10vh"}
+      maxHeight={hasPosts ? "57.5vh" : "9vh"}
       overflow="auto"
       overflowX="hidden"
       background="white.200"

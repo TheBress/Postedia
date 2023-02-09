@@ -36,7 +36,7 @@ export const sanitizeUser = (user: User): UpdatedUser => {
     location: user.location,
     twitterUrl: user.twitterUrl,
     linkedinUrl: user.linkedinUrl,
-    viewedProfile: user.viewedProfile,
+    viewedProfile: user.viewedProfile.length,
     impressions: user.impressions,
     _id: user._id,
   };
@@ -96,4 +96,25 @@ export const randomAd = () => {
   const random = Math.round(Math.random() * max);
 
   return ads[random];
+};
+
+export const getMaxHeight = (
+  isEdited?: boolean,
+  hasTwitter?: boolean,
+  hasLinkedin?: boolean
+) => {
+  if (!isEdited && hasTwitter && hasLinkedin) return "52vh";
+  if (!isEdited && (hasTwitter || hasLinkedin)) return "47vh";
+  if (!isEdited && !hasTwitter && !hasLinkedin) return "38vh";
+  if (isEdited) return "68vh";
+};
+
+export const getFriendsListName = (
+  friendsNumber: number,
+  profileId: string,
+  userId: string
+) => {
+  if (friendsNumber && profileId !== userId) return "Friends list";
+  else if (userId === profileId) return "Your Friends list";
+  else return "No friends";
 };
