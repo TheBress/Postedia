@@ -18,7 +18,7 @@ export const Comment = ({
   createdAt,
 }: Props) => {
   return (
-    <Box mb="3">
+    <Box mb="3" position="relative">
       <Flex gap="8px">
         <Avatar src={picturePath} size="sm" />
         <Box>
@@ -27,10 +27,17 @@ export const Comment = ({
             {comment}
           </Text>
         </Box>
-        <Text ml="auto" fontSize="0.7rem">
-          {formatDate(createdAt)}
-        </Text>
       </Flex>
+
+      <Text
+        position="absolute"
+        whiteSpace="pre"
+        right="0"
+        top="0"
+        fontSize="0.7rem"
+      >
+        {formatDate(createdAt)}
+      </Text>
     </Box>
   );
 };

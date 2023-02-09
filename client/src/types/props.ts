@@ -9,8 +9,10 @@ export interface FriendProps {
 }
 
 export interface ChildrenProps {
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
   isEdited?: boolean;
+  url?: string;
+  hasPosts?: boolean;
 }
 
 export interface InputProps {

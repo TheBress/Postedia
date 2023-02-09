@@ -1,11 +1,12 @@
 import { Box } from "@chakra-ui/react";
 import { ChildrenProps } from "../../../types/props";
 
-export const FeedContainer = ({ children }: ChildrenProps) => {
+export const FeedContainer = ({ children, hasPosts }: ChildrenProps) => {
   return (
     <Box
-      maxHeight="57.5vh"
+      maxHeight={hasPosts ? "57.5vh" : "10vh"}
       overflow="auto"
+      overflowX="hidden"
       background="white.200"
       mt="3"
       m="10"

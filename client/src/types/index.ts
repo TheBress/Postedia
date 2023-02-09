@@ -16,7 +16,7 @@ export interface User {
   friends: Friend[];
   location: string;
   occupation: string;
-  viewedProfile: number;
+  viewedProfile: string[];
   impressions: number;
   twitterUrl: string;
   linkedinUrl: string;
@@ -64,7 +64,7 @@ export interface UpdatedUser {
   location: string;
   twitterUrl: string;
   linkedinUrl: string;
-  viewedProfile: number;
+  viewedProfile: string[];
   impressions: number;
   _id: any;
 }
@@ -76,4 +76,11 @@ export interface Friend {
   location: string;
   occupation: string;
   picturePath: string;
+}
+
+export interface Ad {
+  name: string;
+  url: string;
+  image: string;
+  nameUrl: string;
 }

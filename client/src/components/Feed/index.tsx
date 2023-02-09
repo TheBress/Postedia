@@ -1,3 +1,4 @@
+import { Text } from "@chakra-ui/react";
 import { Post } from "../Post";
 import { FeedContainer } from "../Styled/Containers/Feed";
 import { useConnect } from "./connect";
@@ -10,15 +11,21 @@ export const Feed = ({ userId }: Props) => {
   const { posts, _id } = useConnect(userId);
 
   return (
-    <FeedContainer>
-      {posts.map((post, index) => (
-        <Post
-          post={post}
-          myKey={index}
-          key={index}
-          userId={userId ? userId : _id}
-        />
-      ))}
+    <FeedContainer hasPosts={posts.length ? true : false}>
+      {posts.length ? (
+        posts.map((post, index) => (
+          <Post
+            post={post}
+            myKey={index}
+            key={index}
+            userId={userId ? userId : _id}
+          />
+        ))
+      ) : (
+        <Text fontWeight="600" fontSize="1.2rem">
+          No posts
+        </Text>
+      )}
     </FeedContainer>
   );
 };

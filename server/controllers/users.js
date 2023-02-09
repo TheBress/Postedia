@@ -90,3 +90,32 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const viewsProfile = async (req, res) => {
+  try {
+    const { userProfileId, userId } = req.body;
+
+    const userProfile = await User.findById(userProfileId);
+
+    if (userProfileId !== userId) {
+      if (userProfile.viewedProfile.length > 1) {
+        userProfile.viewedProfile = Array.from(
+          new Set(userProfile.viewedProfile)
+        );
+      }
+      await userProfile.save();
+
+      const isExist = userProfile.viewedProfile.some((id) => id === userId);
+
+      if (!isExist) {
+        userProfile.viewedProfile.push(userId);
+
+        await userProfile.save();
+      }
+    }
+
+    res.status(200).json(userProfile);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

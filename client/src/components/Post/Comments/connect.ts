@@ -14,7 +14,7 @@ export const useConnect = (postId?: string) => {
   });
 
   const goToProfile = (id: string) => {
-    navigate(`/profile/${id}`);
+    id === user._id ? navigate("/") : navigate(`/profile/${id}`);
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {

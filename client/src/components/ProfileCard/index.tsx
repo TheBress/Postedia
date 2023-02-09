@@ -50,7 +50,7 @@ export const ProfileCard = ({ user }: Props) => {
         )}
       </Flex>
 
-      {!isEdited ? <Card /> : <Form />}
+      {!isEdited ? <Card profileUser={user} /> : <Form />}
     </ProfileContainer>
   );
 };
