@@ -4,6 +4,7 @@ import { BiLogOut } from "react-icons/bi";
 
 import { Link } from "react-router-dom";
 import { setLogout } from "../../redux";
+import { MdNotifications } from "react-icons/md";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,15 @@ export const Navbar = () => {
             ></HStack>
           </HStack>
           <Flex alignItems={"center"}>
+            <Box
+              mr="25px"
+              _hover={{ background: "transparent", color: "white" }}
+              transition=".3s"
+              cursor="pointer"
+            >
+              <MdNotifications size="25" />
+            </Box>
+
             <Button
               transition=".3s"
               mr="5"
