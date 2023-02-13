@@ -3,8 +3,11 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { VscComment } from "react-icons/vsc";
 import { Post as PostType } from "../../types";
 import { Friend } from "../Friends";
+import { ActionsContainer } from "../Styled/Containers/Actions";
 import { Comments } from "./Comments";
 import { useConnect } from "./connect";
+import { UpdateForm } from "./UpdateForm";
+import { MdModeEdit } from "react-icons/md";
 
 interface Props {
   post: PostType;
@@ -20,50 +23,58 @@ export const Post = ({ post, myKey, userId }: Props) => {
     isLiked,
     isComment,
     changeIsComment,
-    createdAt,
+    updatedAt,
+    isUpdate,
+    setisUpdate,
   } = useConnect(post);
 
   return (
     <Box key={myKey} background="white" p="6" borderRadius="10px" mb="5">
       <Friend
+        isUpdate={isUpdate}
         userId={userId}
         name={fullName}
         friendID={post.userId}
         userPicturePath={post.userPicturePath}
         subtitle={post.location}
+        setisUpdate={setisUpdate}
       />
-      <Text mt="4">{post.description}</Text>
+
+      {isUpdate ? (
+        <UpdateForm
+          postDescription={post.description}
+          id={post._id}
+          setIsUpdate={setisUpdate}
+        />
+      ) : (
+        <Text mt="4">{post.description}</Text>
+      )}
+
       {post.picturePath && <Image src={post.picturePath} />}
 
       <Flex pt="2" gap="5" alignItems="center">
-        <Flex
-          _hover={{ color: "blue.100" }}
-          alignItems="center"
-          gap="1"
-          cursor="pointer"
-          onClick={likePost}
-          transition="0.3s"
-        >
+        <ActionsContainer onClickAction={likePost}>
           {!isLiked ? <AiOutlineHeart /> : <AiFillHeart color="#3a9dc7" />}
           <Text>{likeCount}</Text>
-        </Flex>
-        <Flex
-          _hover={{ color: "blue.100" }}
-          alignItems="center"
-          gap="1"
-          cursor="pointer"
-          transition="0.3s"
-          onClick={changeIsComment}
-        >
+        </ActionsContainer>
+
+        <ActionsContainer onClickAction={changeIsComment}>
           <VscComment />
           <Text>{post.comments.length}</Text>
-        </Flex>
+        </ActionsContainer>
       </Flex>
+
       {isComment && <Comments comments={post.comments} postId={post._id} />}
 
-      <Text fontSize="0.7rem" textAlign="right" mt={isComment ? "8px" : "0"}>
-        {createdAt}
-      </Text>
+      <Flex
+        justifyContent="flex-end"
+        alignItems="center"
+        gap="5px"
+        mt={isComment ? "10px" : ""}
+      >
+        {post.isEdited && <MdModeEdit size="10" />}
+        <Text fontSize="0.7rem">{updatedAt}</Text>
+      </Flex>
     </Box>
   );
 };

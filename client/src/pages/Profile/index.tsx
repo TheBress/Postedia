@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { Ad } from "../../components/Ad";
 import { Feed } from "../../components/Feed";
-import { FriendsList } from "../../components/Friends/FriendsList";
+import { FriendsList } from "../../components/Friends/subcomponents/FriendsList";
 import { Navbar } from "../../components/Styled/Navbar";
 import { ProfileCard } from "../../components/ProfileCard";
 import { GeneralContainer } from "../../components/Styled/Containers/General";

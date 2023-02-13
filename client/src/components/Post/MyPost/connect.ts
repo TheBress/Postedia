@@ -19,7 +19,8 @@ export const useConnect = () => {
     userPicturePath: user.picturePath,
     likes: [],
     comments: [],
-    createdAt: "",
+    updatedAt: "",
+    isEdited: false,
   });
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {

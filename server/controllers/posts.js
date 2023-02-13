@@ -62,7 +62,7 @@ export const createPost = async (req, res) => {
 
     await newPost.save();
 
-    const posts = await Post.find();
+    const posts = await Post.find().sort({ createdAt: -1 });
 
     res.status(201).json(posts);
   } catch (error) {
@@ -86,5 +86,38 @@ export const addComment = async (req, res) => {
   try {
   } catch (error) {
     res.status(409).json({ msg: error.message });
+  }
+};
+
+export const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await Post.findByIdAndDelete(id);
+
+    const posts = await Post.find().sort({ createdAt: -1 });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+export const updatePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { description } = req.body;
+
+    await Post.findByIdAndUpdate(
+      id,
+      { description, isEdited: true },
+      { new: true }
+    );
+
+    const posts = await Post.find().sort({ createdAt: -1 });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
   }
 };

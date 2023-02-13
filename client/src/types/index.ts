@@ -32,8 +32,9 @@ export interface Post {
   picturePath: string;
   userPicturePath: string;
   likes: boolean[];
-  createdAt: string;
+  updatedAt: string;
   comments: Comment[];
+  isEdited: boolean;
 }
 
 export interface Comment {

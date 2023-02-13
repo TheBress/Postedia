@@ -1,8 +1,8 @@
 import { Text } from "@chakra-ui/react";
-import { Friend } from ".";
-import { getFriendsListName } from "../../functions";
-import { FriendsContainer } from "../Styled/Containers/Friends";
-import { useConnect } from "./connect";
+import { Friend } from "..";
+import { getFriendsListName } from "../../../functions";
+import { FriendsContainer } from "../../Styled/Containers/Friends";
+import { useConnect } from "../connect";
 
 interface Props {
   userId: string;

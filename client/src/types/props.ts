@@ -6,6 +6,9 @@ export interface FriendProps {
   subtitle: string;
   mt?: string;
   userId?: string;
+  postId?: string;
+  isUpdate?: boolean;
+  setisUpdate?: (value: boolean) => void;
 }
 
 export interface ChildrenProps {
@@ -15,6 +18,7 @@ export interface ChildrenProps {
   hasPosts?: boolean;
   hasLinkedin?: boolean;
   hasTwitter?: boolean;
+  onClickAction?: () => void;
 }
 
 export interface InputProps {
@@ -23,4 +27,8 @@ export interface InputProps {
   value: string;
   onChange: (e: React.FormEvent<HTMLInputElement>) => void;
   isPassword?: boolean;
+}
+
+export interface UpdatePost {
+  description: string;
 }

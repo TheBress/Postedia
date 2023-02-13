@@ -24,7 +24,7 @@ export const NewPost = () => {
           />
         </Flex>
 
-        <PostOptions />
+        <PostOptions description={post.description} />
       </form>
     </Box>
   );

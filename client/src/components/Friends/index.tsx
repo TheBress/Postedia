@@ -2,6 +2,7 @@ import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
 import { FriendProps } from "../../types/props";
 import { useConnect } from "./connect";
+import { PostActions } from "./subcomponents/postActions";
 
 export const Friend = ({
   friendID,
@@ -11,8 +12,11 @@ export const Friend = ({
   subtitle,
   mt,
   userId,
+  postId,
+  setisUpdate,
+  isUpdate,
 }: FriendProps) => {
-  const { isFriend, patchFriend, isUser, goToFriend } = useConnect(
+  const { isFriend, patchFriend, isUser, goToFriend, isProfile } = useConnect(
     friendID,
     userId
   );
@@ -33,7 +37,7 @@ export const Friend = ({
         <Text fontSize="0.8rem">{subtitle}</Text>
       </Box>
 
-      {!isUser && (
+      {!isUser ? (
         <Box
           onClick={patchFriend}
           ml="auto"
@@ -47,7 +51,13 @@ export const Friend = ({
             <RiUserFollowFill size="22" />
           )}
         </Box>
-      )}
+      ) : !isProfile ? (
+        <PostActions
+          postId={postId}
+          setisUpdate={setisUpdate}
+          isUpdate={isUpdate}
+        />
+      ) : null}
     </Flex>
   );
 };

@@ -4,7 +4,11 @@ import { AiOutlineLink, AiOutlineGif } from "react-icons/ai";
 import { FlexContainer } from "../../Styled/Containers/Flex";
 import { PostButton } from "../../Styled/Buttons/Post";
 
-export const PostOptions = () => {
+interface Props {
+  description: string;
+}
+
+export const PostOptions = ({ description }: Props) => {
   return (
     <Flex gap={{ xl: "4rem", sm: "3rem" }} pt="2">
       <FlexContainer>
@@ -22,7 +26,7 @@ export const PostOptions = () => {
         <Text>Gif</Text>
       </FlexContainer>
 
-      <PostButton text="Post" />
+      <PostButton description={description} text="Post" />
     </Flex>
   );
 };

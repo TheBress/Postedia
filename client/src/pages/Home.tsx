@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Ad } from "../components/Ad";
-import { FriendsList } from "../components/Friends/FriendsList";
+import { FriendsList } from "../components/Friends/subcomponents/FriendsList";
 import { Feed } from "../components/Feed";
 import { Navbar } from "../components/Styled/Navbar";
 import { ProfileCard } from "../components/ProfileCard";

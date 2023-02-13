@@ -87,7 +87,7 @@ export const formatDate = (date: string) => {
 };
 
 export const sanitizeText = (value: number, name: string) => {
-  return value && value !== 1 ? `${value} ${name}s` : `${value} ${name}`;
+  return value !== 1 ? `${value} ${name}s` : `${value} ${name}`;
 };
 
 export const randomAd = () => {

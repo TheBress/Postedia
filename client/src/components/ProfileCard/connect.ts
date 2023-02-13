@@ -3,11 +3,10 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { sanitizeUser } from "../../functions";
 import { setIsEdited, setUser, setUserFriends } from "../../redux";
-import { InitialState, Post, UpdatedUser } from "../../types";
+import { InitialState, UpdatedUser } from "../../types";
 
 export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
-  const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const isEdited = useSelector((state: InitialState) => state.isEdited);
   const user = useSelector((state: InitialState) => state.user);
@@ -16,6 +15,8 @@ export const useConnect = (userId?: string) => {
   const posts = useSelector((state: InitialState) => state.posts);
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = window.location.pathname.includes("profile");
+
+  const userPosts = posts.filter((post) => post.userId === user._id);
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
 
@@ -61,21 +62,16 @@ export const useConnect = (userId?: string) => {
     };
 
     const getUserPosts = async () => {
-      const posts = await fetch(
-        `${process.env.REACT_APP_API_URL}/posts/${userId}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+      await fetch(`${process.env.REACT_APP_API_URL}/posts/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
         .then((res) => {
           return res.json();
         })
         .finally(() => {
           setLoading(true);
         });
-
-      setUserPosts(posts);
     };
 
     if (userId) getFriends();

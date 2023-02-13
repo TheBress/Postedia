@@ -6,6 +6,7 @@ import { InitialState, Post } from "../../types";
 
 export const useConnect = (post: Post) => {
   const [isComment, setisComment] = useState<boolean>(false);
+  const [isUpdate, setisUpdate] = useState<boolean>(false);
   const fullName: string = `${post.firstName} ${post.lastName}`;
   const { _id } = useSelector((state: InitialState) => state.user);
   const dispatch = useDispatch();
@@ -41,6 +42,8 @@ export const useConnect = (post: Post) => {
     _id,
     isComment,
     changeIsComment,
-    createdAt: formatDate(post.createdAt),
+    updatedAt: formatDate(post.updatedAt),
+    isUpdate,
+    setisUpdate,
   };
 };

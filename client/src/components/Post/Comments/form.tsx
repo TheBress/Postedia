@@ -20,7 +20,7 @@ export const Form = ({ postId }: Props) => {
           handleChange={handleChange}
         />
 
-        <PostButton text="Add" />
+        <PostButton description={comment.comment} text="Add" />
       </Flex>
     </form>
   );

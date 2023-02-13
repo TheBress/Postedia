@@ -63,5 +63,6 @@ export const useConnect = (friendId?: string, userId?: string) => {
     goToFriend,
     friends: isProfile ? userFriends : friends,
     _id,
+    isProfile,
   };
 };
