@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
-import { sanitizeUser } from "../../functions";
+import { GetStates, sanitizeUser, successToast } from "../../functions";
 import { setIsEdited, setUser, setUserFriends } from "../../redux";
-import { InitialState, UpdatedUser } from "../../types";
+import { UpdatedUser } from "../../types";
 
 export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  const isEdited = useSelector((state: InitialState) => state.isEdited);
-  const user = useSelector((state: InitialState) => state.user);
-  const userFriends = useSelector((state: InitialState) => state.userFriends);
-  const friends = useSelector((state: InitialState) => state.user.friends);
-  const posts = useSelector((state: InitialState) => state.posts);
+  const { user, userFriends, posts, friends, isEdited } = GetStates();
+
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = window.location.pathname.includes("profile");
 
@@ -25,6 +21,10 @@ export const useConnect = (userId?: string) => {
       ...updatedUser,
       [e.currentTarget.name]: e.currentTarget.value,
     });
+  };
+
+  const changeIsEdited = () => {
+    dispatch(setIsEdited());
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,6 +45,7 @@ export const useConnect = (userId?: string) => {
 
     dispatch(setUser({ user: response }));
     dispatch(setIsEdited());
+    successToast();
   };
 
   useEffect(() => {
@@ -82,12 +83,12 @@ export const useConnect = (userId?: string) => {
     updatedUser,
     handleChange,
     handleSubmit,
-    dispatch,
     isEdited,
     isUser: userId === user._id,
     sanitizedUser,
     friendsNumber: !isProfile ? friends.length : userFriends.length,
     postNumber: !isProfile ? userPosts.length : posts.length,
     loading,
+    changeIsEdited,
   };
 };

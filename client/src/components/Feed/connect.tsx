@@ -1,13 +1,14 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { GetStates } from "../../functions";
 import { setPosts } from "../../redux";
-import { InitialState } from "../../types";
 
 export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
-  const posts = useSelector((state: InitialState) => state.posts);
-  const { _id } = useSelector((state: InitialState) => state.user);
-  const path = window.location.pathname;
+  const { posts, user } = GetStates();
+  const { _id } = user;
+
+  const path: string = window.location.pathname;
 
   useEffect(() => {
     const getUserPosts = async () => {

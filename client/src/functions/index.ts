@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { Ad, InitialState, UpdatedUser, User } from "../types";
 
 const ads: Ad[] = [
@@ -117,4 +118,27 @@ export const getFriendsListName = (
   if (friendsNumber && profileId !== userId) return "Friends list";
   else if (userId === profileId) return "Your Friends list";
   else return "No friends";
+};
+
+export const successToast = () => {
+  toast.success("Data updated succesfully", {
+    position: "bottom-right",
+    autoClose: 1000,
+    hideProgressBar: true,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  });
+};
+
+export const GetStates = () => {
+  const isEdited = useSelector((state: InitialState) => state.isEdited);
+  const user = useSelector((state: InitialState) => state.user);
+  const userFriends = useSelector((state: InitialState) => state.userFriends);
+  const friends = useSelector((state: InitialState) => state.user.friends);
+  const posts = useSelector((state: InitialState) => state.posts);
+
+  return { isEdited, user, userFriends, friends, posts };
 };

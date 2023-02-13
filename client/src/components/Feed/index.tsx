@@ -10,8 +10,6 @@ interface Props {
 export const Feed = ({ userId }: Props) => {
   const { posts, _id } = useConnect(userId);
 
-  console.log(posts);
-
   return (
     <FeedContainer hasPosts={posts.length ? true : false}>
       {posts.length ? (

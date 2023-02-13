@@ -1,13 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-import { InitialState } from "../../types";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFriends, setUserFriends } from "../../redux";
 import { useEffect } from "react";
+import { GetStates } from "../../functions";
 
 export const useConnect = (friendId?: string, userId?: string) => {
-  const { _id } = useSelector((state: InitialState) => state.user);
-  const friends = useSelector((state: InitialState) => state.user.friends);
-  const userFriends = useSelector((state: InitialState) => state.userFriends);
+  const { user, friends, userFriends } = GetStates();
+  const { _id } = user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const path: string = window.location.pathname;

@@ -2,21 +2,21 @@ import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { MdClose, MdModeEdit } from "react-icons/md";
 
 import { Card } from "./subcomponents/Card";
-import { setIsEdited } from "../../redux";
 import { useConnect } from "./connect";
 import { User } from "../../types";
 import { Form } from "./subcomponents/Form";
 import { ProfileContainer } from "../Styled/Containers/Profile";
 import { sanitizeText } from "../../functions";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
   user: User;
 }
 
 export const ProfileCard = ({ user }: Props) => {
-  const { isEdited, dispatch, isUser, friendsNumber, postNumber } = useConnect(
-    user._id
-  );
+  const { isEdited, changeIsEdited, isUser, friendsNumber, postNumber } =
+    useConnect(user._id);
 
   return (
     <ProfileContainer
@@ -38,13 +38,7 @@ export const ProfileCard = ({ user }: Props) => {
           </Flex>
         </Box>
         {isUser && (
-          <Box
-            onClick={() => {
-              dispatch(setIsEdited());
-            }}
-            ml="auto"
-            cursor="pointer"
-          >
+          <Box onClick={changeIsEdited} ml="auto" cursor="pointer">
             {isEdited ? (
               <MdClose className="icon" size="25" />
             ) : (
@@ -55,6 +49,7 @@ export const ProfileCard = ({ user }: Props) => {
       </Flex>
 
       {!isEdited ? <Card profileUser={user} /> : <Form />}
+      <ToastContainer />
     </ProfileContainer>
   );
 };
