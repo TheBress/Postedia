@@ -21,6 +21,15 @@ export const getUserPosts = async (req, res) => {
   }
 };
 
+export const getPost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findById(postId);
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
 export const likePost = async (req, res) => {
   try {
     const { id } = req.params;
@@ -105,7 +114,7 @@ export const deletePost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, isPost } = req.params;
     const { description } = req.body;
 
     await Post.findByIdAndUpdate(
@@ -114,7 +123,10 @@ export const updatePost = async (req, res) => {
       { new: true }
     );
 
-    const posts = await Post.find().sort({ createdAt: -1 });
+    const posts =
+      isPost === "false"
+        ? await Post.find().sort({ createdAt: -1 })
+        : await Post.findById(id);
 
     res.status(200).json(posts);
   } catch (error) {

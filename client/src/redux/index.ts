@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { emptyUser } from "../functions";
+import { emptyPost, emptyUser } from "../functions";
 import { InitialState } from "../types";
 
 const initialState: InitialState = {
@@ -8,6 +8,7 @@ const initialState: InitialState = {
   token: "",
   isEdited: false,
   userFriends: [],
+  post: emptyPost(),
 };
 
 export const authSlice = createSlice({
@@ -44,6 +45,9 @@ export const authSlice = createSlice({
     setIsEdited: (state) => {
       state.isEdited = !state.isEdited;
     },
+    setUniquePost: (state, action) => {
+      state.post = action.payload.post;
+    },
     setPost: (state, action) => {
       const updatedPosts = state.posts.map((post) => {
         if (post._id === action.payload.post._id) return action.payload.post;
@@ -63,5 +67,6 @@ export const {
   setLogout,
   setPost,
   setUserFriends,
+  setUniquePost,
 } = authSlice.actions;
 export default authSlice.reducer;

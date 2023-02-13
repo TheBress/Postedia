@@ -14,6 +14,7 @@ export const AdContainer = ({ children, url }: ChildrenProps) => {
       mt="3"
       m="10"
       p="5"
+      maxHeight="45vh"
       borderRadius="5px"
     >
       {children}

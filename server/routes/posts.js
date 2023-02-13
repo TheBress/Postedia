@@ -4,6 +4,7 @@ import {
   createPost,
   deletePost,
   getFeedPosts,
+  getPost,
   getUserPosts,
   likePost,
   updatePost,
@@ -13,10 +14,11 @@ const router = express.Router();
 
 router.get("/", getFeedPosts);
 router.get("/:userId", getUserPosts);
+router.get("/post/:postId", getPost);
 router.post("/", createPost);
 router.patch("/:id/like", likePost);
 router.patch("/:id/comment", addComment);
-router.patch("/:id/update", updatePost);
+router.patch("/:id/update/:isPost", updatePost);
 router.delete("/:id", deletePost);
 
 export default router;

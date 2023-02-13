@@ -11,13 +11,15 @@ interface Props {
 }
 
 export const PostActions = ({ postId, isUpdate, setisUpdate }: Props) => {
-  const { deletePost } = useConnect(postId);
+  const { deletePost, isPost } = useConnect(postId);
 
   return (
     <Flex ml="auto" gap="3">
-      <Box cursor="pointer" onClick={deletePost}>
-        <AiFillDelete className="icon" size="20" />
-      </Box>
+      {!isPost && (
+        <Box cursor="pointer" onClick={deletePost}>
+          <AiFillDelete className="icon" size="20" />
+        </Box>
+      )}
       <Box
         cursor="pointer"
         onClick={() => {

@@ -5,7 +5,7 @@ import { Ad as AdType } from "../types";
 import { AdContainer } from "./Styled/Containers/Ad";
 
 interface Props {
-  userId: string;
+  userId?: string;
 }
 
 export const Ad = ({ userId }: Props) => {

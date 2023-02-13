@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setPosts } from "../../../redux";
+import { getIsPost } from "../../../functions";
+import { setPosts, setUniquePost } from "../../../redux";
 import { UpdatePost } from "../../../types/props";
 
 export const useConnect = (
@@ -12,6 +13,7 @@ export const useConnect = (
     description: post,
   });
   const dispatch = useDispatch();
+  const isPost = getIsPost();
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setUpdatePost({
@@ -24,7 +26,7 @@ export const useConnect = (
     e.preventDefault();
 
     const posts = await fetch(
-      `${process.env.REACT_APP_API_URL}/posts/${id}/update`,
+      `${process.env.REACT_APP_API_URL}/posts/${id}/update/${isPost}`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -34,7 +36,10 @@ export const useConnect = (
       return res.json();
     });
 
-    if (posts) dispatch(setPosts({ posts }));
+    if (posts) {
+      if (!isPost) dispatch(setPosts({ posts }));
+      else dispatch(setUniquePost({ post: posts }));
+    }
     if (setIsUpdate) setIsUpdate(false);
   };
 

@@ -1,20 +1,27 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { formatDate } from "../../functions";
-import { setPost } from "../../redux";
+import { useNavigate } from "react-router-dom";
+import { formatDate, getIsPost } from "../../functions";
+import { setPost, setUniquePost } from "../../redux";
 import { InitialState, Post } from "../../types";
 
 export const useConnect = (post: Post) => {
   const [isComment, setisComment] = useState<boolean>(false);
   const [isUpdate, setisUpdate] = useState<boolean>(false);
+  const navigate = useNavigate();
   const fullName: string = `${post.firstName} ${post.lastName}`;
   const { _id } = useSelector((state: InitialState) => state.user);
   const dispatch = useDispatch();
+  const isPost = getIsPost();
 
   const likeCount: number = Object.keys(post.likes).length;
 
-  const changeIsComment = () => {
+  const changeIsComment = (): void => {
     setisComment(!isComment);
+  };
+
+  const goToPost = (): void => {
+    navigate(`/post/${post._id}`);
   };
 
   const isLiked = Object.keys(post.likes).some((value) => value === _id);
@@ -31,7 +38,8 @@ export const useConnect = (post: Post) => {
       }
     );
     const updatedPost = await response.json();
-    dispatch(setPost({ post: updatedPost }));
+    if (!isPost) dispatch(setPost({ post: updatedPost }));
+    else dispatch(setUniquePost({ post: updatedPost }));
   };
 
   return {
@@ -45,5 +53,6 @@ export const useConnect = (post: Post) => {
     updatedAt: formatDate(post.updatedAt),
     isUpdate,
     setisUpdate,
+    goToPost,
   };
 };

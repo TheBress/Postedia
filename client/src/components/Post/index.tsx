@@ -26,6 +26,7 @@ export const Post = ({ post, myKey, userId }: Props) => {
     updatedAt,
     isUpdate,
     setisUpdate,
+    goToPost,
   } = useConnect(post);
 
   return (
@@ -47,7 +48,9 @@ export const Post = ({ post, myKey, userId }: Props) => {
           setIsUpdate={setisUpdate}
         />
       ) : (
-        <Text mt="4">{post.description}</Text>
+        <Text cursor="pointer" onClick={goToPost} mt="4">
+          {post.description}
+        </Text>
       )}
 
       {post.picturePath && <Image src={post.picturePath} />}

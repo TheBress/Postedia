@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux";
+import { getIsPost } from "../../../../functions";
 import { setPosts } from "../../../../redux";
 
 export const useConnect = (postId?: string) => {
   const dispatch = useDispatch();
+  const isPost = getIsPost();
   const deletePost = async () => {
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/posts/${postId}`,
@@ -18,5 +20,5 @@ export const useConnect = (postId?: string) => {
     dispatch(setPosts({ posts: data }));
   };
 
-  return { deletePost };
+  return { deletePost, isPost };
 };

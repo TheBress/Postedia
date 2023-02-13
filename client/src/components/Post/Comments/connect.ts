@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setPost } from "../../../redux";
+import { getIsPost } from "../../../functions";
+import { setPost, setUniquePost } from "../../../redux";
 import { InitialState, UpdateComment } from "../../../types";
 
 export const useConnect = (postId?: string) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: InitialState) => state.user);
+  const isPost = getIsPost();
+
   const [comment, setComment] = useState<UpdateComment>({
     idUser: user._id,
     comment: "",
@@ -40,7 +43,10 @@ export const useConnect = (postId?: string) => {
 
     setComment({ ...comment, comment: "" });
 
-    if (updatedPost) dispatch(setPost({ post: updatedPost }));
+    if (updatedPost) {
+      if (!isPost) dispatch(setPost({ post: updatedPost }));
+      else dispatch(setUniquePost({ post: updatedPost }));
+    }
   };
 
   return { goToProfile, handleSubmit, handleChange, comment };

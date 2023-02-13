@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Ad, InitialState, UpdatedUser, User } from "../types";
+import { Ad, InitialState, Post, UpdatedUser, User } from "../types";
 
 const ads: Ad[] = [
   {
@@ -142,3 +142,22 @@ export const GetStates = () => {
 
   return { isEdited, user, userFriends, friends, posts };
 };
+
+export const emptyPost = (): Post => {
+  return {
+    _id: "",
+    userId: "",
+    firstName: "",
+    lastName: "",
+    location: "",
+    description: "",
+    picturePath: "",
+    userPicturePath: "",
+    likes: [],
+    updatedAt: "",
+    comments: [],
+    isEdited: false,
+  };
+};
+
+export const getIsPost = () => Boolean(window.location.href.includes("/post"));

@@ -4,6 +4,7 @@ export interface InitialState {
   token: string;
   isEdited: boolean;
   userFriends: Friend[];
+  post: Post;
 }
 
 export interface User {
