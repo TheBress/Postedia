@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get("/:id", getUserById);
 router.get("/friends/:id", getUserFriends);
-router.patch("/:id/:friendId/:profileId", addRemoveFriend);
+router.patch("/:id/:friendId", addRemoveFriend);
 router.patch("/update", updateProfile);
 router.patch("/views", viewsProfile);
 

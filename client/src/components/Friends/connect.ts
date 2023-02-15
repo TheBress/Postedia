@@ -14,9 +14,7 @@ export const useConnect = (friendId?: string, userId?: string) => {
 
   const isUser: boolean = friendId === _id;
 
-  const isFriend: boolean = Boolean(
-    friends.find((friend) => friend._id === friendId)
-  );
+  const isFriend: boolean = friends.some((friend) => friend._id === friendId);
 
   const goToFriend = (): void => {
     !isUser ? navigate(`/profile/${friendId}`) : navigate(`/`);
@@ -24,7 +22,7 @@ export const useConnect = (friendId?: string, userId?: string) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}/${userId}`,
+      `${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}`,
       {
         method: "PATCH",
         headers: {

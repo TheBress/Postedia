@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { GetStates, sanitizeUser, successToast } from "../../functions";
-import { setIsEdited, setUser, setUserFriends } from "../../redux";
+import { setFriends, setIsEdited, setUser, setUserFriends } from "../../redux";
 import { UpdatedUser } from "../../types";
 
 export const useConnect = (userId?: string) => {
@@ -49,7 +49,8 @@ export const useConnect = (userId?: string) => {
       return res.json();
     });
 
-    dispatch(setUser({ user: response }));
+    dispatch(setUser({ user: response.user }));
+    dispatch(setFriends({ friends: response.friends }));
     dispatch(setIsEdited());
     successToast();
   };
