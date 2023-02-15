@@ -50,6 +50,7 @@ export const addRemoveFriend = async (req, res) => {
     await friend.save();
 
     const chosenUser = friendId === profileId ? friend : profileUser;
+
     const friendsUser = await Promise.all(
       user.friends.map((id) => User.findById(id))
     );
@@ -89,13 +90,12 @@ export const updateProfile = async (req, res) => {
         occupation,
         twitterUrl,
         linkedinUrl,
-        friends: formattedFriends,
         isPublic,
       },
       { new: true }
     );
 
-    res.status(200).json(updatedUser);
+    res.status(200).json({ user: updatedUser, friends: formattedFriends });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
