@@ -22,7 +22,7 @@ export const useConnect = (friendId?: string, userId?: string) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}`,
+      `${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}/${userId}`,
       {
         method: "PATCH",
         headers: {
