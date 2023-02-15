@@ -5,7 +5,6 @@ import cors from "cors";
 import userRoutes from "./routes/users.js";
 import authRoutes from "./routes/auth.js";
 import postRoutes from "./routes/posts.js";
-import notificationRoutes from "./routes/notifications.js";
 import bodyParser from "body-parser";
 
 dotenv.config();
@@ -35,7 +34,6 @@ app.use(cors());
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/posts", postRoutes);
-app.use("/notifications", notificationRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server listen on port ${PORT}`);
