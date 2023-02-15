@@ -122,7 +122,7 @@ export const updatePost = async (req, res) => {
       { description, isEdited: true, lastUpdated: new Date() },
       { new: true }
     );
-
+    console.log("dasd");
     const posts =
       isPost === "false"
         ? await Post.find().sort({ createdAt: -1 })
