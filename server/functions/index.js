@@ -8,22 +8,6 @@ export const sanitizeFriends = (userFriends) => {
   return friends;
 };
 
-export const checkUserFriends = async (user, friend, friendId, id) => {
-  user.friends = user.friends.map((id) => id);
-  friend.friends = friend.friends.map((id) => id);
-
-  if (user.friends.includes(friendId)) {
-    user.friends = user.friends.filter((id) => id !== friendId);
-    friend.friends = friend.friends.filter((userId) => userId !== id);
-  } else {
-    user.friends.push(friendId);
-    friend.friends.push(id);
-  }
-
-  await user.save();
-  await friend.save();
-};
-
 export const randomImage = () => {
   const images = [
     "https://images.daznservices.com/di/library/DAZN_News/b4/f1/erling-haaland-manchester-city-premier-league_kfb9ryd3se7t18lahfw3o4zbb.jpg?t=-535409166",

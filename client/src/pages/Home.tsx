@@ -24,7 +24,7 @@ export const Home = () => {
         <ProfileCard user={user} />
         <Box>
           <NewPost />
-          <Feed />
+          <Feed showFeed />
         </Box>
         <Box>
           <Ad userId={user._id} />

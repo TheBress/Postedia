@@ -17,10 +17,16 @@ export const useConnect = (userId?: string) => {
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
-    setUpdatedUser({
-      ...updatedUser,
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
+    if (e.currentTarget.name !== "isPublic")
+      setUpdatedUser({
+        ...updatedUser,
+        [e.currentTarget.name]: e.currentTarget.value,
+      });
+    else
+      setUpdatedUser({
+        ...updatedUser,
+        [e.currentTarget.name]: !updatedUser.isPublic,
+      });
   };
 
   const changeIsEdited = () => {

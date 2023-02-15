@@ -42,6 +42,10 @@ const UserSchema = new mongoose.Schema(
     impressions: Number,
     twitterUrl: String,
     linkedinUrl: String,
+    isPublic: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

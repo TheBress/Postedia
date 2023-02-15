@@ -11,7 +11,7 @@ import { useConnect } from "./connect";
 export const Profile = () => {
   const { userId } = useParams();
 
-  const { user } = useConnect(userId);
+  const { user, isFriend } = useConnect(userId);
 
   if (!user) return null;
 
@@ -21,7 +21,7 @@ export const Profile = () => {
 
       <GeneralContainer>
         <ProfileCard user={user} />
-        <Feed userId={user._id} />
+        <Feed showFeed={user.isPublic || isFriend} userId={user._id} />
         <Box>
           <Ad userId={user._id} />
           <FriendsList userId={user._id} />

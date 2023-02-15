@@ -5,14 +5,15 @@ import { useConnect } from "./connect";
 
 interface Props {
   userId?: string;
+  showFeed: boolean;
 }
 
-export const Feed = ({ userId }: Props) => {
+export const Feed = ({ userId, showFeed }: Props) => {
   const { posts, _id } = useConnect(userId);
 
   return (
     <FeedContainer hasPosts={posts.length ? true : false}>
-      {posts.length ? (
+      {posts.length && showFeed ? (
         posts.map((post, index) => (
           <Post
             post={post}
@@ -21,10 +22,12 @@ export const Feed = ({ userId }: Props) => {
             userId={userId ? userId : _id}
           />
         ))
-      ) : (
+      ) : !posts.length ? (
         <Text fontWeight="600" fontSize="1.2rem">
           No posts
         </Text>
+      ) : (
+        <Text>Private profile</Text>
       )}
     </FeedContainer>
   );

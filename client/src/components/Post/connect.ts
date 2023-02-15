@@ -50,7 +50,9 @@ export const useConnect = (post: Post) => {
     _id,
     isComment,
     changeIsComment,
-    updatedAt: formatDate(post.updatedAt),
+    updatedAt: !post.isEdited
+      ? formatDate(post.createdAt)
+      : formatDate(post.lastUpdated),
     isUpdate,
     setisUpdate,
     goToPost,

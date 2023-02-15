@@ -21,6 +21,7 @@ export interface User {
   impressions: number;
   twitterUrl: string;
   linkedinUrl: string;
+  isPublic: boolean;
 }
 
 export interface Post {
@@ -33,9 +34,10 @@ export interface Post {
   picturePath: string;
   userPicturePath: string;
   likes: boolean[];
-  updatedAt: string;
+  createdAt: string;
   comments: Comment[];
   isEdited: boolean;
+  lastUpdated: string;
 }
 
 export interface Comment {
@@ -69,6 +71,7 @@ export interface UpdatedUser {
   viewedProfile: number;
   impressions: number;
   _id: any;
+  isPublic: boolean;
 }
 
 export interface Friend {

@@ -1,4 +1,4 @@
-import { checkUserFriends, sanitizeFriends } from "../functions/index.js";
+import { sanitizeFriends } from "../functions/index.js";
 import User from "../models/User.js";
 
 export const getUserById = async (req, res) => {
@@ -38,10 +38,18 @@ export const addRemoveFriend = async (req, res) => {
     const friend = await User.findById(friendId);
     const profileUser = await User.findById(profileId);
 
-    checkUserFriends(user, friend, friendId, id);
+    if (user.friends.includes(friendId)) {
+      user.friends = user.friends.filter((id) => id !== friendId);
+      friend.friends = friend.friends.filter((userId) => userId !== id);
+    } else {
+      user.friends.push(friendId);
+      friend.friends.push(id);
+    }
+
+    await user.save();
+    await friend.save();
 
     const chosenUser = friendId === profileId ? friend : profileUser;
-
     const friendsUser = await Promise.all(
       user.friends.map((id) => User.findById(id))
     );
@@ -63,7 +71,8 @@ export const addRemoveFriend = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { location, occupation, twitterUrl, linkedinUrl, _id } = req.body;
+    const { location, occupation, twitterUrl, linkedinUrl, _id, isPublic } =
+      req.body;
 
     const user = await User.findById(_id);
 
@@ -81,6 +90,7 @@ export const updateProfile = async (req, res) => {
         twitterUrl,
         linkedinUrl,
         friends: formattedFriends,
+        isPublic,
       },
       { new: true }
     );

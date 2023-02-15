@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Switch, Text } from "@chakra-ui/react";
 import { MdLocationPin, MdWork } from "react-icons/md";
 import { BsTwitter, BsLinkedin } from "react-icons/bs";
 import { useConnect } from "../connect";
@@ -10,6 +10,15 @@ export const Form = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Box p="3" borderBottom="1px solid black">
+        <Flex alignItems="center" mb="3" gap="3">
+          <Text>{updatedUser.isPublic ? "Public" : "Private"} profile</Text>
+          <Switch
+            isChecked={updatedUser.isPublic}
+            name="isPublic"
+            onChange={handleChange}
+          />
+        </Flex>
+
         <Flex gap="20px" mb="1" alignItems="center">
           <MdLocationPin size="25" />
           <UserInput

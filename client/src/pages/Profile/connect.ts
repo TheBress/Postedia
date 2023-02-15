@@ -6,6 +6,9 @@ export const useConnect = (userId: string | undefined) => {
   const [user, setUser] = useState<User>();
   const path = window.location.pathname;
   const { _id } = useSelector((state: InitialState) => state.user);
+  const friends = useSelector((state: InitialState) => state.user.friends);
+
+  const isFriend = friends.some((friend) => friend._id === _id);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/users/views`, {
@@ -17,5 +20,5 @@ export const useConnect = (userId: string | undefined) => {
       .then((data) => setUser(data));
   }, [userId, path, _id]);
 
-  return { user };
+  return { user, isFriend };
 };

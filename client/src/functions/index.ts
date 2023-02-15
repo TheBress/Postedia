@@ -40,6 +40,7 @@ export const sanitizeUser = (user: User): UpdatedUser => {
     viewedProfile: user.viewedProfile.length,
     impressions: user.impressions,
     _id: user._id,
+    isPublic: user.isPublic,
   };
 
   return updatedUser;
@@ -60,6 +61,7 @@ export const emptyUser = (): User => {
     impressions: 0,
     twitterUrl: "",
     linkedinUrl: "",
+    isPublic: true,
   };
 
   return user;
@@ -107,7 +109,7 @@ export const getMaxHeight = (
   if (!isEdited && hasTwitter && hasLinkedin) return "52vh";
   if (!isEdited && (hasTwitter || hasLinkedin)) return "47vh";
   if (!isEdited && !hasTwitter && !hasLinkedin) return "38vh";
-  if (isEdited) return "68vh";
+  if (isEdited) return "73vh";
 };
 
 export const getFriendsListName = (
@@ -154,9 +156,10 @@ export const emptyPost = (): Post => {
     picturePath: "",
     userPicturePath: "",
     likes: [],
-    updatedAt: "",
+    createdAt: "",
     comments: [],
     isEdited: false,
+    lastUpdated: "",
   };
 };
 

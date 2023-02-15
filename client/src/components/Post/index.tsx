@@ -36,6 +36,7 @@ export const Post = ({ post, myKey, userId }: Props) => {
         userId={userId}
         name={fullName}
         friendID={post.userId}
+        postId={post._id}
         userPicturePath={post.userPicturePath}
         subtitle={post.location}
         setisUpdate={setisUpdate}

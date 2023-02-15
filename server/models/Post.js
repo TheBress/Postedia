@@ -27,6 +27,7 @@ const PostSchema = new mongoose.Schema(
       default: [],
     },
     isEdited: Boolean,
+    lastUpdated: Date,
   },
   { timestamps: true }
 );

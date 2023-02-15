@@ -36,6 +36,7 @@ export const ProfileCard = ({ user }: Props) => {
             </Text>
             <Text fontSize="0.9rem">{sanitizeText(postNumber, "post")}</Text>
           </Flex>
+          <Text fontSize="0.9rem">{user.isPublic ? "Public" : "Private"}</Text>
         </Box>
         {isUser && (
           <Box onClick={changeIsEdited} ml="auto" cursor="pointer">
