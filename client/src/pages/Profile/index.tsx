@@ -13,6 +13,8 @@ export const Profile = () => {
 
   const { user, isFriend } = useConnect(userId);
 
+  console.log(user?.isPublic, isFriend);
+
   if (!user) return null;
 
   return (
