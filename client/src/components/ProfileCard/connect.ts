@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { GetStates, sanitizeUser, successToast } from "../../functions";
 import { setFriends, setIsEdited, setUser, setUserFriends } from "../../redux";
-import { UpdatedUser } from "../../types";
+import { UpdatedUser, User } from "../../types";
 
-export const useConnect = (userId?: string) => {
+export const useConnect = (profileUser?: User) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const { user, userFriends, posts, friends, isEdited } = GetStates();
 
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = window.location.pathname.includes("profile");
+
+  const isFriendOrPublic: boolean | undefined =
+    friends.some((friend) => friend._id === profileUser?._id) ||
+    profileUser?.isPublic;
 
   const userPosts = posts.filter((post) => post.userId === user._id);
 
@@ -58,7 +62,7 @@ export const useConnect = (userId?: string) => {
   useEffect(() => {
     const getFriends = async () => {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/users/friends/${userId}`,
+        `${process.env.REACT_APP_API_URL}/users/friends/${profileUser?._id}`,
         {
           method: "GET",
         }
@@ -70,10 +74,13 @@ export const useConnect = (userId?: string) => {
     };
 
     const getUserPosts = async () => {
-      await fetch(`${process.env.REACT_APP_API_URL}/posts/${userId}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      })
+      await fetch(
+        `${process.env.REACT_APP_API_URL}/posts/${profileUser?._id}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      )
         .then((res) => {
           return res.json();
         })
@@ -82,20 +89,21 @@ export const useConnect = (userId?: string) => {
         });
     };
 
-    if (userId) getFriends();
+    if (profileUser?._id) getFriends();
     if (!isProfile) getUserPosts();
-  }, [userId, isProfile, dispatch]);
+  }, [profileUser?._id, isProfile, dispatch]);
 
   return {
     updatedUser,
     handleChange,
     handleSubmit,
     isEdited,
-    isUser: userId === user._id,
+    isUser: profileUser?._id === user._id,
     sanitizedUser,
     friendsNumber: !isProfile ? friends.length : userFriends.length,
     postNumber: !isProfile ? userPosts.length : posts.length,
     loading,
     changeIsEdited,
+    isFriendOrPublic,
   };
 };

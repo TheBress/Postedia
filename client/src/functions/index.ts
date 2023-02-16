@@ -118,7 +118,7 @@ export const getFriendsListName = (
   userId: string
 ) => {
   if (friendsNumber && profileId !== userId) return "Friends list";
-  else if (userId === profileId) return "Your Friends list";
+  else if (userId === profileId && friendsNumber) return "Your Friends list";
   else return "No friends";
 };
 
