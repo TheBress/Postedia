@@ -24,7 +24,10 @@ export const Profile = () => {
         <Feed showFeed={user.isPublic || isFriend} userId={user._id} />
         <Box>
           <Ad userId={user._id} />
-          <FriendsList userId={user._id} />
+          <FriendsList
+            showFriendsList={user.isPublic || isFriend}
+            userId={user._id}
+          />
         </Box>
       </GeneralContainer>
     </>

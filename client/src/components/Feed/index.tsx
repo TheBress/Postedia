@@ -1,6 +1,7 @@
 import { Text } from "@chakra-ui/react";
 import { Post } from "../Post";
 import { FeedContainer } from "../Styled/Containers/Feed";
+import { PrivateProfileText } from "../Styled/Texts/PrivateProfile";
 import { useConnect } from "./connect";
 
 interface Props {
@@ -12,7 +13,7 @@ export const Feed = ({ userId, showFeed }: Props) => {
   const { posts, _id } = useConnect(userId);
 
   return (
-    <FeedContainer hasPosts={posts.length ? true : false}>
+    <FeedContainer hasPosts={posts.length && showFeed ? true : false}>
       {posts.length && showFeed ? (
         posts.map((post, index) => (
           <Post
@@ -27,7 +28,7 @@ export const Feed = ({ userId, showFeed }: Props) => {
           No posts
         </Text>
       ) : (
-        <Text>Private profile</Text>
+        <PrivateProfileText />
       )}
     </FeedContainer>
   );

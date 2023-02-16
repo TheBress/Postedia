@@ -28,7 +28,7 @@ export const Home = () => {
         </Box>
         <Box>
           <Ad userId={user._id} />
-          <FriendsList userId={user._id} />
+          <FriendsList showFriendsList userId={user._id} />
         </Box>
       </GeneralContainer>
     </>
