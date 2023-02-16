@@ -122,8 +122,8 @@ export const getFriendsListName = (
   else return "No friends";
 };
 
-export const successToast = () => {
-  toast.success("Data updated succesfully", {
+export const successToast = (text: string) => {
+  toast.success(text, {
     position: "bottom-right",
     autoClose: 1000,
     hideProgressBar: true,
