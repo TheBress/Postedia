@@ -60,7 +60,7 @@ export const ProfileCard = ({ user }: Props) => {
           </Box>
         )}
 
-        {!isFriendOrPublic && (
+        {!isFriendOrPublic && !isUser && (
           <Box
             ml="auto"
             cursor="pointer"

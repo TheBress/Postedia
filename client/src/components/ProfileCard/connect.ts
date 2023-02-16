@@ -56,7 +56,7 @@ export const useConnect = (profileUser?: User) => {
     dispatch(setUser({ user: response.user }));
     dispatch(setFriends({ friends: response.friends }));
     dispatch(setIsEdited());
-    successToast();
+    successToast("Data updated succesfully");
   };
 
   useEffect(() => {

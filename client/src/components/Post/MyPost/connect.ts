@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { successToast } from "../../../functions";
 import { setPosts } from "../../../redux";
 import { InitialState, Post } from "../../../types";
 
@@ -45,6 +46,8 @@ export const useConnect = () => {
     setPost({ ...post, description: "" });
 
     if (posts) dispatch(setPosts({ posts }));
+
+    successToast("Post upload succesfully");
   };
 
   return { post, handleChange, handleSubmit, picturePath };
