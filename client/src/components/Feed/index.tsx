@@ -25,7 +25,7 @@ export const Feed = ({ userId, showFeed }: Props) => {
         ))
       ) : !posts.length ? (
         <Text fontWeight="600" fontSize="1.2rem">
-          No posts
+          No posts yet
         </Text>
       ) : (
         <PrivateProfileText />

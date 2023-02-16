@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { getIsPost } from "../../../../functions";
+import { getIsPost, successToast } from "../../../../functions";
 import { setPosts } from "../../../../redux";
 
 export const useConnect = (postId?: string) => {
@@ -18,6 +18,7 @@ export const useConnect = (postId?: string) => {
     const data = await response.json();
 
     dispatch(setPosts({ posts: data }));
+    successToast("Post deleted succesfully");
   };
 
   return { deletePost, isPost };
