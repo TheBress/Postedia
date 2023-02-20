@@ -5,6 +5,23 @@ export interface InitialState {
   isEdited: boolean;
   userFriends: Friend[];
   post: Post;
+  requests: Request[];
+  notifications: Notification[];
+}
+
+export interface Notification {
+  userId: String;
+  message: String;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface Request {
+  userSendId: string;
+  userReceivedId: string;
+  message: string;
+  isAccepted: boolean;
+  createdAt: string;
 }
 
 export interface User {

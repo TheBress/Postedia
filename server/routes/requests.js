@@ -3,12 +3,12 @@ import {
   acceptRejectRequest,
   getUserReceivedRequest,
   getUserSendRequest,
-} from "../controllers/requests";
+} from "../controllers/requests.js";
 
 const router = express.Router();
 
-router.get("/:userId", getUserReceivedRequest);
-router.get("/:userId", getUserSendRequest);
+router.get("/received/:userId", getUserReceivedRequest);
+router.get("/send/:userId", getUserSendRequest);
 router.patch("/:id", acceptRejectRequest);
 
 export default router;

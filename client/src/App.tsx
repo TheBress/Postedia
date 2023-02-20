@@ -3,6 +3,7 @@ import { IsAuth } from "./functions";
 import { NotFoundPage } from "./pages/404";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
+import { Notifications } from "./pages/Notifications";
 import { PostPage } from "./pages/Post";
 import { Profile } from "./pages/Profile";
 import { Register } from "./pages/Register";
@@ -26,6 +27,10 @@ function App() {
         <Route
           path="/post/:postId"
           element={isAuth ? <PostPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/notifications"
+          element={isAuth ? <Notifications /> : <Navigate to="/login" />}
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

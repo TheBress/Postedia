@@ -141,8 +141,20 @@ export const GetStates = () => {
   const userFriends = useSelector((state: InitialState) => state.userFriends);
   const friends = useSelector((state: InitialState) => state.user.friends);
   const posts = useSelector((state: InitialState) => state.posts);
+  const notifications = useSelector(
+    (state: InitialState) => state.notifications
+  );
+  const requests = useSelector((state: InitialState) => state.requests);
 
-  return { isEdited, user, userFriends, friends, posts };
+  return {
+    isEdited,
+    user,
+    userFriends,
+    friends,
+    posts,
+    notifications,
+    requests,
+  };
 };
 
 export const emptyPost = (): Post => {
