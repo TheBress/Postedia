@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFriends, setUserFriends } from "../../redux";
 import { useEffect } from "react";
-import { GetStates } from "../../functions";
+import { GetStates, successToast } from "../../functions";
 
 export const useConnect = (friendId?: string, userId?: string) => {
   const { user, friends, userFriends } = GetStates();
@@ -34,6 +34,10 @@ export const useConnect = (friendId?: string, userId?: string) => {
 
     dispatch(setFriends({ friends: data.user }));
     dispatch(setUserFriends({ friends: data.friend }));
+
+    if (data.action === "ADD") successToast("You have a new friend!");
+    if (data.action === "REMOVE") successToast("Friend removed successfully");
+    else successToast("Request sent succesfully");
   };
 
   useEffect(() => {

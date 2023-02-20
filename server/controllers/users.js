@@ -1,4 +1,5 @@
 import { sanitizeFriends } from "../functions/index.js";
+import Request from "../models/Request.js";
 import User from "../models/User.js";
 
 export const getUserById = async (req, res) => {
@@ -37,13 +38,28 @@ export const addRemoveFriend = async (req, res) => {
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
     const profileUser = await User.findById(profileId);
+    let action = "";
 
-    if (user.friends.includes(friendId)) {
-      user.friends = user.friends.filter((id) => id !== friendId);
-      friend.friends = friend.friends.filter((userId) => userId !== id);
+    if (friend.isPublic || user.friends.includes(friendId)) {
+      if (user.friends.includes(friendId)) {
+        user.friends = user.friends.filter((id) => id !== friendId);
+        friend.friends = friend.friends.filter((userId) => userId !== id);
+        action = "REMOVE";
+      } else {
+        user.friends.push(friendId);
+        friend.friends.push(id);
+        action = "ADD";
+      }
     } else {
-      user.friends.push(friendId);
-      friend.friends.push(id);
+      const request = new Request({
+        userSendId: user._id,
+        userReceivedId: friend._id,
+        message: `${user.firstName} ${user.lastName} wants to be your friend`,
+      });
+
+      request.save();
+
+      action = "REQUEST";
     }
 
     await user.save();
@@ -62,9 +78,11 @@ export const addRemoveFriend = async (req, res) => {
     const formattedUserFriends = sanitizeFriends(friendsUser);
     const formattedFriendFriends = sanitizeFriends(friendsFriend);
 
-    res
-      .status(200)
-      .json({ user: formattedUserFriends, friend: formattedFriendFriends });
+    res.status(200).json({
+      user: formattedUserFriends,
+      friend: formattedFriendFriends,
+      action,
+    });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

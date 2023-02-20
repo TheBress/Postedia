@@ -15,12 +15,11 @@ export const getUserNotifications = async (req, res) => {
 };
 export const createNotification = async (req, res) => {
   try {
-    const { userId, message, type } = req.body;
+    const { userId, message } = req.body;
 
     new Notification({
       userId,
       message,
-      type,
     });
 
     const userNotifications = await Notification.find({ userId }).sort({
