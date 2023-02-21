@@ -9,6 +9,7 @@ const RequestSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    userImage: String,
   },
   { timestamps: true }
 );

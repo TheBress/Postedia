@@ -144,7 +144,10 @@ export const GetStates = () => {
   const notifications = useSelector(
     (state: InitialState) => state.notifications
   );
-  const requests = useSelector((state: InitialState) => state.requests);
+  const requestsReceived = useSelector(
+    (state: InitialState) => state.requestsReceived
+  );
+  const requestsSent = useSelector((state: InitialState) => state.requestsSent);
 
   return {
     isEdited,
@@ -153,7 +156,8 @@ export const GetStates = () => {
     friends,
     posts,
     notifications,
-    requests,
+    requestsReceived,
+    requestsSent,
   };
 };
 

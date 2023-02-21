@@ -49,9 +49,9 @@ export const Navbar = () => {
             >
               <MdNotifications size="25" />
 
-              {totalNotifications && (
+              {totalNotifications ? (
                 <NotificationsText totalNotifications={totalNotifications} />
-              )}
+              ) : null}
             </Flex>
 
             <Button

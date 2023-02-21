@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setFriends, setUserFriends } from "../../redux";
+import { setFriends, setUserFriends, setUserRequestsSent } from "../../redux";
 import { useEffect } from "react";
 import { GetStates, successToast } from "../../functions";
 
 export const useConnect = (friendId?: string, userId?: string) => {
-  const { user, friends, userFriends } = GetStates();
+  const { user, friends, userFriends, requestsSent } = GetStates();
   const { _id } = user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,6 +15,10 @@ export const useConnect = (friendId?: string, userId?: string) => {
   const isUser: boolean = friendId === _id;
 
   const isFriend: boolean = friends.some((friend) => friend._id === friendId);
+
+  const isRequest: boolean = requestsSent.some(
+    (request) => request.userReceivedId === friendId
+  );
 
   const goToFriend = (): void => {
     !isUser ? navigate(`/profile/${friendId}`) : navigate(`/`);
@@ -34,10 +38,11 @@ export const useConnect = (friendId?: string, userId?: string) => {
 
     dispatch(setFriends({ friends: data.user }));
     dispatch(setUserFriends({ friends: data.friend }));
+    dispatch(setUserRequestsSent({ requests: data.requests }));
 
     if (data.action === "ADD") successToast("You have a new friend!");
     if (data.action === "REMOVE") successToast("Friend removed successfully");
-    else successToast("Request sent succesfully");
+    if (data.action === "REQUEST") successToast("Request sent succesfully");
   };
 
   useEffect(() => {
@@ -65,5 +70,6 @@ export const useConnect = (friendId?: string, userId?: string) => {
     friends: isProfile ? userFriends : friends,
     _id,
     isProfile,
+    isRequest,
   };
 };

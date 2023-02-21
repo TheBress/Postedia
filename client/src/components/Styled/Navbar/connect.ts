@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { GetStates } from "../../../functions";
-import { setUserNotifications, setUserRequests } from "../../../redux";
+import {
+  setUserNotifications,
+  setUserRequestsReceived,
+  setUserRequestsSent,
+} from "../../../redux";
 
 export const useConnect = () => {
-  const { user, requests, notifications } = GetStates();
+  const { user, requestsReceived, notifications } = GetStates();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getUserRequests = async () => {
+    const getUserRequestsReceived = async () => {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/requests/received/${user?._id}`,
         {
@@ -17,7 +21,19 @@ export const useConnect = () => {
       );
       const data = await response.json();
 
-      dispatch(setUserRequests({ requests: data }));
+      dispatch(setUserRequestsReceived({ requests: data }));
+    };
+
+    const getUserRequestsSent = async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/requests/send/${user?._id}`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json();
+
+      dispatch(setUserRequestsSent({ requests: data }));
     };
 
     const getUserNotifications = async () => {
@@ -33,12 +49,13 @@ export const useConnect = () => {
     };
 
     getUserNotifications();
-    getUserRequests();
+    getUserRequestsReceived();
+    getUserRequestsSent();
   }, [dispatch, user._id]);
 
   return {
-    requests,
+    requestsReceived,
     notifications,
-    totalNotifications: requests.length + notifications.length,
+    totalNotifications: requestsReceived.length + notifications.length,
   };
 };

@@ -55,6 +55,7 @@ export const addRemoveFriend = async (req, res) => {
         userSendId: user._id,
         userReceivedId: friend._id,
         message: `${user.firstName} ${user.lastName} wants to be your friend`,
+        userImage: user.picturePath,
       });
 
       request.save();
@@ -64,6 +65,8 @@ export const addRemoveFriend = async (req, res) => {
 
     await user.save();
     await friend.save();
+
+    const requests = await Request.find({ userSendId: user._id });
 
     const chosenUser = friendId === profileId ? friend : profileUser;
 
@@ -82,6 +85,7 @@ export const addRemoveFriend = async (req, res) => {
       user: formattedUserFriends,
       friend: formattedFriendFriends,
       action,
+      requests,
     });
   } catch (error) {
     res.status(404).json({ message: error.message });

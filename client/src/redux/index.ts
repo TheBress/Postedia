@@ -9,7 +9,8 @@ const initialState: InitialState = {
   isEdited: false,
   userFriends: [],
   post: emptyPost(),
-  requests: [],
+  requestsReceived: [],
+  requestsSent: [],
   notifications: [],
 };
 
@@ -58,8 +59,11 @@ export const authSlice = createSlice({
       });
       state.posts = updatedPosts;
     },
-    setUserRequests: (state, action) => {
-      state.requests = action.payload.requests;
+    setUserRequestsReceived: (state, action) => {
+      state.requestsReceived = action.payload.requests;
+    },
+    setUserRequestsSent: (state, action) => {
+      state.requestsSent = action.payload.requests;
     },
     setUserNotifications: (state, action) => {
       state.notifications = action.payload.notifications;
@@ -77,7 +81,8 @@ export const {
   setPost,
   setUserFriends,
   setUniquePost,
-  setUserRequests,
+  setUserRequestsReceived,
   setUserNotifications,
+  setUserRequestsSent,
 } = authSlice.actions;
 export default authSlice.reducer;

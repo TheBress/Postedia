@@ -1,8 +1,9 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { Ad } from "../../components/Ad";
 import { Post } from "../../components/Post";
 import { GeneralContainer } from "../../components/Styled/Containers/General";
+import { PageContainer } from "../../components/Styled/Containers/Page";
 import { Navbar } from "../../components/Styled/Navbar";
 import { NotFoundPage } from "../404";
 import { useConnect } from "./connect";
@@ -21,17 +22,7 @@ export const PostPage = () => {
       <Navbar />
 
       <GeneralContainer>
-        <Box
-          maxHeight="10vh"
-          background="white.200"
-          m="10"
-          p="5"
-          borderRadius="5px"
-        >
-          <Text fontWeight="600" fontSize="1.5rem">
-            Post
-          </Text>
-        </Box>
+        <PageContainer text="Post" />
 
         <Box background="white.200" m="10" p="5" borderRadius="5px">
           <Post post={post} myKey={parseInt(post._id)} />

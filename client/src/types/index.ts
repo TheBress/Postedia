@@ -5,7 +5,8 @@ export interface InitialState {
   isEdited: boolean;
   userFriends: Friend[];
   post: Post;
-  requests: Request[];
+  requestsReceived: Request[];
+  requestsSent: Request[];
   notifications: Notification[];
 }
 
@@ -17,7 +18,9 @@ export interface Notification {
 }
 
 export interface Request {
+  _id: string;
   userSendId: string;
+  userImage: string;
   userReceivedId: string;
   message: string;
   isAccepted: boolean;

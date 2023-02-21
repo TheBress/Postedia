@@ -75,3 +75,19 @@ export const acceptRejectRequest = async (req, res) => {
     res.status(404).json({ msg: error.message });
   }
 };
+
+export const deleteRequest = async (req, res) => {
+  try {
+    const { id, userId } = req.params;
+
+    await Request.findByIdAndDelete(id);
+
+    const userRequests = await Request.find({ userSendId: userId }).sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json(userRequests);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
