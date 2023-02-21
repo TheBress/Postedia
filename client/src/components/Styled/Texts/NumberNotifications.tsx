@@ -6,7 +6,7 @@ interface Props {
 
 export const NotificationsText = ({ totalNotifications }: Props) => {
   return (
-    <Text position="absolute" top="3.8%" right="7.4%" fontWeight="600">
+    <Text position="relative" right="1px" top="10px" fontWeight="600">
       {totalNotifications}
     </Text>
   );

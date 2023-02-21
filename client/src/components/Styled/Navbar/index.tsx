@@ -38,7 +38,7 @@ export const Navbar = () => {
             ></HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Box
+            <Flex
               mr="25px"
               _hover={{ background: "transparent", color: "white" }}
               transition=".3s"
@@ -52,7 +52,7 @@ export const Navbar = () => {
               {totalNotifications && (
                 <NotificationsText totalNotifications={totalNotifications} />
               )}
-            </Box>
+            </Flex>
 
             <Button
               transition=".3s"
