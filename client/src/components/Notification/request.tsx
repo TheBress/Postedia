@@ -8,10 +8,7 @@ interface Props {
 }
 
 export const Request = ({ request }: Props) => {
-  const { deleteNotification } = useConnect(
-    request._id,
-    request.userReceivedId
-  );
+  const { deleteRequest, goProfile, acceptRequest } = useConnect(request);
 
   return (
     <Flex
@@ -22,13 +19,13 @@ export const Request = ({ request }: Props) => {
       gap="2"
       alignItems="center"
     >
-      <Avatar src={request.userImage} />
+      <Avatar cursor="pointer" onClick={goProfile} src={request.userImage} />
 
       <Box>
         <Text mb="1">{request.message}</Text>
         <Flex gap="2">
-          <RequestButton text="Accept" isAccept />
-          <RequestButton handleClick={deleteNotification} text="Delete" />
+          <RequestButton handleClick={acceptRequest} text="Accept" isAccept />
+          <RequestButton handleClick={deleteRequest} text="Delete" />
         </Flex>
       </Box>
     </Flex>

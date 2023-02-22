@@ -1,15 +1,16 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { MdClose, MdModeEdit } from "react-icons/md";
+import { MdClose, MdModeEdit, MdPending } from "react-icons/md";
 
 import { Card } from "./subcomponents/Card";
-import { useConnect } from "./connect";
+import { useConnect as profileUseconnect } from "./connect";
 import { User } from "../../types";
 import { Form } from "./subcomponents/Form";
 import { ProfileContainer } from "../Styled/Containers/Profile";
-import { sanitizeText } from "../../functions";
+import { sanitizeText, successToast } from "../../functions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiUserFollowFill } from "react-icons/ri";
+import { useConnect } from "../Friends/connect";
 
 interface Props {
   user: User;
@@ -23,7 +24,11 @@ export const ProfileCard = ({ user }: Props) => {
     friendsNumber,
     postNumber,
     isFriendOrPublic,
-  } = useConnect(user);
+    isRequest,
+    actualUser,
+  } = profileUseconnect(user);
+
+  const { patchFriend } = useConnect(user._id, actualUser._id);
 
   return (
     <ProfileContainer
@@ -60,17 +65,27 @@ export const ProfileCard = ({ user }: Props) => {
           </Box>
         )}
 
-        {!isFriendOrPublic && !isUser && (
-          <Box
-            ml="auto"
-            cursor="pointer"
-            _hover={{ color: "blue.100" }}
-            transition=".3s"
-            height="25px"
-          >
+        <Box
+          ml="auto"
+          display={(isFriendOrPublic || isUser) && !isRequest ? "none" : ""}
+          cursor="pointer"
+          _hover={{ color: "blue.100" }}
+          transition=".3s"
+          height="25px"
+          onClick={
+            !isRequest
+              ? patchFriend
+              : () => {
+                  successToast("You already sent the request!");
+                }
+          }
+        >
+          {(!isFriendOrPublic || !isUser) && !isRequest ? (
             <RiUserFollowFill size="22" />
-          </Box>
-        )}
+          ) : (
+            <MdPending size="22" />
+          )}
+        </Box>
       </Flex>
 
       {!isEdited ? <Card profileUser={user} /> : <Form />}

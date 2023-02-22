@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
-import { GetStates, sanitizeUser, successToast } from "../../functions";
+import {
+  getIsRequest,
+  GetStates,
+  sanitizeUser,
+  successToast,
+} from "../../functions";
 import { setFriends, setIsEdited, setUser, setUserFriends } from "../../redux";
 import { UpdatedUser, User } from "../../types";
 
@@ -105,5 +110,7 @@ export const useConnect = (profileUser?: User) => {
     loading,
     changeIsEdited,
     isFriendOrPublic,
+    isRequest: getIsRequest(profileUser?._id),
+    actualUser: user,
   };
 };

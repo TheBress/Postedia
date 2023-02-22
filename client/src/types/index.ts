@@ -11,6 +11,7 @@ export interface InitialState {
 }
 
 export interface Notification {
+  _id: string;
   userId: String;
   message: String;
   isRead: boolean;

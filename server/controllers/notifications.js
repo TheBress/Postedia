@@ -48,11 +48,13 @@ export const markAsRead = async (req, res) => {
 };
 export const deleteNotification = async (req, res) => {
   try {
-    const { id, userId } = req.params;
+    const { id } = req.params;
 
-    await Notification.findByIdAndDelete(id);
+    const notification = await Notification.findByIdAndDelete(id);
 
-    const userNotifications = await Notification.find({ userId }).sort({
+    const userNotifications = await Notification.find({
+      userId: notification.userId,
+    }).sort({
       createdAt: -1,
     });
 

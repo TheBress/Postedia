@@ -180,3 +180,14 @@ export const emptyPost = (): Post => {
 };
 
 export const getIsPost = () => Boolean(window.location.href.includes("/post"));
+
+export const getIsRequest = (friendId?: string) => {
+  const { requestsSent } = GetStates();
+  return requestsSent.some((request) => request.userReceivedId === friendId);
+};
+
+export const getToast = (action: string) => {
+  if (action === "ADD") successToast("You have a new friend!");
+  if (action === "REMOVE") successToast("Friend removed successfully");
+  if (action === "REQUEST") successToast("Request sent succesfully");
+};

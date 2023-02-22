@@ -20,7 +20,7 @@ export const Notifications = () => {
         <Box background="white.200" m="10" p="5" borderRadius="5px">
           <Box>
             <NotificationRequestText
-              text="Notification"
+              text="Notifications"
               number={notifications.length}
             />
 
@@ -33,7 +33,7 @@ export const Notifications = () => {
 
           <Box pt="5">
             <NotificationRequestText
-              text="Request"
+              text="Requests"
               number={requestsReceived.length}
             />
 

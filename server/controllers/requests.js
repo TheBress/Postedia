@@ -1,6 +1,7 @@
-import Notification from "../models/Notification.js";
 import Request from "../models/Request.js";
 import User from "../models/User.js";
+import Notification from "../models/Notification.js";
+import { sanitizeFriends } from "../functions/index.js";
 
 export const getUserReceivedRequest = async (req, res) => {
   try {
@@ -33,26 +34,23 @@ export const getUserSendRequest = async (req, res) => {
 export const acceptRejectRequest = async (req, res) => {
   try {
     const { id } = req.params;
-    const { action } = req.body;
 
     const request = await Request.findById(id);
     const userSend = await User.findById(request.userSendId);
     const userReceived = await User.findById(request.userReceivedId);
 
-    if (action) {
-      userSend.friends = userSend.friends.push(userReceived._id);
-      userReceived.friends = userReceived.friends.push(userSend._id);
+    userSend.friends.push(userReceived.id);
+    userReceived.friends.push(userSend.id);
 
-      await userSend.save();
-      await userReceived.save();
+    await userSend.save();
+    await userReceived.save();
 
-      const notification = new Notification({
-        userId: userSend._id,
-        message: `${userReceived.firstName} ${userReceived.lastName} have accepted your friend request`,
-      });
+    const notification = new Notification({
+      userId: userSend._id,
+      message: `${userReceived.firstName} ${userReceived.lastName} have accepted your friend request`,
+    });
 
-      await notification.save();
-    }
+    await notification.save();
 
     await request.delete();
 

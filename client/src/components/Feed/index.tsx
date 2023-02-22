@@ -23,7 +23,7 @@ export const Feed = ({ userId, showFeed }: Props) => {
             userId={userId ? userId : _id}
           />
         ))
-      ) : !posts.length ? (
+      ) : !posts.length && showFeed ? (
         <Text fontWeight="600" fontSize="1.2rem">
           No posts yet
         </Text>
