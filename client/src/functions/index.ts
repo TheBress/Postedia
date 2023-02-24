@@ -191,3 +191,13 @@ export const getToast = (action: string) => {
   if (action === "REMOVE") successToast("Friend removed successfully");
   if (action === "REQUEST") successToast("Request sent succesfully");
 };
+
+export const getFeedHeight = (
+  postsNumber: number | undefined,
+  showFeed?: boolean
+) => {
+  if (postsNumber === 0 && showFeed) return "9vh";
+  if (!showFeed) return "12vh";
+  if (postsNumber && postsNumber * 32 < 57.7) return `${postsNumber * 32}vh`;
+  return "57.5vh";
+};

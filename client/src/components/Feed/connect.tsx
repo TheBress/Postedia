@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { GetStates } from "../../functions";
 import { setPosts } from "../../redux";
@@ -6,6 +6,7 @@ import { setPosts } from "../../redux";
 export const useConnect = (userId?: string) => {
   const dispatch = useDispatch();
   const { posts, user } = GetStates();
+  const [isLoading, setisLoading] = useState<boolean>(false);
   const { _id } = user;
 
   const path: string = window.location.pathname;
@@ -18,9 +19,13 @@ export const useConnect = (userId?: string) => {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         }
-      ).then((res) => {
-        return res.json();
-      });
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .finally(() => {
+          setisLoading(true);
+        });
 
       if (posts) dispatch(setPosts({ posts }));
     };
@@ -29,9 +34,13 @@ export const useConnect = (userId?: string) => {
       const posts = await fetch(`${process.env.REACT_APP_API_URL}/posts`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      }).then((res) => {
-        return res.json();
-      });
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .finally(() => {
+          setisLoading(true);
+        });
 
       if (posts) dispatch(setPosts({ posts }));
     };
@@ -39,5 +48,5 @@ export const useConnect = (userId?: string) => {
     !userId ? getPosts() : getUserPosts();
   }, [path, userId, dispatch]);
 
-  return { posts, _id };
+  return { posts, _id, isLoading };
 };

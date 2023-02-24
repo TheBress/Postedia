@@ -15,7 +15,7 @@ export interface ChildrenProps {
   children: JSX.Element[] | JSX.Element;
   isEdited?: boolean;
   url?: string;
-  hasPosts?: boolean;
+  height?: string;
   hasLinkedin?: boolean;
   hasTwitter?: boolean;
   onClickAction?: () => void;

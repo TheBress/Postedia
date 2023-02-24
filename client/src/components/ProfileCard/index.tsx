@@ -26,9 +26,12 @@ export const ProfileCard = ({ user }: Props) => {
     isFriendOrPublic,
     isRequest,
     actualUser,
+    loading,
   } = profileUseconnect(user);
 
   const { patchFriend } = useConnect(user._id, actualUser._id);
+
+  if (!loading) return null;
 
   return (
     <ProfileContainer
@@ -48,7 +51,11 @@ export const ProfileCard = ({ user }: Props) => {
             </Text>
             <Text fontSize="0.9rem">{sanitizeText(postNumber, "post")}</Text>
           </Flex>
-          <Text fontSize="0.9rem">{user.isPublic ? "Public" : "Private"}</Text>
+          {isUser && (
+            <Text fontSize="0.9rem">
+              {user.isPublic ? "Public" : "Private"}
+            </Text>
+          )}
         </Box>
         {isUser && (
           <Box

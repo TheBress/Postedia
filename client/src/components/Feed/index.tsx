@@ -1,4 +1,5 @@
 import { Text } from "@chakra-ui/react";
+import { getFeedHeight } from "../../functions";
 import { Post } from "../Post";
 import { FeedContainer } from "../Styled/Containers/Feed";
 import { PrivateProfileText } from "../Styled/Texts/PrivateProfile";
@@ -10,10 +11,12 @@ interface Props {
 }
 
 export const Feed = ({ userId, showFeed }: Props) => {
-  const { posts, _id } = useConnect(userId);
+  const { posts, _id, isLoading } = useConnect(userId);
+
+  if (!isLoading) return null;
 
   return (
-    <FeedContainer hasPosts={posts.length && showFeed ? true : false}>
+    <FeedContainer height={getFeedHeight(posts.length, showFeed)}>
       {posts.length && showFeed ? (
         posts.map((post, index) => (
           <Post
