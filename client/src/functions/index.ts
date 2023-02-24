@@ -201,3 +201,11 @@ export const getFeedHeight = (
   if (postsNumber && postsNumber * 32 < 57.7) return `${postsNumber * 32}vh`;
   return "57.5vh";
 };
+
+export const getIsFriendOrPublic = (profileUser?: User) => {
+  const { friends } = GetStates();
+  return (
+    friends.some((friend) => friend._id === profileUser?._id) ||
+    profileUser?.isPublic
+  );
+};

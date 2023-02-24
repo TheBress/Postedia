@@ -1,6 +1,7 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { AiFillDelete } from "react-icons/ai";
 import { Notification as NotificationType } from "../../types";
+import { NotificationContainer } from "../Styled/Containers/Notification";
 import { useConnect } from "./connect";
 
 interface Props {
@@ -14,26 +15,15 @@ export const Notification = ({ notification }: Props) => {
   );
 
   return (
-    <Flex
-      onMouseOver={() => {
-        setisEnter(true);
-      }}
-      onMouseOut={() => {
-        setisEnter(false);
-      }}
-      alignItems="center"
-      bg="white"
-      mt="2"
-      p="3"
-      borderRadius="5px"
-      gap="12px"
-    >
+    <NotificationContainer setIsEnter={setisEnter}>
       <Text cursor="pointer">{notification.message}</Text>
-      {isEnter && (
-        <Box cursor="pointer" onClick={deleteNotification}>
-          <AiFillDelete className="icon" size="20" />
-        </Box>
-      )}
-    </Flex>
+      <>
+        {isEnter && (
+          <Box cursor="pointer" onClick={deleteNotification}>
+            <AiFillDelete className="icon" size="20" />
+          </Box>
+        )}
+      </>
+    </NotificationContainer>
   );
 };

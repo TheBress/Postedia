@@ -1,7 +1,6 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { MdPending } from "react-icons/md";
 import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
-import { successToast } from "../../functions";
 import { FriendProps } from "../../types/props";
 import { useConnect } from "./connect";
 import { PostActions } from "./subcomponents/postActions";
@@ -18,7 +17,7 @@ export const Friend = ({
   setisUpdate,
   isUpdate,
 }: FriendProps) => {
-  const { isFriend, patchFriend, isUser, goToFriend, isProfile, isRequest } =
+  const { isFriend, isUser, goToFriend, isProfile, isRequest, sendRequest } =
     useConnect(friendID, userId);
 
   return (
@@ -39,13 +38,7 @@ export const Friend = ({
 
       {!isUser ? (
         <Box
-          onClick={
-            !isRequest
-              ? patchFriend
-              : () => {
-                  successToast("You already sent the request!");
-                }
-          }
+          onClick={sendRequest}
           ml="auto"
           cursor="pointer"
           _hover={{ color: "blue.100" }}

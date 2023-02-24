@@ -1,6 +1,7 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { Request as RequestType } from "../../types";
 import { RequestButton } from "../Styled/Buttons/Request";
+import { RequestContainer } from "../Styled/Containers/Request";
 import { useConnect } from "./connect";
 
 interface Props {
@@ -11,14 +12,7 @@ export const Request = ({ request }: Props) => {
   const { deleteRequest, goProfile, acceptRequest } = useConnect(request);
 
   return (
-    <Flex
-      mt="2"
-      bg="white"
-      p="3"
-      borderRadius="5px"
-      gap="2"
-      alignItems="center"
-    >
+    <RequestContainer>
       <Avatar cursor="pointer" onClick={goProfile} src={request.userImage} />
 
       <Box>
@@ -28,6 +22,6 @@ export const Request = ({ request }: Props) => {
           <RequestButton handleClick={deleteRequest} text="Delete" />
         </Flex>
       </Box>
-    </Flex>
+    </RequestContainer>
   );
 };

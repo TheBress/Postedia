@@ -2,7 +2,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFriends, setUserFriends, setUserRequestsSent } from "../../redux";
 import { useEffect } from "react";
-import { getIsRequest, GetStates, getToast } from "../../functions";
+import {
+  getIsRequest,
+  GetStates,
+  getToast,
+  successToast,
+} from "../../functions";
 
 export const useConnect = (friendId?: string, userId?: string) => {
   const { user, friends, userFriends } = GetStates();
@@ -65,5 +70,10 @@ export const useConnect = (friendId?: string, userId?: string) => {
     _id,
     isProfile,
     isRequest: getIsRequest(friendId),
+    sendRequest: !getIsRequest(friendId)
+      ? patchFriend
+      : () => {
+          successToast("You already sent the request!");
+        },
   };
 };

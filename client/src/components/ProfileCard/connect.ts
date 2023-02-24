@@ -1,27 +1,44 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import {
+  getIsFriendOrPublic,
   getIsRequest,
   GetStates,
+  sanitizeText,
   sanitizeUser,
   successToast,
 } from "../../functions";
 import { setFriends, setIsEdited, setUser, setUserFriends } from "../../redux";
-import { UpdatedUser, User } from "../../types";
+import { UpdatedUser, User, UserInfo } from "../../types";
+import { useConnect as useFriendsConnect } from "../Friends/connect";
 
 export const useConnect = (profileUser?: User) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const { user, userFriends, posts, friends, isEdited } = GetStates();
+  const { patchFriend } = useFriendsConnect(profileUser?._id, user._id);
 
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = window.location.pathname.includes("profile");
 
   const isFriendOrPublic: boolean | undefined =
-    friends.some((friend) => friend._id === profileUser?._id) ||
-    profileUser?.isPublic;
+    getIsFriendOrPublic(profileUser);
 
   const userPosts = posts.filter((post) => post.userId === user._id);
+
+  const userInfo: UserInfo = {
+    isFriendOrPublic,
+    friendsNumber: sanitizeText(
+      !isProfile ? friends.length : userFriends.length,
+      "friends"
+    ),
+    postNumber: sanitizeText(
+      !isProfile ? userPosts.length : userFriends.length,
+      "post"
+    ),
+    isUser: profileUser?._id === user._id,
+    isRequest: getIsRequest(profileUser?._id),
+  };
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
 
@@ -103,14 +120,14 @@ export const useConnect = (profileUser?: User) => {
     handleChange,
     handleSubmit,
     isEdited,
-    isUser: profileUser?._id === user._id,
-    sanitizedUser,
-    friendsNumber: !isProfile ? friends.length : userFriends.length,
-    postNumber: !isProfile ? userPosts.length : posts.length,
     loading,
     changeIsEdited,
     isFriendOrPublic,
-    isRequest: getIsRequest(profileUser?._id),
-    actualUser: user,
+    userInfo,
+    addFriend: !getIsRequest(profileUser?._id)
+      ? patchFriend
+      : () => {
+          successToast("You already sent the request!");
+        },
   };
 };

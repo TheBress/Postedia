@@ -2,34 +2,22 @@ import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { MdClose, MdModeEdit, MdPending } from "react-icons/md";
 
 import { Card } from "./subcomponents/Card";
-import { useConnect as profileUseconnect } from "./connect";
+import { useConnect } from "./connect";
 import { User } from "../../types";
 import { Form } from "./subcomponents/Form";
 import { ProfileContainer } from "../Styled/Containers/Profile";
-import { sanitizeText, successToast } from "../../functions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiUserFollowFill } from "react-icons/ri";
-import { useConnect } from "../Friends/connect";
+import { FollowProfileContainer } from "../Styled/Containers/FollowProfile";
 
 interface Props {
   user: User;
 }
 
 export const ProfileCard = ({ user }: Props) => {
-  const {
-    isEdited,
-    changeIsEdited,
-    isUser,
-    friendsNumber,
-    postNumber,
-    isFriendOrPublic,
-    isRequest,
-    actualUser,
-    loading,
-  } = profileUseconnect(user);
-
-  const { patchFriend } = useConnect(user._id, actualUser._id);
+  const { isEdited, changeIsEdited, userInfo, loading, addFriend } =
+    useConnect(user);
 
   if (!loading) return null;
 
@@ -46,18 +34,16 @@ export const ProfileCard = ({ user }: Props) => {
             {user.firstName} {user.lastName}
           </Text>
           <Flex gap="5px">
-            <Text fontSize="0.9rem">
-              {sanitizeText(friendsNumber, "friend")}
-            </Text>
-            <Text fontSize="0.9rem">{sanitizeText(postNumber, "post")}</Text>
+            <Text fontSize="0.9rem">{userInfo.friendsNumber}</Text>
+            <Text fontSize="0.9rem">{userInfo.postNumber}</Text>
           </Flex>
-          {isUser && (
+          {userInfo.isUser && (
             <Text fontSize="0.9rem">
               {user.isPublic ? "Public" : "Private"}
             </Text>
           )}
         </Box>
-        {isUser && (
+        {userInfo.isUser && (
           <Box
             onClick={changeIsEdited}
             ml="auto"
@@ -72,27 +58,14 @@ export const ProfileCard = ({ user }: Props) => {
           </Box>
         )}
 
-        <Box
-          ml="auto"
-          display={(isFriendOrPublic || isUser) && !isRequest ? "none" : ""}
-          cursor="pointer"
-          _hover={{ color: "blue.100" }}
-          transition=".3s"
-          height="25px"
-          onClick={
-            !isRequest
-              ? patchFriend
-              : () => {
-                  successToast("You already sent the request!");
-                }
-          }
-        >
-          {(!isFriendOrPublic || !isUser) && !isRequest ? (
+        <FollowProfileContainer userInfo={userInfo} addFriend={addFriend}>
+          {(!userInfo.isFriendOrPublic || !userInfo.isUser) &&
+          !userInfo.isRequest ? (
             <RiUserFollowFill size="22" />
           ) : (
             <MdPending size="22" />
           )}
-        </Box>
+        </FollowProfileContainer>
       </Flex>
 
       {!isEdited ? <Card profileUser={user} /> : <Form />}

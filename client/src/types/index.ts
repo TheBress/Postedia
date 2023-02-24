@@ -18,6 +18,24 @@ export interface Notification {
   createdAt: string;
 }
 
+export interface UserInfo {
+  isFriendOrPublic?: boolean;
+  isUser: boolean;
+  isRequest: boolean;
+  friendsNumber: string;
+  postNumber: string;
+}
+
+export interface PostInfo {
+  likeCount: number;
+  isUpdate: boolean;
+  isLiked: boolean;
+  fullName: string;
+  updatedAt: string;
+  _id: string;
+  isComment: boolean;
+}
+
 export interface Request {
   _id: string;
   userSendId: string;

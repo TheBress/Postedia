@@ -1,3 +1,5 @@
+import { UserInfo } from ".";
+
 export interface FriendProps {
   friendID: string;
   name: string;
@@ -19,6 +21,9 @@ export interface ChildrenProps {
   hasLinkedin?: boolean;
   hasTwitter?: boolean;
   onClickAction?: () => void;
+  addFriend?: () => void;
+  setIsEnter?: (value: boolean) => void;
+  userInfo?: UserInfo;
 }
 
 export interface InputProps {
