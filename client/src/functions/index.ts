@@ -106,7 +106,7 @@ export const getMaxHeight = (
   hasTwitter?: boolean,
   hasLinkedin?: boolean
 ) => {
-  if (!isEdited && hasTwitter && hasLinkedin) return "52vh";
+  if (!isEdited && hasTwitter && hasLinkedin) return "54vh";
   if (!isEdited && (hasTwitter || hasLinkedin)) return "47vh";
   if (!isEdited && !hasTwitter && !hasLinkedin) return "38vh";
   if (isEdited) return "73vh";
@@ -138,9 +138,12 @@ export const successToast = (text: string) => {
 export const GetStates = () => {
   const isEdited = useSelector((state: InitialState) => state.isEdited);
   const user = useSelector((state: InitialState) => state.user);
-  const userFriends = useSelector((state: InitialState) => state.userFriends);
+  const userFriends = useSelector(
+    (state: InitialState) => state.profileUser.friends
+  );
   const friends = useSelector((state: InitialState) => state.user.friends);
   const posts = useSelector((state: InitialState) => state.posts);
+  const post = useSelector((state: InitialState) => state.post);
   const notifications = useSelector(
     (state: InitialState) => state.notifications
   );
@@ -148,6 +151,7 @@ export const GetStates = () => {
     (state: InitialState) => state.requestsReceived
   );
   const requestsSent = useSelector((state: InitialState) => state.requestsSent);
+  const profileUser = useSelector((state: InitialState) => state.profileUser);
 
   return {
     isEdited,
@@ -157,7 +161,9 @@ export const GetStates = () => {
     posts,
     notifications,
     requestsReceived,
+    post,
     requestsSent,
+    profileUser,
   };
 };
 
@@ -198,7 +204,7 @@ export const getFeedHeight = (
 ) => {
   if (postsNumber === 0 && showFeed) return "9vh";
   if (!showFeed) return "12vh";
-  if (postsNumber && postsNumber * 32 < 57.7) return `${postsNumber * 32}vh`;
+  if (postsNumber && postsNumber * 32 < 57.7) return `${postsNumber * 36}vh`;
   return "57.5vh";
 };
 
@@ -208,4 +214,8 @@ export const getIsFriendOrPublic = (profileUser?: User) => {
     friends.some((friend) => friend._id === profileUser?._id) ||
     profileUser?.isPublic
   );
+};
+
+export const getIsProfile = () => {
+  return window.location.pathname.includes("/profile");
 };

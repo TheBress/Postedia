@@ -1,27 +1,22 @@
 import { Box } from "@chakra-ui/react";
-import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Ad } from "../components/Ad";
 import { FriendsList } from "../components/Friends/subcomponents/FriendsList";
 import { Feed } from "../components/Feed";
 import { Navbar } from "../components/Styled/Navbar";
 import { ProfileCard } from "../components/ProfileCard";
-import { InitialState } from "../types";
 import { GeneralContainer } from "../components/Styled/Containers/General";
 import { NewPost } from "../components/Post/MyPost";
-import { useConnect } from "../components/ProfileCard/connect";
+import { GetStates } from "../functions";
 
 export const Home = () => {
-  const user = useSelector((state: InitialState) => state.user);
-  const { loading } = useConnect();
-
-  if (!loading) return null;
+  const { user } = GetStates();
 
   return (
     <>
       <Navbar />
 
       <GeneralContainer>
-        <ProfileCard user={user} />
+        <ProfileCard />
         <Box>
           <NewPost />
           <Feed showFeed />

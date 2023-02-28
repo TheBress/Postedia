@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { setFriends, setUserFriends, setUserRequestsSent } from "../../redux";
 import { useEffect } from "react";
 import {
+  getIsProfile,
   getIsRequest,
   GetStates,
   getToast,
@@ -14,8 +15,7 @@ export const useConnect = (friendId?: string, userId?: string) => {
   const { _id } = user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const path: string = window.location.pathname;
-  const isProfile = path.includes("profile");
+  const isProfile = getIsProfile();
 
   const isUser: boolean = friendId === _id;
 
@@ -54,12 +54,13 @@ export const useConnect = (friendId?: string, userId?: string) => {
       );
       const data = await response.json();
 
-      if (!isProfile) dispatch(setFriends({ friends: data }));
-      else dispatch(setUserFriends({ friends: data }));
+      !isProfile
+        ? dispatch(setFriends({ friends: data }))
+        : dispatch(setUserFriends({ friends: data }));
     };
 
-    if (userId) getFriends();
-  }, [userId, isProfile, dispatch]);
+    getFriends();
+  }, [dispatch, isProfile, userId]);
 
   return {
     isFriend,

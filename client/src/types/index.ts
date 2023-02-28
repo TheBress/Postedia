@@ -1,9 +1,9 @@
 export interface InitialState {
   user: User;
+  profileUser: User;
   posts: Post[];
   token: string;
   isEdited: boolean;
-  userFriends: Friend[];
   post: Post;
   requestsReceived: Request[];
   requestsSent: Request[];

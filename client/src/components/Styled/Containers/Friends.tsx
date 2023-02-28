@@ -9,7 +9,7 @@ export const FriendsContainer = ({ children }: ChildrenProps) => {
       m="10"
       p="5"
       borderRadius="5px"
-      maxHeight="34vh"
+      maxHeight="34.8vh"
       overflow="auto"
     >
       {children}

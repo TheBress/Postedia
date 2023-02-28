@@ -4,6 +4,16 @@
   padding: 0;
 }
 
+body {
+  overflow: hidden;
+}
+
+@media (max-width: 764px) {
+  body {
+    overflow: auto;
+  }
+}
+
 .register {
   display: flex;
   justify-content: center;

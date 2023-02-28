@@ -3,29 +3,20 @@ import { MdClose, MdModeEdit, MdPending } from "react-icons/md";
 
 import { Card } from "./subcomponents/Card";
 import { useConnect } from "./connect";
-import { User } from "../../types";
 import { Form } from "./subcomponents/Form";
 import { ProfileContainer } from "../Styled/Containers/Profile";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { RiUserFollowFill } from "react-icons/ri";
 import { FollowProfileContainer } from "../Styled/Containers/FollowProfile";
+import { ToastContainer } from "../Styled/Containers/Toast";
 
-interface Props {
-  user: User;
-}
-
-export const ProfileCard = ({ user }: Props) => {
-  const { isEdited, changeIsEdited, userInfo, loading, addFriend } =
-    useConnect(user);
-
-  if (!loading) return null;
+export const ProfileCard = () => {
+  const { isEdited, changeIsEdited, userInfo, addFriend, user } = useConnect();
 
   return (
     <ProfileContainer
       isEdited={isEdited}
-      hasLinkedin={user.linkedinUrl ? true : false}
-      hasTwitter={user.twitterUrl ? true : false}
+      hasLinkedin={Boolean(user.linkedinUrl)}
+      hasTwitter={Boolean(user.twitterUrl)}
     >
       <Flex gap="20px" borderBottom="1px solid black" p="3">
         <Avatar size="lg" src={user.picturePath} />

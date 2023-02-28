@@ -11,16 +11,16 @@ import { useConnect } from "./connect";
 export const Profile = () => {
   const { userId } = useParams();
 
-  const { user, isShow, loading } = useConnect(userId);
+  const { user, isShow } = useConnect(userId);
 
-  if (!user || !loading) return null;
+  if (!user) return null;
 
   return (
     <>
       <Navbar />
 
       <GeneralContainer>
-        <ProfileCard user={user} />
+        <ProfileCard />
         <Feed showFeed={isShow} userId={user._id} />
         <Box>
           <Ad userId={user._id} />

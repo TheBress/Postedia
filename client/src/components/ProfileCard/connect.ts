@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import {
   getIsFriendOrPublic,
+  getIsProfile,
   getIsRequest,
   GetStates,
   sanitizeText,
@@ -9,17 +10,17 @@ import {
   successToast,
 } from "../../functions";
 import { setFriends, setIsEdited, setUser, setUserFriends } from "../../redux";
-import { UpdatedUser, User, UserInfo } from "../../types";
+import { UpdatedUser, UserInfo } from "../../types";
 import { useConnect as useFriendsConnect } from "../Friends/connect";
 
-export const useConnect = (profileUser?: User) => {
+export const useConnect = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState<boolean>(false);
-  const { user, userFriends, posts, friends, isEdited } = GetStates();
-  const { patchFriend } = useFriendsConnect(profileUser?._id, user._id);
+  const { user, userFriends, posts, friends, isEdited, profileUser } =
+    GetStates();
+  const { patchFriend } = useFriendsConnect(profileUser._id, user._id);
 
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
-  const isProfile = window.location.pathname.includes("profile");
+  const isProfile = getIsProfile();
 
   const isFriendOrPublic: boolean | undefined =
     getIsFriendOrPublic(profileUser);
@@ -30,14 +31,14 @@ export const useConnect = (profileUser?: User) => {
     isFriendOrPublic,
     friendsNumber: sanitizeText(
       !isProfile ? friends.length : userFriends.length,
-      "friends"
+      "friend"
     ),
     postNumber: sanitizeText(
       !isProfile ? userPosts.length : userFriends.length,
       "post"
     ),
-    isUser: profileUser?._id === user._id,
-    isRequest: getIsRequest(profileUser?._id),
+    isUser: isProfile ? profileUser._id === user._id : true,
+    isRequest: isProfile ? getIsRequest(profileUser._id) : false,
   };
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
@@ -89,9 +90,7 @@ export const useConnect = (profileUser?: User) => {
           method: "GET",
         }
       );
-      const data = await response.json().finally(() => {
-        setLoading(true);
-      });
+      const data = await response.json();
       dispatch(setUserFriends({ friends: data }));
     };
 
@@ -102,13 +101,9 @@ export const useConnect = (profileUser?: User) => {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         }
-      )
-        .then((res) => {
-          return res.json();
-        })
-        .finally(() => {
-          setLoading(true);
-        });
+      ).then((res) => {
+        return res.json();
+      });
     };
 
     if (profileUser?._id) getFriends();
@@ -120,10 +115,9 @@ export const useConnect = (profileUser?: User) => {
     handleChange,
     handleSubmit,
     isEdited,
-    loading,
     changeIsEdited,
-    isFriendOrPublic,
     userInfo,
+    user: !isProfile ? user : profileUser,
     addFriend: !getIsRequest(profileUser?._id)
       ? patchFriend
       : () => {

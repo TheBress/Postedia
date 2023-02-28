@@ -11,9 +11,14 @@ interface Props {
 }
 
 export const Feed = ({ userId, showFeed }: Props) => {
-  const { posts, _id, isLoading } = useConnect(userId);
+  const { posts, _id } = useConnect(userId);
 
-  if (!isLoading) return null;
+  if (!showFeed)
+    return (
+      <FeedContainer height={getFeedHeight(posts.length, showFeed)}>
+        <PrivateProfileText />
+      </FeedContainer>
+    );
 
   return (
     <FeedContainer height={getFeedHeight(posts.length, showFeed)}>
@@ -26,12 +31,10 @@ export const Feed = ({ userId, showFeed }: Props) => {
             userId={userId ? userId : _id}
           />
         ))
-      ) : !posts.length && showFeed ? (
+      ) : (
         <Text fontWeight="600" fontSize="1.2rem">
           No posts yet
         </Text>
-      ) : (
-        <PrivateProfileText />
       )}
     </FeedContainer>
   );

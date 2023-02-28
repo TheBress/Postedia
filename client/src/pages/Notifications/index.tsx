@@ -4,12 +4,13 @@ import { Notification } from "../../components/Notification";
 import { Request } from "../../components/Notification/request";
 import { GeneralContainer } from "../../components/Styled/Containers/General";
 import { PageContainer } from "../../components/Styled/Containers/Page";
+import { ToastContainer } from "../../components/Styled/Containers/Toast";
 import { Navbar } from "../../components/Styled/Navbar";
 import { NotificationRequestText } from "../../components/Styled/Texts/NotificationRequest";
 import { useConnect } from "./connect";
 
 export const Notifications = () => {
-  const { notifications, requestsReceived } = useConnect();
+  const { notifications, requestsReceived, id } = useConnect();
 
   return (
     <>
@@ -43,7 +44,8 @@ export const Notifications = () => {
           </Box>
         </Box>
 
-        <Ad />
+        <Ad userId={id} />
+        <ToastContainer />
       </GeneralContainer>
     </>
   );
