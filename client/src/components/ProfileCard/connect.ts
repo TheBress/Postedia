@@ -10,14 +10,13 @@ import {
   successToast,
 } from "../../functions";
 import { setFriends, setIsEdited, setUser, setUserFriends } from "../../redux";
-import { UpdatedUser, UserInfo } from "../../types";
+import { UpdatedUser, User, UserInfo } from "../../types";
 import { useConnect as useFriendsConnect } from "../Friends/connect";
 
-export const useConnect = () => {
+export const useConnect = (profileUser?: User) => {
   const dispatch = useDispatch();
-  const { user, userFriends, posts, friends, isEdited, profileUser } =
-    GetStates();
-  const { patchFriend } = useFriendsConnect(profileUser._id, user._id);
+  const { user, userFriends, posts, friends, isEdited } = GetStates();
+  const { patchFriend } = useFriendsConnect(profileUser?._id, user._id);
 
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = getIsProfile();
@@ -34,11 +33,11 @@ export const useConnect = () => {
       "friend"
     ),
     postNumber: sanitizeText(
-      !isProfile ? userPosts.length : userFriends.length,
+      !isProfile ? userPosts.length : posts.length,
       "post"
     ),
-    isUser: isProfile ? profileUser._id === user._id : true,
-    isRequest: isProfile ? getIsRequest(profileUser._id) : false,
+    isUser: isProfile ? profileUser?._id === user._id : true,
+    isRequest: isProfile ? getIsRequest(profileUser?._id) : false,
   };
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
@@ -95,7 +94,7 @@ export const useConnect = () => {
     };
 
     getFriends();
-  }, [profileUser?._id, isProfile, dispatch]);
+  }, [dispatch, profileUser?._id]);
 
   return {
     updatedUser,

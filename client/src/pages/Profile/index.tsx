@@ -1,5 +1,4 @@
 import { Box } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
 import { Ad } from "../../components/Ad";
 import { Feed } from "../../components/Feed";
 import { FriendsList } from "../../components/Friends/subcomponents/FriendsList";
@@ -9,9 +8,7 @@ import { GeneralContainer } from "../../components/Styled/Containers/General";
 import { useConnect } from "./connect";
 
 export const Profile = () => {
-  const { userId } = useParams();
-
-  const { user, isShow } = useConnect(userId);
+  const { user, isShow } = useConnect();
 
   if (!user) return null;
 
@@ -20,11 +17,11 @@ export const Profile = () => {
       <Navbar />
 
       <GeneralContainer>
-        <ProfileCard />
+        <ProfileCard user={user} />
         <Feed showFeed={isShow} userId={user._id} />
         <Box>
           <Ad userId={user._id} />
-          <FriendsList showFriendsList={isShow} userId={user._id} />
+          {isShow && <FriendsList userId={user._id} />}
         </Box>
       </GeneralContainer>
     </>

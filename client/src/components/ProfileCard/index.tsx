@@ -8,9 +8,16 @@ import { ProfileContainer } from "../Styled/Containers/Profile";
 import { RiUserFollowFill } from "react-icons/ri";
 import { FollowProfileContainer } from "../Styled/Containers/FollowProfile";
 import { ToastContainer } from "../Styled/Containers/Toast";
+import { User } from "../../types";
 
-export const ProfileCard = () => {
-  const { isEdited, changeIsEdited, userInfo, addFriend, user } = useConnect();
+interface Props {
+  user: User;
+}
+
+export const ProfileCard = ({ user }: Props) => {
+  const { isEdited, changeIsEdited, userInfo, addFriend } = useConnect(user);
+
+  if (!user) return null;
 
   return (
     <ProfileContainer

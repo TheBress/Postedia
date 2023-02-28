@@ -4,7 +4,6 @@ import { InitialState } from "../types";
 
 const initialState: InitialState = {
   user: emptyUser(),
-  profileUser: emptyUser(),
   posts: [],
   token: "",
   isEdited: false,
@@ -12,6 +11,7 @@ const initialState: InitialState = {
   requestsReceived: [],
   requestsSent: [],
   notifications: [],
+  userFriends: [],
 };
 
 export const authSlice = createSlice({
@@ -21,9 +21,7 @@ export const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload.user;
     },
-    setProfileUser: (state, action) => {
-      state.profileUser = action.payload.user;
-    },
+
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
@@ -39,8 +37,8 @@ export const authSlice = createSlice({
       }
     },
     setUserFriends: (state, action) => {
-      if (state.profileUser) {
-        state.profileUser.friends = action.payload.friends;
+      if (state.user) {
+        state.userFriends = action.payload.friends;
       } else {
         console.error("user friends non-existent :(");
       }
@@ -87,6 +85,5 @@ export const {
   setUserRequestsReceived,
   setUserNotifications,
   setUserRequestsSent,
-  setProfileUser,
 } = authSlice.actions;
 export default authSlice.reducer;

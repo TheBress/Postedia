@@ -51,6 +51,10 @@ export const addRemoveFriend = async (req, res) => {
         friend.friends.push(id);
         action = "ADD";
       }
+      await Request.findOneAndDelete({
+        userReceivedId: user._id,
+        userSendId: friend._id,
+      });
     } else {
       const request = new Request({
         userSendId: user._id,
@@ -93,7 +97,7 @@ export const addRemoveFriend = async (req, res) => {
     const formattedUserFriends = sanitizeFriends(friendsUser);
     const formattedFriendFriends = sanitizeFriends(friendsFriend);
 
-    const requests = await Request.find({ userSendId: user._id });
+    const requests = await Request.find({ userReceivedId: user._id });
 
     res.status(200).json({
       user: formattedUserFriends,

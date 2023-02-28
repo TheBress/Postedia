@@ -16,14 +16,14 @@ export const Home = () => {
       <Navbar />
 
       <GeneralContainer>
-        <ProfileCard />
+        <ProfileCard user={user} />
         <Box>
           <NewPost />
           <Feed showFeed />
         </Box>
         <Box>
           <Ad userId={user._id} />
-          <FriendsList showFriendsList userId={user._id} />
+          <FriendsList userId={user._id} />
         </Box>
       </GeneralContainer>
     </>

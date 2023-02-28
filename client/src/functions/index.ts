@@ -138,9 +138,7 @@ export const successToast = (text: string) => {
 export const GetStates = () => {
   const isEdited = useSelector((state: InitialState) => state.isEdited);
   const user = useSelector((state: InitialState) => state.user);
-  const userFriends = useSelector(
-    (state: InitialState) => state.profileUser.friends
-  );
+  const userFriends = useSelector((state: InitialState) => state.userFriends);
   const friends = useSelector((state: InitialState) => state.user.friends);
   const posts = useSelector((state: InitialState) => state.posts);
   const post = useSelector((state: InitialState) => state.post);
@@ -151,7 +149,6 @@ export const GetStates = () => {
     (state: InitialState) => state.requestsReceived
   );
   const requestsSent = useSelector((state: InitialState) => state.requestsSent);
-  const profileUser = useSelector((state: InitialState) => state.profileUser);
 
   return {
     isEdited,
@@ -163,7 +160,6 @@ export const GetStates = () => {
     requestsReceived,
     post,
     requestsSent,
-    profileUser,
   };
 };
 

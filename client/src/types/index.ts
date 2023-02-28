@@ -1,6 +1,5 @@
 export interface InitialState {
   user: User;
-  profileUser: User;
   posts: Post[];
   token: string;
   isEdited: boolean;
@@ -8,6 +7,7 @@ export interface InitialState {
   requestsReceived: Request[];
   requestsSent: Request[];
   notifications: Notification[];
+  userFriends: Friend[];
 }
 
 export interface Notification {

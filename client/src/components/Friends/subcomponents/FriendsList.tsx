@@ -6,34 +6,30 @@ import { useConnect } from "../connect";
 
 interface Props {
   userId: string;
-  showFriendsList?: boolean;
 }
 
-export const FriendsList = ({ userId, showFriendsList }: Props) => {
+export const FriendsList = ({ userId }: Props) => {
   const { friends, _id } = useConnect("", userId);
 
-  if (showFriendsList)
-    return (
-      <FriendsContainer>
-        <Text fontWeight="600" fontSize="1.2rem">
-          {getFriendsListName(friends.length, userId, _id)}
-        </Text>
-        <>
-          {friends.map((friend, index) => (
-            <Friend
-              friendID={friend._id}
-              name={`${friend.firstName} ${friend.lastName}`}
-              userPicturePath={friend.picturePath}
-              subtitle={friend.occupation}
-              key={index}
-              myKey={index}
-              userId={userId}
-              mt="4"
-            />
-          ))}
-        </>
-      </FriendsContainer>
-    );
-
-  return null;
+  return (
+    <FriendsContainer>
+      <Text fontWeight="600" fontSize="1.2rem">
+        {getFriendsListName(friends.length, userId, _id)}
+      </Text>
+      <>
+        {friends.map((friend, index) => (
+          <Friend
+            friendID={friend._id}
+            name={`${friend.firstName} ${friend.lastName}`}
+            userPicturePath={friend.picturePath}
+            subtitle={friend.occupation}
+            key={index}
+            myKey={index}
+            userId={userId}
+            mt="4"
+          />
+        ))}
+      </>
+    </FriendsContainer>
+  );
 };

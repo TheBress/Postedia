@@ -1,6 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setFriends, setUserFriends, setUserRequestsSent } from "../../redux";
+import {
+  setFriends,
+  setUserFriends,
+  setUserRequestsReceived,
+} from "../../redux";
 import { useEffect } from "react";
 import {
   getIsProfile,
@@ -39,7 +43,7 @@ export const useConnect = (friendId?: string, userId?: string) => {
 
     dispatch(setFriends({ friends: data.user }));
     dispatch(setUserFriends({ friends: data.friend }));
-    dispatch(setUserRequestsSent({ requests: data.requests }));
+    dispatch(setUserRequestsReceived({ requests: data.requests }));
 
     getToast(data.action);
   };
@@ -54,9 +58,8 @@ export const useConnect = (friendId?: string, userId?: string) => {
       );
       const data = await response.json();
 
-      !isProfile
-        ? dispatch(setFriends({ friends: data }))
-        : dispatch(setUserFriends({ friends: data }));
+      if (!isProfile) dispatch(setFriends({ friends: data }));
+      else dispatch(setUserFriends({ friends: data }));
     };
 
     getFriends();
