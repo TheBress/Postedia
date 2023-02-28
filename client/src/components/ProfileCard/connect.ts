@@ -94,20 +94,7 @@ export const useConnect = () => {
       dispatch(setUserFriends({ friends: data }));
     };
 
-    const getUserPosts = async () => {
-      await fetch(
-        `${process.env.REACT_APP_API_URL}/posts/${profileUser?._id}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      ).then((res) => {
-        return res.json();
-      });
-    };
-
-    if (profileUser?._id) getFriends();
-    if (!isProfile) getUserPosts();
+    getFriends();
   }, [profileUser?._id, isProfile, dispatch]);
 
   return {
