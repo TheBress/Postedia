@@ -14,10 +14,10 @@ export const register = async (req, res) => {
 
     const user = await User.findOne({ email: email });
 
-    if (user) res.json({ msg: "This user already exists." });
+    if (user) return res.json({ msg: "This user already exists." });
 
     if (password.length < 8)
-      res.json({ msg: "Password must have at least 8 characters." });
+      return res.json({ msg: "Password must have at least 8 characters." });
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);

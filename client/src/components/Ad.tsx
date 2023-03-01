@@ -20,7 +20,7 @@ export const Ad = ({ userId }: Props) => {
     setAd(randomAd());
   }, [userId]);
 
-  if (!ad) return null;
+  if (!ad || !userId) return null;
 
   return (
     <AdContainer url={ad.url}>

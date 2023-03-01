@@ -1,24 +1,30 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { InitialState, User } from "../../types";
+import { useParams } from "react-router-dom";
+import { GetStates } from "../../functions";
+import { User } from "../../types";
 
-export const useConnect = (userId: string | undefined) => {
-  const [user, setUser] = useState<User>();
+export const useConnect = () => {
+  const { userId } = useParams();
+
+  const [profileUser, setProfileUser] = useState<User>();
   const path = window.location.pathname;
-  const { _id } = useSelector((state: InitialState) => state.user);
-  const userFriends = useSelector((state: InitialState) => state.userFriends);
+  const { userFriends, user } = GetStates();
 
-  const isFriend = userFriends.some((friend) => friend._id === _id);
+  const isFriend = userFriends.some((friend) => friend._id === user._id);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/users/views`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userProfileId: userId, userId: _id }),
+      body: JSON.stringify({ userProfileId: userId, userId: user._id }),
     })
       .then((res) => res.json())
-      .then((data) => setUser(data));
-  }, [userId, path, _id]);
+      .then((data) => setProfileUser(data));
+  }, [userId, path, user._id]);
 
-  return { user, isFriend };
+  return {
+    user: profileUser,
+    isFriend,
+    isShow: profileUser?.isPublic || isFriend,
+  };
 };

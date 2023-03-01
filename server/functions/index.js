@@ -1,3 +1,6 @@
+import Request from "../models/Request.js";
+import Notification from "../models/Notification.js";
+
 export const sanitizeFriends = (userFriends) => {
   const friends = userFriends.map(
     ({ _id, firstName, lastName, occupation, location, picturePath }) => {
@@ -38,4 +41,44 @@ export const sanitizeUser = (user) => {
     twitterUrl: user.twitterUrl,
     viewedProfile: user.viewedProfile,
   };
+};
+
+export const addRemoveFriendRequest = async (friend, user, friendId, id) => {
+  let action = "";
+  if (friend.isPublic || user.friends.includes(friendId)) {
+    if (user.friends.includes(friendId)) {
+      user.friends = user.friends.filter((id) => id !== friendId);
+      friend.friends = friend.friends.filter((userId) => userId !== id);
+      action = "REMOVE";
+    } else {
+      user.friends.push(friendId);
+      friend.friends.push(id);
+      action = "ADD";
+    }
+    const request = await Request.findOneAndDelete({
+      userSendId: friend._id,
+      userReceivedId: user._id,
+    });
+
+    if (request) {
+      const notification = new Notification({
+        userId: friend._id,
+        message: `${user.firstName} ${user.lastName} has accepted your request.`,
+      });
+      notification.save();
+    }
+  } else {
+    const request = new Request({
+      userSendId: user._id,
+      userReceivedId: friend._id,
+      message: `${user.firstName} ${user.lastName} wants to be your friend`,
+      userImage: user.picturePath,
+    });
+
+    request.save();
+
+    action = "REQUEST";
+  }
+
+  return action;
 };

@@ -3,18 +3,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { formatDate, getIsPost } from "../../functions";
 import { setPost, setUniquePost } from "../../redux";
-import { InitialState, Post } from "../../types";
+import { InitialState, Post, PostInfo } from "../../types";
 
 export const useConnect = (post: Post) => {
+  const dispatch = useDispatch();
   const [isComment, setisComment] = useState<boolean>(false);
   const [isUpdate, setisUpdate] = useState<boolean>(false);
   const navigate = useNavigate();
-  const fullName: string = `${post.firstName} ${post.lastName}`;
-  const { _id } = useSelector((state: InitialState) => state.user);
-  const dispatch = useDispatch();
-  const isPost = getIsPost();
 
+  const { _id } = useSelector((state: InitialState) => state.user);
+  const isPost = getIsPost();
+  const isLiked = Object.keys(post.likes).some((value) => value === _id);
+  const fullName: string = `${post.firstName} ${post.lastName}`;
   const likeCount: number = Object.keys(post.likes).length;
+
+  const postInfo: PostInfo = {
+    likeCount,
+    isUpdate,
+    isLiked,
+    fullName,
+    updatedAt: !post.isEdited
+      ? formatDate(post.createdAt)
+      : formatDate(post.lastUpdated),
+    _id,
+    isComment,
+  };
 
   const changeIsComment = (): void => {
     setisComment(!isComment);
@@ -23,8 +36,6 @@ export const useConnect = (post: Post) => {
   const goToPost = (): void => {
     navigate(`/post/${post._id}`);
   };
-
-  const isLiked = Object.keys(post.likes).some((value) => value === _id);
 
   const likePost = async () => {
     const response = await fetch(
@@ -43,18 +54,10 @@ export const useConnect = (post: Post) => {
   };
 
   return {
-    fullName,
-    likeCount,
     likePost,
-    isLiked,
-    _id,
-    isComment,
     changeIsComment,
-    updatedAt: !post.isEdited
-      ? formatDate(post.createdAt)
-      : formatDate(post.lastUpdated),
-    isUpdate,
     setisUpdate,
     goToPost,
+    postInfo,
   };
 };

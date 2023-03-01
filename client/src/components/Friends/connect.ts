@@ -1,16 +1,30 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setFriends, setUserFriends } from "../../redux";
+import {
+  setFriends,
+  setUserFriends,
+  setUserRequestsReceived,
+  setUserRequestsSent,
+} from "../../redux";
 import { useEffect } from "react";
-import { GetStates } from "../../functions";
+import {
+  getIsProfile,
+  getIsRequest,
+  GetStates,
+  getToast,
+  successToast,
+} from "../../functions";
 
-export const useConnect = (friendId?: string, userId?: string) => {
+export const useConnect = (
+  friendId?: string,
+  userId?: string,
+  isShow?: boolean
+) => {
   const { user, friends, userFriends } = GetStates();
   const { _id } = user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const path: string = window.location.pathname;
-  const isProfile = path.includes("profile");
+  const isProfile = getIsProfile();
 
   const isUser: boolean = friendId === _id;
 
@@ -34,6 +48,10 @@ export const useConnect = (friendId?: string, userId?: string) => {
 
     dispatch(setFriends({ friends: data.user }));
     dispatch(setUserFriends({ friends: data.friend }));
+    dispatch(setUserRequestsSent({ requests: data.sentRequests }));
+    dispatch(setUserRequestsReceived({ requests: data.receivedRequests }));
+
+    getToast(data.action);
   };
 
   useEffect(() => {
@@ -50,8 +68,8 @@ export const useConnect = (friendId?: string, userId?: string) => {
       else dispatch(setUserFriends({ friends: data }));
     };
 
-    if (userId) getFriends();
-  }, [userId, isProfile, dispatch]);
+    if (isShow) getFriends();
+  }, [dispatch, isProfile, userId, isShow]);
 
   return {
     isFriend,
@@ -61,5 +79,11 @@ export const useConnect = (friendId?: string, userId?: string) => {
     friends: isProfile ? userFriends : friends,
     _id,
     isProfile,
+    isRequest: getIsRequest(friendId),
+    sendRequest: !getIsRequest(friendId)
+      ? patchFriend
+      : () => {
+          successToast("You already sent the request!");
+        },
   };
 };

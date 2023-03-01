@@ -2,12 +2,16 @@ import { Box, Flex, HStack, Button, Image } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { BiLogOut } from "react-icons/bi";
 
-import { Link } from "react-router-dom";
-import { setLogout } from "../../redux";
+import { Link, useNavigate } from "react-router-dom";
+import { setLogout } from "../../../redux";
 import { MdNotifications } from "react-icons/md";
+import { useConnect } from "./connect";
+import { NotificationsText } from "../Texts/NumberNotifications";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { totalNotifications } = useConnect();
 
   const logout = () => {
     dispatch(setLogout());
@@ -34,14 +38,21 @@ export const Navbar = () => {
             ></HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Box
+            <Flex
               mr="25px"
               _hover={{ background: "transparent", color: "white" }}
               transition=".3s"
               cursor="pointer"
+              onClick={() => {
+                navigate("/notifications");
+              }}
             >
               <MdNotifications size="25" />
-            </Box>
+
+              {totalNotifications ? (
+                <NotificationsText totalNotifications={totalNotifications} />
+              ) : null}
+            </Flex>
 
             <Button
               transition=".3s"

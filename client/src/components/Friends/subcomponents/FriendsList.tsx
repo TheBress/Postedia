@@ -6,13 +6,13 @@ import { useConnect } from "../connect";
 
 interface Props {
   userId: string;
-  showFriendsList?: boolean;
+  isShow?: boolean;
 }
 
-export const FriendsList = ({ userId, showFriendsList }: Props) => {
-  const { friends, _id } = useConnect("", userId);
+export const FriendsList = ({ userId, isShow }: Props) => {
+  const { friends, _id } = useConnect("", userId, isShow);
 
-  if (showFriendsList)
+  if (isShow)
     return (
       <FriendsContainer>
         <Text fontWeight="600" fontSize="1.2rem">
@@ -34,6 +34,5 @@ export const FriendsList = ({ userId, showFriendsList }: Props) => {
         </>
       </FriendsContainer>
     );
-
   return null;
 };

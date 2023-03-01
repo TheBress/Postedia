@@ -22,7 +22,7 @@ export const useConnect = (userId?: string) => {
         return res.json();
       });
 
-      if (posts) dispatch(setPosts({ posts }));
+      dispatch(setPosts({ posts }));
     };
 
     const getPosts = async () => {
@@ -33,7 +33,7 @@ export const useConnect = (userId?: string) => {
         return res.json();
       });
 
-      if (posts) dispatch(setPosts({ posts }));
+      dispatch(setPosts({ posts }));
     };
 
     !userId ? getPosts() : getUserPosts();

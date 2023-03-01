@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { GetStates } from "../../functions";
 import { setUniquePost } from "../../redux";
-import { InitialState } from "../../types";
 
 export const useConnect = (postId: string | undefined) => {
   const dispatch = useDispatch();
-  const post = useSelector((state: InitialState) => state.post);
+  const { user, post } = GetStates();
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -24,5 +24,5 @@ export const useConnect = (postId: string | undefined) => {
       });
   }, [postId, dispatch]);
 
-  return { post, loading };
+  return { post, loading, userId: user._id };
 };

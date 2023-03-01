@@ -117,7 +117,7 @@ export const updatePost = async (req, res) => {
     const { id, isPost } = req.params;
     const { description } = req.body;
 
-    const post = await Post.findByIdAndUpdate(
+    await Post.findByIdAndUpdate(
       id,
       { description, isEdited: true, lastUpdated: new Date() },
       { new: true }

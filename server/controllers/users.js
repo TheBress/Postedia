@@ -1,4 +1,5 @@
-import { sanitizeFriends } from "../functions/index.js";
+import { addRemoveFriendRequest, sanitizeFriends } from "../functions/index.js";
+import Request from "../models/Request.js";
 import User from "../models/User.js";
 
 export const getUserById = async (req, res) => {
@@ -37,19 +38,12 @@ export const addRemoveFriend = async (req, res) => {
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
     const profileUser = await User.findById(profileId);
+    const chosenUser = friendId === profileId ? friend : profileUser;
 
-    if (user.friends.includes(friendId)) {
-      user.friends = user.friends.filter((id) => id !== friendId);
-      friend.friends = friend.friends.filter((userId) => userId !== id);
-    } else {
-      user.friends.push(friendId);
-      friend.friends.push(id);
-    }
+    const action = await addRemoveFriendRequest(friend, user, friendId, id);
 
     await user.save();
     await friend.save();
-
-    const chosenUser = friendId === profileId ? friend : profileUser;
 
     const friendsUser = await Promise.all(
       user.friends.map((id) => User.findById(id))
@@ -62,9 +56,16 @@ export const addRemoveFriend = async (req, res) => {
     const formattedUserFriends = sanitizeFriends(friendsUser);
     const formattedFriendFriends = sanitizeFriends(friendsFriend);
 
-    res
-      .status(200)
-      .json({ user: formattedUserFriends, friend: formattedFriendFriends });
+    const sentRequests = await Request.find({ userSendId: user._id });
+    const receivedRequests = await Request.find({ userReceivedId: user._id });
+
+    res.status(200).json({
+      user: formattedUserFriends,
+      friend: formattedFriendFriends,
+      action,
+      sentRequests,
+      receivedRequests,
+    });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

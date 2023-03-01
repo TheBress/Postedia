@@ -1,35 +1,29 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { MdClose, MdModeEdit } from "react-icons/md";
+import { MdClose, MdModeEdit, MdPending } from "react-icons/md";
 
 import { Card } from "./subcomponents/Card";
 import { useConnect } from "./connect";
-import { User } from "../../types";
 import { Form } from "./subcomponents/Form";
 import { ProfileContainer } from "../Styled/Containers/Profile";
-import { sanitizeText } from "../../functions";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { RiUserFollowFill } from "react-icons/ri";
+import { FollowProfileContainer } from "../Styled/Containers/FollowProfile";
+import { ToastContainer } from "../Styled/Containers/Toast";
+import { User } from "../../types";
 
 interface Props {
   user: User;
 }
 
 export const ProfileCard = ({ user }: Props) => {
-  const {
-    isEdited,
-    changeIsEdited,
-    isUser,
-    friendsNumber,
-    postNumber,
-    isFriendOrPublic,
-  } = useConnect(user);
+  const { isEdited, changeIsEdited, userInfo, addFriend } = useConnect(user);
+
+  if (!user) return null;
 
   return (
     <ProfileContainer
       isEdited={isEdited}
-      hasLinkedin={user.linkedinUrl ? true : false}
-      hasTwitter={user.twitterUrl ? true : false}
+      hasLinkedin={Boolean(user.linkedinUrl)}
+      hasTwitter={Boolean(user.twitterUrl)}
     >
       <Flex gap="20px" borderBottom="1px solid black" p="3">
         <Avatar size="lg" src={user.picturePath} />
@@ -38,14 +32,16 @@ export const ProfileCard = ({ user }: Props) => {
             {user.firstName} {user.lastName}
           </Text>
           <Flex gap="5px">
-            <Text fontSize="0.9rem">
-              {sanitizeText(friendsNumber, "friend")}
-            </Text>
-            <Text fontSize="0.9rem">{sanitizeText(postNumber, "post")}</Text>
+            <Text fontSize="0.9rem">{userInfo.friendsNumber}</Text>
+            <Text fontSize="0.9rem">{userInfo.postNumber}</Text>
           </Flex>
-          <Text fontSize="0.9rem">{user.isPublic ? "Public" : "Private"}</Text>
+          {userInfo.isUser && (
+            <Text fontSize="0.9rem">
+              {user.isPublic ? "Public" : "Private"}
+            </Text>
+          )}
         </Box>
-        {isUser && (
+        {userInfo.isUser && (
           <Box
             onClick={changeIsEdited}
             ml="auto"
@@ -60,17 +56,14 @@ export const ProfileCard = ({ user }: Props) => {
           </Box>
         )}
 
-        {!isFriendOrPublic && !isUser && (
-          <Box
-            ml="auto"
-            cursor="pointer"
-            _hover={{ color: "blue.100" }}
-            transition=".3s"
-            height="25px"
-          >
+        <FollowProfileContainer userInfo={userInfo} addFriend={addFriend}>
+          {(!userInfo.isFriendOrPublic || !userInfo.isUser) &&
+          !userInfo.isRequest ? (
             <RiUserFollowFill size="22" />
-          </Box>
-        )}
+          ) : (
+            <MdPending size="22" />
+          )}
+        </FollowProfileContainer>
       </Flex>
 
       {!isEdited ? <Card profileUser={user} /> : <Form />}

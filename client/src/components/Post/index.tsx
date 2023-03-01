@@ -16,25 +16,15 @@ interface Props {
 }
 
 export const Post = ({ post, myKey, userId }: Props) => {
-  const {
-    fullName,
-    likeCount,
-    likePost,
-    isLiked,
-    isComment,
-    changeIsComment,
-    updatedAt,
-    isUpdate,
-    setisUpdate,
-    goToPost,
-  } = useConnect(post);
+  const { postInfo, likePost, setisUpdate, goToPost, changeIsComment } =
+    useConnect(post);
 
   return (
     <Box key={myKey} background="white" p="6" borderRadius="10px" mb="5">
       <Friend
-        isUpdate={isUpdate}
+        isUpdate={postInfo.isUpdate}
         userId={userId}
-        name={fullName}
+        name={postInfo.fullName}
         friendID={post.userId}
         postId={post._id}
         userPicturePath={post.userPicturePath}
@@ -42,7 +32,7 @@ export const Post = ({ post, myKey, userId }: Props) => {
         setisUpdate={setisUpdate}
       />
 
-      {isUpdate ? (
+      {postInfo.isUpdate ? (
         <UpdateForm
           postDescription={post.description}
           id={post._id}
@@ -58,8 +48,12 @@ export const Post = ({ post, myKey, userId }: Props) => {
 
       <Flex pt="2" gap="5" alignItems="center">
         <ActionsContainer onClickAction={likePost}>
-          {!isLiked ? <AiOutlineHeart /> : <AiFillHeart color="#3a9dc7" />}
-          <Text>{likeCount}</Text>
+          {!postInfo.isLiked ? (
+            <AiOutlineHeart />
+          ) : (
+            <AiFillHeart color="#3a9dc7" />
+          )}
+          <Text>{postInfo.likeCount}</Text>
         </ActionsContainer>
 
         <ActionsContainer onClickAction={changeIsComment}>
@@ -68,16 +62,18 @@ export const Post = ({ post, myKey, userId }: Props) => {
         </ActionsContainer>
       </Flex>
 
-      {isComment && <Comments comments={post.comments} postId={post._id} />}
+      {postInfo.isComment && (
+        <Comments comments={post.comments} postId={post._id} />
+      )}
 
       <Flex
         justifyContent="flex-end"
         alignItems="center"
         gap="5px"
-        mt={isComment ? "10px" : ""}
+        mt={postInfo.isComment ? "10px" : ""}
       >
         {post.isEdited && <MdModeEdit size="10" />}
-        <Text fontSize="0.7rem">{updatedAt}</Text>
+        <Text fontSize="0.7rem">{postInfo.updatedAt}</Text>
       </Flex>
     </Box>
   );

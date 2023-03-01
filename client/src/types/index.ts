@@ -3,8 +3,47 @@ export interface InitialState {
   posts: Post[];
   token: string;
   isEdited: boolean;
-  userFriends: Friend[];
   post: Post;
+  requestsReceived: Request[];
+  requestsSent: Request[];
+  notifications: Notification[];
+  userFriends: Friend[];
+}
+
+export interface Notification {
+  _id: string;
+  userId: String;
+  message: String;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface UserInfo {
+  isFriendOrPublic?: boolean;
+  isUser: boolean;
+  isRequest: boolean;
+  friendsNumber: string;
+  postNumber: string;
+}
+
+export interface PostInfo {
+  likeCount: number;
+  isUpdate: boolean;
+  isLiked: boolean;
+  fullName: string;
+  updatedAt: string;
+  _id: string;
+  isComment: boolean;
+}
+
+export interface Request {
+  _id: string;
+  userSendId: string;
+  userImage: string;
+  userReceivedId: string;
+  message: string;
+  isAccepted: boolean;
+  createdAt: string;
 }
 
 export interface User {

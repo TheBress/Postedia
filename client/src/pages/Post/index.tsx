@@ -1,18 +1,19 @@
-import { Box, Text } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { Ad } from "../../components/Ad";
 import { Post } from "../../components/Post";
+import { FeedContainer } from "../../components/Styled/Containers/Feed";
 import { GeneralContainer } from "../../components/Styled/Containers/General";
+import { PageContainer } from "../../components/Styled/Containers/Page";
+import { ToastContainer } from "../../components/Styled/Containers/Toast";
 import { Navbar } from "../../components/Styled/Navbar";
+import { getFeedHeight } from "../../functions";
 import { NotFoundPage } from "../404";
 import { useConnect } from "./connect";
 
 export const PostPage = () => {
   const { postId } = useParams();
 
-  const { post, loading } = useConnect(postId);
-
-  if (!loading) return null;
+  const { post, userId } = useConnect(postId);
 
   if (!post) return <NotFoundPage />;
 
@@ -21,23 +22,14 @@ export const PostPage = () => {
       <Navbar />
 
       <GeneralContainer>
-        <Box
-          maxHeight="10vh"
-          background="white.200"
-          m="10"
-          p="5"
-          borderRadius="5px"
-        >
-          <Text fontWeight="600" fontSize="1.5rem">
-            Post
-          </Text>
-        </Box>
+        <PageContainer text="Post" />
 
-        <Box background="white.200" m="10" p="5" borderRadius="5px">
-          <Post post={post} myKey={parseInt(post._id)} />
-        </Box>
+        <FeedContainer height={getFeedHeight(1, true)}>
+          <Post post={post} myKey={parseInt(post._id)} userId={userId} />
+        </FeedContainer>
 
-        <Ad />
+        <Ad userId={userId} />
+        <ToastContainer />
       </GeneralContainer>
     </>
   );

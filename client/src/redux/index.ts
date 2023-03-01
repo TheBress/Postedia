@@ -7,8 +7,11 @@ const initialState: InitialState = {
   posts: [],
   token: "",
   isEdited: false,
-  userFriends: [],
   post: emptyPost(),
+  requestsReceived: [],
+  requestsSent: [],
+  notifications: [],
+  userFriends: [],
 };
 
 export const authSlice = createSlice({
@@ -18,6 +21,7 @@ export const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload.user;
     },
+
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
@@ -33,7 +37,7 @@ export const authSlice = createSlice({
       }
     },
     setUserFriends: (state, action) => {
-      if (state.user) {
+      if (state.userFriends) {
         state.userFriends = action.payload.friends;
       } else {
         console.error("user friends non-existent :(");
@@ -48,12 +52,22 @@ export const authSlice = createSlice({
     setUniquePost: (state, action) => {
       state.post = action.payload.post;
     },
+
     setPost: (state, action) => {
       const updatedPosts = state.posts.map((post) => {
         if (post._id === action.payload.post._id) return action.payload.post;
         return post;
       });
       state.posts = updatedPosts;
+    },
+    setUserRequestsReceived: (state, action) => {
+      state.requestsReceived = action.payload.requests;
+    },
+    setUserRequestsSent: (state, action) => {
+      state.requestsSent = action.payload.requests;
+    },
+    setUserNotifications: (state, action) => {
+      state.notifications = action.payload.notifications;
     },
   },
 });
@@ -68,5 +82,8 @@ export const {
   setPost,
   setUserFriends,
   setUniquePost,
+  setUserRequestsReceived,
+  setUserNotifications,
+  setUserRequestsSent,
 } = authSlice.actions;
 export default authSlice.reducer;

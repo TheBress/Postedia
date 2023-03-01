@@ -1,3 +1,5 @@
+import { UserInfo } from ".";
+
 export interface FriendProps {
   friendID: string;
   name: string;
@@ -15,10 +17,13 @@ export interface ChildrenProps {
   children: JSX.Element[] | JSX.Element;
   isEdited?: boolean;
   url?: string;
-  hasPosts?: boolean;
+  height?: string;
   hasLinkedin?: boolean;
   hasTwitter?: boolean;
   onClickAction?: () => void;
+  addFriend?: () => void;
+  setIsEnter?: (value: boolean) => void;
+  userInfo?: UserInfo;
 }
 
 export interface InputProps {

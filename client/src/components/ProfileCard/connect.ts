@@ -1,22 +1,44 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
-import { GetStates, sanitizeUser, successToast } from "../../functions";
+import {
+  getIsFriendOrPublic,
+  getIsProfile,
+  getIsRequest,
+  GetStates,
+  sanitizeText,
+  sanitizeUser,
+  successToast,
+} from "../../functions";
 import { setFriends, setIsEdited, setUser, setUserFriends } from "../../redux";
-import { UpdatedUser, User } from "../../types";
+import { UpdatedUser, User, UserInfo } from "../../types";
+import { useConnect as useFriendsConnect } from "../Friends/connect";
 
 export const useConnect = (profileUser?: User) => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState<boolean>(false);
   const { user, userFriends, posts, friends, isEdited } = GetStates();
+  const { patchFriend } = useFriendsConnect(profileUser?._id, profileUser?._id);
 
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
-  const isProfile = window.location.pathname.includes("profile");
+  const isProfile = getIsProfile();
 
   const isFriendOrPublic: boolean | undefined =
-    friends.some((friend) => friend._id === profileUser?._id) ||
-    profileUser?.isPublic;
+    getIsFriendOrPublic(profileUser);
 
   const userPosts = posts.filter((post) => post.userId === user._id);
+
+  const userInfo: UserInfo = {
+    isFriendOrPublic,
+    friendsNumber: sanitizeText(
+      !isProfile ? friends.length : userFriends.length,
+      "friend"
+    ),
+    postNumber: sanitizeText(
+      !isProfile ? userPosts.length : posts.length,
+      "post"
+    ),
+    isUser: isProfile ? profileUser?._id === user._id : true,
+    isRequest: isProfile ? getIsRequest(profileUser?._id) : false,
+  };
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
 
@@ -67,43 +89,25 @@ export const useConnect = (profileUser?: User) => {
           method: "GET",
         }
       );
-      const data = await response.json().finally(() => {
-        setLoading(true);
-      });
+      const data = await response.json();
       dispatch(setUserFriends({ friends: data }));
     };
 
-    const getUserPosts = async () => {
-      await fetch(
-        `${process.env.REACT_APP_API_URL}/posts/${profileUser?._id}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-        .then((res) => {
-          return res.json();
-        })
-        .finally(() => {
-          setLoading(true);
-        });
-    };
-
-    if (profileUser?._id) getFriends();
-    if (!isProfile) getUserPosts();
-  }, [profileUser?._id, isProfile, dispatch]);
+    getFriends();
+  }, [dispatch, profileUser?._id]);
 
   return {
     updatedUser,
     handleChange,
     handleSubmit,
     isEdited,
-    isUser: profileUser?._id === user._id,
-    sanitizedUser,
-    friendsNumber: !isProfile ? friends.length : userFriends.length,
-    postNumber: !isProfile ? userPosts.length : posts.length,
-    loading,
     changeIsEdited,
-    isFriendOrPublic,
+    userInfo,
+    user: !isProfile ? user : profileUser,
+    addFriend: !getIsRequest(profileUser?._id)
+      ? patchFriend
+      : () => {
+          successToast("You already sent the request!");
+        },
   };
 };

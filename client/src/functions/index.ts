@@ -106,7 +106,7 @@ export const getMaxHeight = (
   hasTwitter?: boolean,
   hasLinkedin?: boolean
 ) => {
-  if (!isEdited && hasTwitter && hasLinkedin) return "52vh";
+  if (!isEdited && hasTwitter && hasLinkedin) return "54vh";
   if (!isEdited && (hasTwitter || hasLinkedin)) return "47vh";
   if (!isEdited && !hasTwitter && !hasLinkedin) return "38vh";
   if (isEdited) return "73vh";
@@ -141,8 +141,26 @@ export const GetStates = () => {
   const userFriends = useSelector((state: InitialState) => state.userFriends);
   const friends = useSelector((state: InitialState) => state.user.friends);
   const posts = useSelector((state: InitialState) => state.posts);
+  const post = useSelector((state: InitialState) => state.post);
+  const notifications = useSelector(
+    (state: InitialState) => state.notifications
+  );
+  const requestsReceived = useSelector(
+    (state: InitialState) => state.requestsReceived
+  );
+  const requestsSent = useSelector((state: InitialState) => state.requestsSent);
 
-  return { isEdited, user, userFriends, friends, posts };
+  return {
+    isEdited,
+    user,
+    userFriends,
+    friends,
+    posts,
+    notifications,
+    requestsReceived,
+    post,
+    requestsSent,
+  };
 };
 
 export const emptyPost = (): Post => {
@@ -164,3 +182,45 @@ export const emptyPost = (): Post => {
 };
 
 export const getIsPost = () => Boolean(window.location.href.includes("/post"));
+
+export const getIsRequest = (friendId?: string) => {
+  const { requestsSent } = GetStates();
+  return requestsSent.some((request) => request.userReceivedId === friendId);
+};
+
+export const getToast = (action: string) => {
+  if (action === "ADD") successToast("You have a new friend!");
+  if (action === "REMOVE") successToast("Friend removed successfully");
+  if (action === "REQUEST") successToast("Request sent succesfully");
+};
+
+export const getFeedHeight = (
+  postsNumber: number | undefined,
+  showFeed?: boolean
+) => {
+  if (postsNumber === 0 && showFeed) return "9vh";
+  if (!showFeed) return "12vh";
+  if (postsNumber && postsNumber * 32 < 57.7) return `${postsNumber * 36}vh`;
+  return "57.5vh";
+};
+
+export const getIsFriendOrPublic = (profileUser?: User) => {
+  const { friends } = GetStates();
+  return (
+    friends.some((friend) => friend._id === profileUser?._id) ||
+    profileUser?.isPublic
+  );
+};
+
+export const getIsProfile = () => {
+  return window.location.pathname.includes("/profile");
+};
+
+export const getNotificationsMaxHeight = () => {
+  const { notifications, requestsReceived } = GetStates();
+  const total: number = notifications.length + requestsReceived.length;
+
+  if (!total) return "22vh";
+  if (total === 1) return "32vh";
+  else return `${total * 25}vh`;
+};
