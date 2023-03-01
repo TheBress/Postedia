@@ -15,7 +15,11 @@ import {
   successToast,
 } from "../../functions";
 
-export const useConnect = (friendId?: string, userId?: string) => {
+export const useConnect = (
+  friendId?: string,
+  userId?: string,
+  isShow?: boolean
+) => {
   const { user, friends, userFriends } = GetStates();
   const { _id } = user;
   const dispatch = useDispatch();
@@ -64,8 +68,8 @@ export const useConnect = (friendId?: string, userId?: string) => {
       else dispatch(setUserFriends({ friends: data }));
     };
 
-    getFriends();
-  }, [dispatch, isProfile, userId]);
+    if (isShow) getFriends();
+  }, [dispatch, isProfile, userId, isShow]);
 
   return {
     isFriend,

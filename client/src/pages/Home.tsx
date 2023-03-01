@@ -23,7 +23,7 @@ export const Home = () => {
         </Box>
         <Box>
           <Ad userId={user._id} />
-          <FriendsList userId={user._id} />
+          <FriendsList userId={user._id} isShow />
         </Box>
       </GeneralContainer>
     </>

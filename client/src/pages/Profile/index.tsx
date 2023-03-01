@@ -21,7 +21,7 @@ export const Profile = () => {
         <Feed showFeed={isShow} userId={user._id} />
         <Box>
           <Ad userId={user._id} />
-          {isShow && <FriendsList userId={user._id} />}
+          <FriendsList userId={user._id} isShow={isShow} />
         </Box>
       </GeneralContainer>
     </>

@@ -16,7 +16,7 @@ import { useConnect as useFriendsConnect } from "../Friends/connect";
 export const useConnect = (profileUser?: User) => {
   const dispatch = useDispatch();
   const { user, userFriends, posts, friends, isEdited } = GetStates();
-  const { patchFriend } = useFriendsConnect(profileUser?._id, user._id);
+  const { patchFriend } = useFriendsConnect(profileUser?._id, profileUser?._id);
 
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = getIsProfile();
