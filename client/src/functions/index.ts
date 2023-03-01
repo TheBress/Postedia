@@ -215,3 +215,12 @@ export const getIsFriendOrPublic = (profileUser?: User) => {
 export const getIsProfile = () => {
   return window.location.pathname.includes("/profile");
 };
+
+export const getNotificationsMaxHeight = () => {
+  const { notifications, requestsReceived } = GetStates();
+  const total: number = notifications.length + requestsReceived.length;
+
+  if (!total) return "22vh";
+  if (total === 1) return "32vh";
+  else return `${total * 25}vh`;
+};

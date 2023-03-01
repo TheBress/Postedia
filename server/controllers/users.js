@@ -1,4 +1,4 @@
-import { sanitizeFriends } from "../functions/index.js";
+import { addRemoveFriendRequest, sanitizeFriends } from "../functions/index.js";
 import Request from "../models/Request.js";
 import User from "../models/User.js";
 
@@ -38,57 +38,16 @@ export const addRemoveFriend = async (req, res) => {
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
     const profileUser = await User.findById(profileId);
+    const chosenUser = friendId === profileId ? friend : profileUser;
 
-    let action = "";
-
-    if (friend.isPublic || user.friends.includes(friendId)) {
-      if (user.friends.includes(friendId)) {
-        user.friends = user.friends.filter((id) => id !== friendId);
-        friend.friends = friend.friends.filter((userId) => userId !== id);
-        action = "REMOVE";
-      } else {
-        user.friends.push(friendId);
-        friend.friends.push(id);
-        action = "ADD";
-      }
-      await Request.findOneAndDelete({
-        userReceivedId: user._id,
-        userSendId: friend._id,
-      });
-    } else {
-      const request = new Request({
-        userSendId: user._id,
-        userReceivedId: friend._id,
-        message: `${user.firstName} ${user.lastName} wants to be your friend`,
-        userImage: user.picturePath,
-      });
-
-      request.save();
-
-      action = "REQUEST";
-    }
+    const action = await addRemoveFriendRequest(friend, user, friendId, id);
 
     await user.save();
     await friend.save();
 
-    const chosenUser = friendId === profileId ? friend : profileUser;
-
     const friendsUser = await Promise.all(
       user.friends.map((id) => User.findById(id))
     );
-
-    const request = await Request.findOneAndDelete({
-      userSendId: chosenUser._id,
-      userReceivedId: user._id,
-    });
-
-    if (request) {
-      const notification = new Notification({
-        userId: chosenUser._id,
-        message: `${user.firstName} ${user.lastName} has accepted your request.`,
-      });
-      notification.save();
-    }
 
     const friendsFriend = await Promise.all(
       chosenUser.friends.map((id) => User.findById(id))
@@ -97,13 +56,15 @@ export const addRemoveFriend = async (req, res) => {
     const formattedUserFriends = sanitizeFriends(friendsUser);
     const formattedFriendFriends = sanitizeFriends(friendsFriend);
 
-    const requests = await Request.find({ userReceivedId: user._id });
+    const sentRequests = await Request.find({ userSendId: user._id });
+    const receivedRequests = await Request.find({ userReceivedId: user._id });
 
     res.status(200).json({
       user: formattedUserFriends,
       friend: formattedFriendFriends,
       action,
-      requests,
+      sentRequests,
+      receivedRequests,
     });
   } catch (error) {
     res.status(404).json({ message: error.message });

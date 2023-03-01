@@ -7,6 +7,7 @@ import { PageContainer } from "../../components/Styled/Containers/Page";
 import { ToastContainer } from "../../components/Styled/Containers/Toast";
 import { Navbar } from "../../components/Styled/Navbar";
 import { NotificationRequestText } from "../../components/Styled/Texts/NotificationRequest";
+import { getNotificationsMaxHeight } from "../../functions";
 import { useConnect } from "./connect";
 
 export const Notifications = () => {
@@ -18,7 +19,13 @@ export const Notifications = () => {
       <GeneralContainer>
         <PageContainer text="Your notifications and requests" />
 
-        <Box background="white.200" m="10" p="5" borderRadius="5px">
+        <Box
+          background="white.200"
+          m="10"
+          p="5"
+          borderRadius="5px"
+          maxHeight={getNotificationsMaxHeight()}
+        >
           <Box>
             <NotificationRequestText
               text="Notifications"
@@ -34,13 +41,13 @@ export const Notifications = () => {
 
           <Box pt="5">
             <NotificationRequestText
-              text="Requests"
+              text="Received requests"
               number={requestsReceived.length}
             />
 
             {requestsReceived.length
               ? requestsReceived.map((request) => <Request request={request} />)
-              : "No requests yet"}
+              : "No requests received yet"}
           </Box>
         </Box>
 

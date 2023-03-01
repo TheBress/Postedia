@@ -4,6 +4,7 @@ import {
   setFriends,
   setUserFriends,
   setUserRequestsReceived,
+  setUserRequestsSent,
 } from "../../redux";
 import { useEffect } from "react";
 import {
@@ -43,7 +44,8 @@ export const useConnect = (friendId?: string, userId?: string) => {
 
     dispatch(setFriends({ friends: data.user }));
     dispatch(setUserFriends({ friends: data.friend }));
-    dispatch(setUserRequestsReceived({ requests: data.requests }));
+    dispatch(setUserRequestsSent({ requests: data.sentRequests }));
+    dispatch(setUserRequestsReceived({ requests: data.receivedRequests }));
 
     getToast(data.action);
   };

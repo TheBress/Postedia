@@ -6,22 +6,27 @@ import { useConnect } from "./connect";
 
 interface Props {
   request: RequestType;
+  isSent?: boolean;
 }
 
-export const Request = ({ request }: Props) => {
+export const Request = ({ request, isSent }: Props) => {
   const { deleteRequest, goProfile, acceptRequest } = useConnect(request);
 
   return (
     <RequestContainer>
       <Avatar cursor="pointer" onClick={goProfile} src={request.userImage} />
 
-      <Box>
-        <Text mb="1">{request.message}</Text>
-        <Flex gap="2">
-          <RequestButton handleClick={acceptRequest} text="Accept" isAccept />
-          <RequestButton handleClick={deleteRequest} text="Delete" />
-        </Flex>
-      </Box>
+      {!isSent ? (
+        <Box>
+          <Text mb="1">{request.message}</Text>
+          <Flex gap="2">
+            <RequestButton handleClick={acceptRequest} text="Accept" isAccept />
+            <RequestButton handleClick={deleteRequest} text="Delete" />
+          </Flex>
+        </Box>
+      ) : (
+        <Text>{request.message}</Text>
+      )}
     </RequestContainer>
   );
 };
