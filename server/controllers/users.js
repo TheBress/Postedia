@@ -1,5 +1,8 @@
-import { addRemoveFriendRequest, sanitizeFriends } from "../functions/index.js";
-import Notification from "../models/Notification.js";
+import {
+  addRemoveFriendRequest,
+  createAcceptNotification,
+  sanitizeFriends,
+} from "../functions/index.js";
 import Request from "../models/Request.js";
 import User from "../models/User.js";
 
@@ -101,7 +104,7 @@ export const updateProfile = async (req, res) => {
           requestUser.friends.push(updatedUser.id);
           updatedUser.friends.push(requestUser.id);
 
-          const notification = await createAcceptNotification(
+          const notification = createAcceptNotification(
             requestUser.id,
             updatedUser.id,
             `${updatedUser.firstName} ${updatedUser.lastName}`
