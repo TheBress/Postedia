@@ -9,7 +9,13 @@ import {
   sanitizeUser,
   successToast,
 } from "../../functions";
-import { setFriends, setIsEdited, setUser, setUserFriends } from "../../redux";
+import {
+  setFriends,
+  setIsEdited,
+  setUser,
+  setUserFriends,
+  setUserRequestsReceived,
+} from "../../redux";
 import { UpdatedUser, User, UserInfo } from "../../types";
 import { useConnect as useFriendsConnect } from "../Friends/connect";
 
@@ -77,6 +83,7 @@ export const useConnect = (profileUser?: User) => {
 
     dispatch(setUser({ user: response.user }));
     dispatch(setFriends({ friends: response.friends }));
+    dispatch(setUserRequestsReceived({ requests: response.requests }));
     dispatch(setIsEdited());
     successToast("Data updated succesfully");
   };

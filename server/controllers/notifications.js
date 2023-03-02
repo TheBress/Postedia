@@ -2,9 +2,11 @@ import Notification from "../models/Notification.js";
 
 export const getUserNotifications = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userReceivedId } = req.params;
 
-    const userNotifications = await Notification.find({ userId }).sort({
+    const userNotifications = await Notification.find({
+      userReceivedId,
+    }).sort({
       createdAt: -1,
     });
 
@@ -15,14 +17,14 @@ export const getUserNotifications = async (req, res) => {
 };
 export const createNotification = async (req, res) => {
   try {
-    const { userId, message } = req.body;
+    const { userReceivedId, message } = req.body;
 
     new Notification({
-      userId,
+      userReceivedId,
       message,
     });
 
-    const userNotifications = await Notification.find({ userId }).sort({
+    const userNotifications = await Notification.find({ userReceivedId }).sort({
       createdAt: -1,
     });
 
@@ -31,6 +33,7 @@ export const createNotification = async (req, res) => {
     res.status(404).json({ msg: error.message });
   }
 };
+
 export const markAsRead = async (req, res) => {
   try {
     const { id, userId } = req.params;
@@ -53,7 +56,7 @@ export const deleteNotification = async (req, res) => {
     const notification = await Notification.findByIdAndDelete(id);
 
     const userNotifications = await Notification.find({
-      userId: notification.userId,
+      userReceivedId: notification.userReceivedId,
     }).sort({
       createdAt: -1,
     });

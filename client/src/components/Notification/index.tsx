@@ -9,17 +9,19 @@ interface Props {
 }
 
 export const Notification = ({ notification }: Props) => {
-  const { isEnter, setisEnter, deleteNotification } = useConnect(
+  const { isEnter, setisEnter, deleteNotification, goProfile } = useConnect(
     undefined,
     notification
   );
 
   return (
     <NotificationContainer setIsEnter={setisEnter}>
-      <Text cursor="pointer">{notification.message}</Text>
+      <Text cursor="pointer" onClick={goProfile}>
+        {notification.message}
+      </Text>
       <>
         {isEnter && (
-          <Box cursor="pointer" onClick={deleteNotification}>
+          <Box ml="auto" pr="2" cursor="pointer" onClick={deleteNotification}>
             <AiFillDelete className="icon" size="20" />
           </Box>
         )}

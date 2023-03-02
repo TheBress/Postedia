@@ -12,8 +12,9 @@ export interface InitialState {
 
 export interface Notification {
   _id: string;
-  userId: String;
-  message: String;
+  userReceivedId: string;
+  userSendId: string;
+  message: string;
   isRead: boolean;
   createdAt: string;
 }

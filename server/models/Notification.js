@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 const NotificationSchema = new mongoose.Schema(
   {
-    userId: String,
+    userReceivedId: String,
+    userSendId: String,
     message: String,
     isRead: {
       type: Boolean,
