@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get("/:userId", getUserNotifications);
+router.get("/:userReceivedId", getUserNotifications);
 router.post("/", createNotification);
-router.patch("/:id/:userId", markAsRead);
+router.patch("/:id/:userReceivedId", markAsRead);
 router.delete("/:id", deleteNotification);
 
 export default router;

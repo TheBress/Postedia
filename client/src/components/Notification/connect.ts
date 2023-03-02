@@ -15,7 +15,9 @@ export const useConnect = (request?: Request, notification?: Notification) => {
   const [isEnter, setisEnter] = useState<boolean>(false);
 
   const goProfile = () => {
-    navigate(`/profile/${request?.userSendId}`);
+    navigate(
+      `/profile/${request ? request?.userSendId : notification?.userSendId}`
+    );
   };
 
   const deleteRequest = async () => {

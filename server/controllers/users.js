@@ -1,4 +1,5 @@
 import { addRemoveFriendRequest, sanitizeFriends } from "../functions/index.js";
+import Notification from "../models/Notification.js";
 import Request from "../models/Request.js";
 import User from "../models/User.js";
 
@@ -76,14 +77,6 @@ export const updateProfile = async (req, res) => {
     const { location, occupation, twitterUrl, linkedinUrl, _id, isPublic } =
       req.body;
 
-    const user = await User.findById(_id);
-
-    const friends = await Promise.all(
-      user.friends.map((id) => User.findById(id))
-    );
-
-    const formattedFriends = await sanitizeFriends(friends);
-
     const updatedUser = await User.findByIdAndUpdate(
       _id,
       {
@@ -96,7 +89,48 @@ export const updateProfile = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({ user: updatedUser, friends: formattedFriends });
+    let requests = await Request.find({
+      userReceivedId: updatedUser.id,
+    });
+
+    if (updatedUser.isPublic && requests.length) {
+      await Promise.all(
+        requests.map(async (request) => {
+          const requestUser = await User.findById(request.userSendId);
+
+          requestUser.friends.push(updatedUser.id);
+          updatedUser.friends.push(requestUser.id);
+
+          const notification = await createAcceptNotification(
+            requestUser.id,
+            updatedUser.id,
+            `${updatedUser.firstName} ${updatedUser.lastName}`
+          );
+
+          await notification.save();
+
+          await requestUser.save();
+
+          await Request.findByIdAndDelete(request.id);
+        })
+      );
+    }
+
+    await updatedUser.save();
+
+    requests = await Request.find({
+      userReceivedId: updatedUser.id,
+    });
+
+    const friends = await Promise.all(
+      updatedUser.friends.map((id) => User.findById(id))
+    );
+
+    const formattedFriends = await sanitizeFriends(friends);
+
+    res
+      .status(200)
+      .json({ user: updatedUser, friends: formattedFriends, requests });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

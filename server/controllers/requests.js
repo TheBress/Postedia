@@ -1,7 +1,10 @@
 import Request from "../models/Request.js";
 import User from "../models/User.js";
 import Notification from "../models/Notification.js";
-import { sanitizeFriends } from "../functions/index.js";
+import {
+  createAcceptNotification,
+  sanitizeFriends,
+} from "../functions/index.js";
 
 export const getUserReceivedRequest = async (req, res) => {
   try {
@@ -45,10 +48,11 @@ export const acceptRejectRequest = async (req, res) => {
     await userSend.save();
     await userReceived.save();
 
-    const notification = new Notification({
-      userId: userSend._id,
-      message: `${userReceived.firstName} ${userReceived.lastName} have accepted your friend request`,
-    });
+    const notification = await createAcceptNotification(
+      userSend.id,
+      userReceived.id,
+      `${userReceived.firstName} ${userReceived.lastName}`
+    );
 
     await notification.save();
 
