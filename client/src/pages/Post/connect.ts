@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { GetStates } from "../../functions";
 import { setUniquePost } from "../../redux";
 
-export const useConnect = (postId: string | undefined) => {
+export const useConnect = (postId?: string) => {
   const dispatch = useDispatch();
   const { user, post } = GetStates();
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/posts/post/${postId}`, {
@@ -24,5 +30,5 @@ export const useConnect = (postId: string | undefined) => {
       });
   }, [postId, dispatch]);
 
-  return { post, loading, userId: user._id };
+  return { post, loading, userId: user._id, goBack };
 };
