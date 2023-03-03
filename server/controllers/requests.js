@@ -50,8 +50,7 @@ export const acceptRejectRequest = async (req, res) => {
 
     const notification = await createAcceptNotification(
       userSend.id,
-      userReceived.id,
-      `${userReceived.firstName} ${userReceived.lastName}`
+      userReceived
     );
 
     await notification.save();

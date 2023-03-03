@@ -83,14 +83,10 @@ export const addRemoveFriendRequest = async (friend, user, friendId, id) => {
   return action;
 };
 
-export const createAcceptNotification = (
-  userSendId,
-  useReceivedId,
-  userFullName
-) => {
+export const createAcceptNotification = (userSendId, userReceived) => {
   return new Notification({
     userReceivedId: userSendId,
-    userSendId: useReceivedId,
-    message: `${userFullName} has accepted your friend request.`,
+    userSendId: userReceived.id,
+    message: `${userReceived.firstName} ${userReceived.lastName} has accepted your friend request.`,
   });
 };

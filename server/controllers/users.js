@@ -106,8 +106,7 @@ export const updateProfile = async (req, res) => {
 
           const notification = createAcceptNotification(
             requestUser.id,
-            updatedUser.id,
-            `${updatedUser.firstName} ${updatedUser.lastName}`
+            updatedUser
           );
 
           await notification.save();

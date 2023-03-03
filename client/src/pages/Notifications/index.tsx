@@ -11,7 +11,8 @@ import { getNotificationsMaxHeight } from "../../functions";
 import { useConnect } from "./connect";
 
 export const Notifications = () => {
-  const { notifications, requestsReceived, id } = useConnect();
+  const { notifications, requestsReceived, id, notReadNotifications } =
+    useConnect();
 
   return (
     <>
@@ -29,7 +30,7 @@ export const Notifications = () => {
           <Box>
             <NotificationRequestText
               text="Notifications"
-              number={notifications.length}
+              number={notReadNotifications.length}
             />
 
             {notifications.length

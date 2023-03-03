@@ -56,6 +56,8 @@ export const useConnect = () => {
   return {
     requestsReceived,
     notifications,
-    totalNotifications: requestsReceived.length + notifications.length,
+    totalNotifications:
+      requestsReceived.length +
+      notifications.filter((notification) => !notification.isRead).length,
   };
 };
