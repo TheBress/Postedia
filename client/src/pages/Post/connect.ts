@@ -15,19 +15,20 @@ export const useConnect = (postId?: string) => {
   };
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/posts/post/${postId}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.msg) {
-          dispatch(setUniquePost({ post: data }));
-        }
+    if (postId)
+      fetch(`${process.env.REACT_APP_API_URL}/posts/post/${postId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
       })
-      .finally(() => {
-        setLoading(true);
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.msg) {
+            dispatch(setUniquePost({ post: data }));
+          }
+        })
+        .finally(() => {
+          setLoading(true);
+        });
   }, [postId, dispatch]);
 
   return { post, loading, userId: user._id, goBack };

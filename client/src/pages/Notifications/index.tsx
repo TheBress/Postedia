@@ -34,8 +34,8 @@ export const Notifications = () => {
             />
 
             {notifications.length
-              ? notifications.map((notification) => (
-                  <Notification notification={notification} />
+              ? notifications.map((notification, index) => (
+                  <Notification notification={notification} key={index} />
                 ))
               : "No notifications yet"}
           </Box>
@@ -47,7 +47,9 @@ export const Notifications = () => {
             />
 
             {requestsReceived.length
-              ? requestsReceived.map((request) => <Request request={request} />)
+              ? requestsReceived.map((request, index) => (
+                  <Request request={request} key={index} />
+                ))
               : "No requests received yet"}
           </Box>
         </Box>
