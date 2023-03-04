@@ -107,7 +107,7 @@ export const getMaxHeight = (
   hasTwitter?: boolean,
   hasLinkedin?: boolean
 ) => {
-  if (!isEdited && hasTwitter && hasLinkedin) return "54vh";
+  if (!isEdited && hasTwitter && hasLinkedin) return "51vh";
   if (!isEdited && (hasTwitter || hasLinkedin)) return "47vh";
   if (!isEdited && !hasTwitter && !hasLinkedin) return "38vh";
   if (isEdited) return "73vh";

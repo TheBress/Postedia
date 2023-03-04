@@ -18,6 +18,8 @@ export const useConnect = () => {
       ...loginUser,
       [e.currentTarget.name]: e.currentTarget.value,
     });
+
+    if (error) setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

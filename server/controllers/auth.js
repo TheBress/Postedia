@@ -10,7 +10,7 @@ export const register = async (req, res) => {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (!regex.test(email))
-      res.json({ msg: "Email field must have email format." });
+      return res.json({ msg: "Email field must have email format." });
 
     const user = await User.findOne({ email: email });
 
