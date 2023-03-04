@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { AiFillDelete } from "react-icons/ai";
 import { Notification as NotificationType } from "../../types";
 import { NotificationContainer } from "../Styled/Containers/Notification";
@@ -22,13 +22,13 @@ export const Notification = ({ notification }: Props) => {
         {isEnter && (
           <Flex ml="auto" pr="2" gap="2">
             {!notification.isRead && (
-              <Box cursor="pointer" onClick={markAsRead}>
-                <GoMailRead className="icon" size="20" />
-              </Box>
+              <GoMailRead className="icon" size="20" onClick={markAsRead} />
             )}
-            <Box cursor="pointer" onClick={deleteNotification}>
-              <AiFillDelete className="icon" size="20" />
-            </Box>
+            <AiFillDelete
+              className="icon"
+              size="20"
+              onClick={deleteNotification}
+            />
           </Flex>
         )}
       </>

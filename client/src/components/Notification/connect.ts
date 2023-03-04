@@ -45,6 +45,7 @@ export const useConnect = (request?: Request, notification?: Notification) => {
 
     dispatch(setUserRequestsReceived({ requests: data.requests }));
     dispatch(setFriends({ friends: data.friends }));
+    successToast("Request accepted successfully");
   };
 
   const markAsRead = async () => {

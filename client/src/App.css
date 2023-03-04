@@ -79,6 +79,7 @@ body {
 
 .icon {
   transition: color 0.2s;
+  cursor: pointer;
 }
 
 .icon:hover {

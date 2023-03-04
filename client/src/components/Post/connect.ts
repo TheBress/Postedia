@@ -39,7 +39,7 @@ export const useConnect = (post: Post) => {
 
   const likePost = async () => {
     const response = await fetch(
-      `http://localhost:3001/posts/${post._id}/like`,
+      `${process.env.REACT_APP_API_URL}/posts/${post._id}/like`,
       {
         method: "PATCH",
         headers: {

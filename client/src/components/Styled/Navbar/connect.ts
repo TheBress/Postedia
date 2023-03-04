@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { GetStates } from "../../../functions";
+import { getNotReadNotifications, GetStates } from "../../../functions";
 import {
   setUserNotifications,
   setUserRequestsReceived,
@@ -57,7 +57,6 @@ export const useConnect = () => {
     requestsReceived,
     notifications,
     totalNotifications:
-      requestsReceived.length +
-      notifications.filter((notification) => !notification.isRead).length,
+      requestsReceived.length + getNotReadNotifications().length,
   };
 };

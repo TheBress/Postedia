@@ -22,7 +22,7 @@ export const PostPage = () => {
       <Navbar />
 
       <GeneralContainer>
-        <PageContainer text="Post" />
+        <PageContainer text={`${post.firstName} ${post.lastName}´s post`} />
 
         <FeedContainer height={getFeedHeight(1, true)}>
           <Post post={post} myKey={parseInt(post._id)} userId={userId} />

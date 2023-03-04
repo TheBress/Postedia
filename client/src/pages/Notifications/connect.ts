@@ -1,13 +1,11 @@
-import { GetStates } from "../../functions";
+import { getNotReadNotifications, GetStates } from "../../functions";
 
 export const useConnect = () => {
   const { notifications, requestsReceived, user } = GetStates();
 
   return {
     notifications,
-    notReadNotifications: notifications.filter(
-      (notification) => !notification.isRead
-    ),
+    notReadNotifications: getNotReadNotifications(),
     requestsReceived,
     id: user._id,
   };

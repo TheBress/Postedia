@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
 import { Ad, InitialState, Post, UpdatedUser, User } from "../types";
 
 const ads: Ad[] = [
@@ -106,7 +107,7 @@ export const getMaxHeight = (
   hasTwitter?: boolean,
   hasLinkedin?: boolean
 ) => {
-  if (!isEdited && hasTwitter && hasLinkedin) return "54vh";
+  if (!isEdited && hasTwitter && hasLinkedin) return "51vh";
   if (!isEdited && (hasTwitter || hasLinkedin)) return "47vh";
   if (!isEdited && !hasTwitter && !hasLinkedin) return "38vh";
   if (isEdited) return "73vh";
@@ -223,4 +224,10 @@ export const getNotificationsMaxHeight = () => {
   if (!total) return "22vh";
   if (total === 1) return "32vh";
   else return `${total * 25}vh`;
+};
+
+export const getNotReadNotifications = () => {
+  const { notifications } = GetStates();
+
+  return notifications.filter((notification) => !notification.isRead);
 };
