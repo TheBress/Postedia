@@ -5,7 +5,7 @@ import { useConnect } from "../connect";
 import { UserInput } from "../../Styled/Inputs/UserInput";
 
 export const Form = () => {
-  const { updatedUser, handleChange, handleSubmit } = useConnect();
+  const { updatedUser, handleChange, handleSubmit, userInfo } = useConnect();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -49,7 +49,7 @@ export const Form = () => {
         <Flex>
           <Text fontSize="0.9rem">Impressions of your last post</Text>
           <Text ml="auto" fontWeight="600">
-            {updatedUser.impressions}
+            {userInfo.totalLikes}
           </Text>
         </Flex>
       </Box>

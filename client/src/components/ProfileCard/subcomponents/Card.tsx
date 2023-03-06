@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { MdLocationPin, MdWork } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { InitialState, User } from "../../../types";
+import { User } from "../../../types";
+import { useConnect } from "../connect";
 import { SocialMedia } from "./SocialMedia";
 
 interface Props {
@@ -9,61 +9,55 @@ interface Props {
 }
 
 export const Card = ({ profileUser }: Props) => {
-  const user = useSelector((state: InitialState) => state.user);
+  const { user, userInfo } = useConnect(profileUser);
 
-  const chosenUser = profileUser ? profileUser : user;
+  if (!user) return null;
 
   return (
     <>
       <Box p="3" borderBottom="1px solid black">
         <Flex gap="20px" mb="2" alignItems="center">
           <MdLocationPin size="25" />
-          <Text>
-            {chosenUser.location ? chosenUser.location : "No location"}
-          </Text>
+          <Text>{user.location ? user.location : "No location"}</Text>
         </Flex>
         <Flex gap="20px" alignItems="center">
           <MdWork size="22" />
-          <Text>
-            {chosenUser.occupation ? chosenUser.occupation : "No occupation"}
-          </Text>
+          <Text>{user.occupation ? user.occupation : "No occupation"}</Text>
         </Flex>
       </Box>
 
       <Box
         p="3"
         borderBottom={
-          chosenUser.twitterUrl || chosenUser.linkedinUrl
-            ? "1px solid black"
-            : ""
+          user.twitterUrl || user.linkedinUrl ? "1px solid black" : ""
         }
       >
         <Flex>
           <Text fontSize="0.9rem">Who´s viewed your profile</Text>
           <Text fontWeight="600" ml="auto">
-            {chosenUser.viewedProfile?.length}
+            {user.viewedProfile?.length}
           </Text>
         </Flex>
         <Flex>
-          <Text fontSize="0.9rem">Impressions of your last post</Text>
+          <Text fontSize="0.9rem">Total likes received</Text>
           <Text ml="auto" fontWeight="600">
-            {chosenUser.impressions}
+            {userInfo.totalLikes}
           </Text>
         </Flex>
       </Box>
 
-      {(chosenUser.twitterUrl || chosenUser.linkedinUrl) && (
+      {(user.twitterUrl || user.linkedinUrl) && (
         <Box p="3">
           <Text mb="2" fontSize="1.2rem" fontWeight="600">
             Social Profiles
           </Text>
-          {chosenUser.twitterUrl && (
-            <SocialMedia name="Twitter" url={chosenUser.twitterUrl} />
+          {user.twitterUrl && (
+            <SocialMedia name="Twitter" url={user.twitterUrl} />
           )}
-          {chosenUser.linkedinUrl && (
+          {user.linkedinUrl && (
             <SocialMedia
               name="Linkedin"
-              url={chosenUser.linkedinUrl}
+              url={user.linkedinUrl}
               isLinkedin={true}
             />
           )}
