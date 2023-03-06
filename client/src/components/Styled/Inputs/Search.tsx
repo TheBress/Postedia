@@ -21,6 +21,7 @@ export const SearchInput = ({ value, handleChange }: Props) => {
         placeholder="Search"
         value={value}
         onChange={handleChange}
+        mb="5"
       />
     </InputGroup>
   );
