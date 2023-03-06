@@ -1,7 +1,14 @@
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { Ad, InitialState, Post, UpdatedUser, User } from "../types";
+import {
+  Ad,
+  InitialState,
+  Notification,
+  Post,
+  UpdatedUser,
+  User,
+} from "../types";
 
 const ads: Ad[] = [
   {
@@ -39,7 +46,6 @@ export const sanitizeUser = (user: User): UpdatedUser => {
     twitterUrl: user.twitterUrl,
     linkedinUrl: user.linkedinUrl,
     viewedProfile: user.viewedProfile.length,
-    impressions: user.impressions,
     _id: user._id,
     isPublic: user.isPublic,
   };
@@ -59,7 +65,6 @@ export const emptyUser = (): User => {
     location: "",
     occupation: "",
     viewedProfile: [],
-    impressions: 0,
     twitterUrl: "",
     linkedinUrl: "",
     isPublic: true,
@@ -109,7 +114,7 @@ export const getMaxHeight = (
 ) => {
   if (!isEdited && hasTwitter && hasLinkedin) return "51vh";
   if (!isEdited && (hasTwitter || hasLinkedin)) return "47vh";
-  if (!isEdited && !hasTwitter && !hasLinkedin) return "38vh";
+  if (!isEdited && !hasTwitter && !hasLinkedin) return "36vh";
   if (isEdited) return "73vh";
 };
 
@@ -120,7 +125,7 @@ export const getFriendsListName = (
 ) => {
   if (friendsNumber && profileId !== userId) return "Friends list";
   else if (userId === profileId && friendsNumber) return "Your Friends list";
-  else return "No friends";
+  return "No friends";
 };
 
 export const successToast = (text: string) => {
@@ -226,8 +231,16 @@ export const getNotificationsMaxHeight = () => {
   else return `${total * 25}vh`;
 };
 
-export const getNotReadNotifications = () => {
+export const getNotReadNotifications = (): Notification[] => {
   const { notifications } = GetStates();
 
   return notifications.filter((notification) => !notification.isRead);
+};
+
+export const getTotalLikes = (posts: Post[]): number => {
+  let totalLikes: number = 0;
+
+  posts.forEach((post) => (totalLikes += Object.keys(post.likes).length));
+
+  return totalLikes;
 };

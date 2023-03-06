@@ -25,6 +25,7 @@ export interface UserInfo {
   isRequest: boolean;
   friendsNumber: string;
   postNumber: string;
+  totalLikes: number;
 }
 
 export interface PostInfo {
@@ -58,7 +59,6 @@ export interface User {
   location: string;
   occupation: string;
   viewedProfile: string[];
-  impressions: number;
   twitterUrl: string;
   linkedinUrl: string;
   isPublic: boolean;
@@ -109,7 +109,6 @@ export interface UpdatedUser {
   twitterUrl: string;
   linkedinUrl: string;
   viewedProfile: number;
-  impressions: number;
   _id: any;
   isPublic: boolean;
 }

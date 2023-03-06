@@ -5,6 +5,7 @@ import {
   getIsProfile,
   getIsRequest,
   GetStates,
+  getTotalLikes,
   sanitizeText,
   sanitizeUser,
   successToast,
@@ -44,6 +45,7 @@ export const useConnect = (profileUser?: User) => {
     ),
     isUser: isProfile ? profileUser?._id === user._id : true,
     isRequest: isProfile ? getIsRequest(profileUser?._id) : false,
+    totalLikes: getTotalLikes(!isProfile ? userPosts : posts),
   };
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
