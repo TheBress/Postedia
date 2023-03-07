@@ -1,14 +1,15 @@
-import { Box, Text } from "@chakra-ui/react";
 import { Ad } from "../../components/Ad";
 import { SearchedUser } from "../../components/SearchedUser";
 import { GeneralContainer } from "../../components/Styled/Containers/General";
 import { PageContainer } from "../../components/Styled/Containers/Page";
+import { SearchContainer } from "../../components/Styled/Containers/Search";
 import { SearchInput } from "../../components/Styled/Inputs/Search";
 import { Navbar } from "../../components/Styled/Navbar";
+import { SearchText } from "../../components/Styled/Texts/Search";
 import { useConnect } from "./connect";
 
 export const Search = () => {
-  const { usersFound, user, value, handleChange } = useConnect();
+  const { usersFound, user, value, handleChange, height } = useConnect();
 
   return (
     <>
@@ -16,16 +17,26 @@ export const Search = () => {
       <GeneralContainer>
         <PageContainer text="Search" />
 
-        <Box background="white.200" m="10" p="5" borderRadius="5px">
+        <SearchContainer height={height}>
           <SearchInput value={value} handleChange={handleChange} />
           {usersFound?.length ? (
-            usersFound.map((user) => <SearchedUser searchedUser={user} />)
+            <>
+              <SearchText text={`Users found (${usersFound.length}):`} />
+              {usersFound.map((user) => (
+                <SearchedUser searchedUser={user} />
+              ))}
+            </>
+          ) : user.historial.length && !value ? (
+            <>
+              <SearchText text="Last searches:" />
+              {user.historial.map((user) => (
+                <SearchedUser searchedUser={user} isHistorial />
+              ))}
+            </>
           ) : (
-            <Text fontWeight="600" fontSize="1.4rem">
-              No results found.
-            </Text>
+            <SearchText text=" No results found." />
           )}
-        </Box>
+        </SearchContainer>
 
         <Ad userId={user._id} />
       </GeneralContainer>

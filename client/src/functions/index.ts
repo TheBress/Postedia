@@ -245,3 +245,25 @@ export const getTotalLikes = (posts: Post[]): number => {
 
   return totalLikes;
 };
+
+export const getSearchHeight = (
+  historialLenght: number,
+  value: string,
+  usersFoundLength?: number
+) => {
+  if (!value && !historialLenght) return "17vh";
+  else if (
+    value &&
+    usersFoundLength &&
+    usersFoundLength !== 1 &&
+    usersFoundLength < 7
+  )
+    return `${usersFoundLength * 18.5}vh`;
+  else if (value && usersFoundLength === 1) return "27vh";
+  else if (value && !usersFoundLength) return "17vh";
+  else if (value && usersFoundLength && usersFoundLength >= 7) return "80vh";
+  else if (!value && historialLenght !== 1 && historialLenght < 7)
+    return `${historialLenght * 18.5}vh`;
+  else if (!value && historialLenght) return "27vh";
+  else if (!value && historialLenght >= 7) return "80vh";
+};

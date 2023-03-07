@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { randomImage } from "../functions/index.js";
+import { randomImage, sanitizeFriends } from "../functions/index.js";
 
 export const register = async (req, res) => {
   try {
@@ -51,7 +51,13 @@ export const login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    res.status(200).json({ token, user });
+    const userHistorial = await Promise.all(
+      user.historial.reverse().map((id) => User.findById(id))
+    );
+
+    const historial = await sanitizeFriends(userHistorial);
+
+    res.status(200).json({ token, user, historial });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setLogin } from "../../redux";
+import { setHistorial, setLogin } from "../../redux";
 import { LoginUser } from "../../types";
 
 export const useConnect = () => {
@@ -43,6 +43,7 @@ export const useConnect = () => {
           token: loggedInUser.token,
         })
       );
+      dispatch(setHistorial({ historial: loggedInUser.historial }));
       navigate("/");
     } else {
       setError(loggedInUser.msg);

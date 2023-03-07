@@ -186,7 +186,7 @@ export const viewsProfile = async (req, res) => {
   }
 };
 
-export const addHistorial = async (req, res) => {
+export const addToHistorial = async (req, res) => {
   try {
     const { id, historialUserId } = req.params;
 
@@ -200,7 +200,29 @@ export const addHistorial = async (req, res) => {
     await user.save();
 
     const userHistorial = await Promise.all(
-      user.historial.map((id) => User.findById(id))
+      user.historial.reverse().map((id) => User.findById(id))
+    );
+
+    const historial = await sanitizeFriends(userHistorial);
+
+    res.status(200).json(historial);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const removeFromHistorial = async (req, res) => {
+  try {
+    const { id, historialUserId } = req.params;
+
+    const user = await User.findById(id);
+
+    user.historial = user.historial.filter((id) => id !== historialUserId);
+
+    await user.save();
+
+    const userHistorial = await Promise.all(
+      user.historial.reverse().map((id) => User.findById(id))
     );
 
     const historial = await sanitizeFriends(userHistorial);

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { GetStates } from "../../functions";
+import { getSearchHeight, GetStates } from "../../functions";
 import { setHistorial } from "../../redux";
 import { User } from "../../types";
 
@@ -16,29 +16,6 @@ export const useConnect = () => {
     setValue(e.currentTarget.value);
   };
 
-  const goTo = async (searchedUser: User) => {
-    await addHistorial(searchedUser._id);
-
-    user._id !== searchedUser._id
-      ? navigate(`/profile/${searchedUser._id}`)
-      : navigate("/");
-  };
-
-  const addHistorial = async (userId: string) => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/${user._id}/${userId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const historial = await response.json();
-
-    dispatch(setHistorial({ historial }));
-  };
-
   const usersFound = useMemo(() => {
     if (value)
       return users?.filter(
@@ -49,6 +26,46 @@ export const useConnect = () => {
 
     return [];
   }, [value, users]);
+
+  const height = getSearchHeight(
+    user.historial.length,
+    value,
+    usersFound?.length
+  );
+
+  const addToHistorial = async (searchedUser: User) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/${user._id}/${searchedUser._id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const historial = await response.json();
+
+    dispatch(setHistorial({ historial }));
+
+    user._id !== searchedUser._id
+      ? navigate(`/profile/${searchedUser._id}`)
+      : navigate("/");
+  };
+
+  const removeFromHistorial = async (searchedUser: User) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/${user._id}/${searchedUser._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const historial = await response.json();
+
+    dispatch(setHistorial({ historial }));
+  };
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/users`, {
@@ -66,6 +83,8 @@ export const useConnect = () => {
     usersFound,
     user,
     handleChange,
-    goTo,
+    addToHistorial,
+    removeFromHistorial,
+    height,
   };
 };
