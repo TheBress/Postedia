@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addHistorial,
   addRemoveFriend,
   getAllUsers,
   getUserById,
@@ -16,5 +17,6 @@ router.get("/friends/:id", getUserFriends);
 router.patch("/:id/:friendId/:profileId", addRemoveFriend);
 router.patch("/update", updateProfile);
 router.patch("/views", viewsProfile);
+router.patch("/:id/:historialUserId", addHistorial);
 
 export default router;

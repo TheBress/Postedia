@@ -185,3 +185,28 @@ export const viewsProfile = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const addHistorial = async (req, res) => {
+  try {
+    const { id, historialUserId } = req.params;
+
+    const user = await User.findById(id);
+
+    if (!user.historial.some((id) => id === historialUserId)) {
+      if (user.historial.length > 8) user.historial.splice(-1);
+      else user.historial.push(historialUserId);
+    }
+
+    await user.save();
+
+    const userHistorial = await Promise.all(
+      user.historial.map((id) => User.findById(id))
+    );
+
+    const historial = await sanitizeFriends(userHistorial);
+
+    res.status(200).json(historial);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

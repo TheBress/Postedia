@@ -65,6 +65,7 @@ export const emptyUser = (): User => {
     location: "",
     occupation: "",
     viewedProfile: [],
+    historial: [],
     twitterUrl: "",
     linkedinUrl: "",
     isPublic: true,

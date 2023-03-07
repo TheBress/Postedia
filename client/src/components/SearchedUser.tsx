@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import { GetStates } from "../functions";
+
+import { useConnect } from "../pages/Search/connect";
 import { User } from "../types";
 
 interface Props {
@@ -8,8 +8,7 @@ interface Props {
 }
 
 export const SearchedUser = ({ searchedUser }: Props) => {
-  const navigate = useNavigate();
-  const { user } = GetStates();
+  const { goTo } = useConnect();
 
   return (
     <Flex
@@ -21,9 +20,7 @@ export const SearchedUser = ({ searchedUser }: Props) => {
       alignItems="center"
       gap="3"
       onClick={() => {
-        user._id !== searchedUser._id
-          ? navigate(`/profile/${searchedUser._id}`)
-          : navigate("/");
+        goTo(searchedUser);
       }}
     >
       <Avatar src={searchedUser.picturePath} />

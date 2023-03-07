@@ -22,7 +22,7 @@ export const Search = () => {
             usersFound.map((user) => <SearchedUser searchedUser={user} />)
           ) : (
             <Text fontWeight="600" fontSize="1.4rem">
-              No users found.
+              No results found.
             </Text>
           )}
         </Box>
