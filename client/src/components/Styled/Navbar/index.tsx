@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Button, Image } from "@chakra-ui/react";
+import { Box, Flex, HStack, Image } from "@chakra-ui/react";
 import { BiLogOut } from "react-icons/bi";
 
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { MdNotifications, MdSearch } from "react-icons/md";
 import { useConnect } from "./connect";
 import { NotificationsText } from "../Texts/NumberNotifications";
 import { IconNavbarContainer } from "../Containers/Navbar";
+import { LogoutButton } from "../Buttons/Logout";
 
 export const Navbar = () => {
   const { totalNotifications, logout } = useConnect();
@@ -24,12 +25,8 @@ export const Navbar = () => {
               {" "}
               <Image src="/logo.png" width="120px" />
             </Link>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            ></HStack>
           </HStack>
+
           <Flex alignItems={"center"}>
             <IconNavbarContainer url="search">
               <MdSearch size="25" />
@@ -44,15 +41,9 @@ export const Navbar = () => {
               </>
             </IconNavbarContainer>
 
-            <Button
-              transition=".3s"
-              mr="5"
-              background="transparent"
-              onClick={logout}
-              _hover={{ background: "transparent", color: "white" }}
-            >
+            <LogoutButton onClickAction={logout}>
               <BiLogOut size={30} />
-            </Button>
+            </LogoutButton>
           </Flex>
         </Flex>
       </Box>

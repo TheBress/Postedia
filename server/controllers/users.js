@@ -158,30 +158,31 @@ export const updateProfile = async (req, res) => {
 export const viewsProfile = async (req, res) => {
   try {
     const { userProfileId, userId } = req.body;
+    let user;
 
     const userProfile = await User.findById(userProfileId);
 
     if (userProfileId !== userId) {
-      if (userProfile.viewedProfile.length > 1) {
-        userProfile.viewedProfile = Array.from(
-          new Set(userProfile.viewedProfile)
-        );
-      }
-      await userProfile.save();
-
       const isExist = userProfile.viewedProfile.some((id) => id === userId);
 
-      if (!isExist) {
-        userProfile.viewedProfile.push(userId);
+      if (!isExist) userProfile.viewedProfile.push(userId);
 
-        await userProfile.save();
-      }
+      await userProfile.save();
+
+      const notRepeated = Array.from(new Set(userProfile.viewedProfile));
+
+      user = await User.findByIdAndUpdate(userProfile.id, {
+        viewedProfile: notRepeated,
+      });
+
+      await user.save();
     }
 
-    const sanitizedUser = sanitizeUser(userProfile);
+    const sanitizedUser = sanitizeUser(user);
 
     res.status(200).json(sanitizedUser);
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ message: error.message });
   }
 };

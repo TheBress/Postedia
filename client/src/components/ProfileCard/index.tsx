@@ -5,7 +5,7 @@ import { Card } from "./subcomponents/Card";
 import { useConnect } from "./connect";
 import { Form } from "./subcomponents/Form";
 import { ProfileContainer } from "../Styled/Containers/Profile";
-import { RiUserFollowFill } from "react-icons/ri";
+import { RiUserFollowFill, RiUserUnfollowFill } from "react-icons/ri";
 import { FollowProfileContainer } from "../Styled/Containers/FollowProfile";
 import { ToastContainer } from "../Styled/Containers/Toast";
 import { User } from "../../types";
@@ -57,9 +57,10 @@ export const ProfileCard = ({ user }: Props) => {
         )}
 
         <FollowProfileContainer userInfo={userInfo} addFriend={addFriend}>
-          {(!userInfo.isFriendOrPublic || !userInfo.isUser) &&
-          !userInfo.isRequest ? (
+          {!userInfo.isUser && !userInfo.isFriend && !userInfo.isRequest ? (
             <RiUserFollowFill size="22" />
+          ) : !userInfo.isUser && userInfo.isFriend ? (
+            <RiUserUnfollowFill size="22" />
           ) : (
             <MdPending size="22" />
           )}

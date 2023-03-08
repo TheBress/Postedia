@@ -22,15 +22,15 @@ export const Search = () => {
           {usersFound?.length ? (
             <>
               <SearchText text={`Users found (${usersFound.length}):`} />
-              {usersFound.map((user) => (
-                <SearchedUser searchedUser={user} />
+              {usersFound.map((user, index) => (
+                <SearchedUser searchedUser={user} key={index} />
               ))}
             </>
           ) : user.historial.length && !value ? (
             <>
               <SearchText text="Last searches:" />
-              {user.historial.map((user) => (
-                <SearchedUser searchedUser={user} isHistorial />
+              {user.historial.map((user, index) => (
+                <SearchedUser searchedUser={user} isHistorial key={index} />
               ))}
             </>
           ) : (

@@ -41,6 +41,7 @@ export const sanitizeUser = (user) => {
     twitterUrl: user.twitterUrl,
     viewedProfile: user.viewedProfile,
     historial: user.historial,
+    isPublic: user.isPublic,
   };
 };
 

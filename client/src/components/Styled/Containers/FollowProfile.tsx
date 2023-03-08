@@ -9,11 +9,7 @@ export const FollowProfileContainer = ({
   return (
     <Box
       ml="auto"
-      display={
-        (userInfo?.isFriendOrPublic || userInfo?.isUser) && !userInfo?.isRequest
-          ? "none"
-          : ""
-      }
+      display={userInfo?.isUser ? "none" : ""}
       cursor="pointer"
       _hover={{ color: "blue.100" }}
       transition=".3s"
