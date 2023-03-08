@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { formatDate, getIsPost } from "../../functions";
+import { formatDate, getIsPost, successToast } from "../../functions";
 import { setPost, setUniquePost } from "../../redux";
 import { InitialState, Post, PostInfo } from "../../types";
 
@@ -10,6 +10,14 @@ export const useConnect = (post: Post) => {
   const [isComment, setisComment] = useState<boolean>(false);
   const [isUpdate, setisUpdate] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(
+      `${process.env.REACT_APP_URL}/post/${post?._id}`
+    );
+
+    successToast("Link copied to clipboard");
+  };
 
   const { _id } = useSelector((state: InitialState) => state.user);
   const isPost = getIsPost();
@@ -59,5 +67,6 @@ export const useConnect = (post: Post) => {
     setisUpdate,
     goToPost,
     postInfo,
+    copyToClipboard,
   };
 };

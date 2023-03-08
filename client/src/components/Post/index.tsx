@@ -7,7 +7,7 @@ import { ActionsContainer } from "../Styled/Containers/Actions";
 import { Comments } from "./Comments";
 import { useConnect } from "./connect";
 import { UpdateForm } from "./UpdateForm";
-import { MdModeEdit } from "react-icons/md";
+import { MdModeEdit, MdShare } from "react-icons/md";
 
 interface Props {
   post: PostType;
@@ -16,8 +16,14 @@ interface Props {
 }
 
 export const Post = ({ post, myKey, userId }: Props) => {
-  const { postInfo, likePost, setisUpdate, goToPost, changeIsComment } =
-    useConnect(post);
+  const {
+    postInfo,
+    likePost,
+    setisUpdate,
+    goToPost,
+    changeIsComment,
+    copyToClipboard,
+  } = useConnect(post);
 
   return (
     <Box key={myKey} background="white" p="6" borderRadius="10px" mb="5">
@@ -49,7 +55,7 @@ export const Post = ({ post, myKey, userId }: Props) => {
       <Flex pt="2" gap="5" alignItems="center">
         <ActionsContainer onClickAction={likePost}>
           {!postInfo.isLiked ? (
-            <AiOutlineHeart />
+            <AiOutlineHeart className="icon" />
           ) : (
             <AiFillHeart color="#3a9dc7" />
           )}
@@ -57,8 +63,12 @@ export const Post = ({ post, myKey, userId }: Props) => {
         </ActionsContainer>
 
         <ActionsContainer onClickAction={changeIsComment}>
-          <VscComment />
+          <VscComment className="icon" />
           <Text>{post.comments.length}</Text>
+        </ActionsContainer>
+
+        <ActionsContainer onClickAction={copyToClipboard}>
+          <MdShare className="icon" />
         </ActionsContainer>
       </Flex>
 
