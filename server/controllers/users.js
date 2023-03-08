@@ -182,7 +182,6 @@ export const viewsProfile = async (req, res) => {
 
     res.status(200).json(sanitizedUser);
   } catch (error) {
-    console.log(error.message);
     res.status(500).json({ message: error.message });
   }
 };
