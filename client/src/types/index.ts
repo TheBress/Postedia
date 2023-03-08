@@ -26,6 +26,8 @@ export interface UserInfo {
   friendsNumber: string;
   postNumber: string;
   totalLikes: number;
+  text: string;
+  fullName: string;
 }
 
 export interface PostInfo {

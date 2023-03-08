@@ -211,6 +211,15 @@ export const getFeedHeight = (
   return "57.5vh";
 };
 
+export const copyToClipboard = () => {
+  const { user } = GetStates();
+  navigator.clipboard.writeText(
+    `${process.env.REACT_APP_API_URL}/profile/${user._id}`
+  );
+
+  successToast("Link copied to clipboard");
+};
+
 export const getIsFriend = (profileUser?: User) => {
   const { friends } = GetStates();
   return friends.some((friend) => friend._id === profileUser?._id);

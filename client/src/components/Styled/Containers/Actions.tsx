@@ -6,14 +6,7 @@ export const ActionsContainer = ({
   children,
 }: ChildrenProps) => {
   return (
-    <Flex
-      _hover={{ color: "blue.100" }}
-      alignItems="center"
-      gap="1"
-      cursor="pointer"
-      onClick={onClickAction}
-      transition="0.3s"
-    >
+    <Flex alignItems="center" gap="1" onClick={onClickAction}>
       {children}
     </Flex>
   );

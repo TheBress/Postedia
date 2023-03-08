@@ -1,5 +1,5 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { MdClose, MdModeEdit, MdPending } from "react-icons/md";
+import { MdClose, MdModeEdit, MdPending, MdShare } from "react-icons/md";
 
 import { Card } from "./subcomponents/Card";
 import { useConnect } from "./connect";
@@ -15,7 +15,8 @@ interface Props {
 }
 
 export const ProfileCard = ({ user }: Props) => {
-  const { isEdited, changeIsEdited, userInfo, addFriend } = useConnect(user);
+  const { isEdited, changeIsEdited, userInfo, addFriend, copyToClipboard } =
+    useConnect(user);
 
   if (!user) return null;
 
@@ -29,40 +30,38 @@ export const ProfileCard = ({ user }: Props) => {
         <Avatar size="lg" src={user.picturePath} />
         <Box>
           <Text fontWeight="600" fontSize="1.2rem">
-            {user.firstName} {user.lastName}
+            {userInfo.fullName}
           </Text>
           <Flex gap="5px">
             <Text fontSize="0.9rem">{userInfo.friendsNumber}</Text>
             <Text fontSize="0.9rem">{userInfo.postNumber}</Text>
           </Flex>
-          {userInfo.isUser && (
-            <Text fontSize="0.9rem">
-              {user.isPublic ? "Public" : "Private"}
-            </Text>
-          )}
+          {userInfo.isUser && <Text fontSize="0.9rem">{userInfo.text}</Text>}
         </Box>
         {userInfo.isUser && (
-          <Box
-            onClick={changeIsEdited}
-            ml="auto"
-            cursor="pointer"
-            height="25px"
-          >
-            {isEdited ? (
-              <MdClose className="icon" size="25" />
-            ) : (
-              <MdModeEdit className="icon" size="20" />
-            )}
-          </Box>
+          <Flex ml="auto" gap="3">
+            <MdShare className="icon" size="20" onClick={copyToClipboard} />
+            <Box onClick={changeIsEdited}>
+              {isEdited ? (
+                <MdClose className="icon" size="25" />
+              ) : (
+                <MdModeEdit className="icon" size="20" />
+              )}
+            </Box>
+          </Flex>
         )}
 
-        <FollowProfileContainer userInfo={userInfo} addFriend={addFriend}>
+        <FollowProfileContainer
+          userInfo={userInfo}
+          addFriend={addFriend}
+          onClickAction={copyToClipboard}
+        >
           {!userInfo.isUser && !userInfo.isFriend && !userInfo.isRequest ? (
-            <RiUserFollowFill size="22" />
+            <RiUserFollowFill size="22" className="icon" />
           ) : !userInfo.isUser && userInfo.isFriend ? (
-            <RiUserUnfollowFill size="22" />
+            <RiUserUnfollowFill size="22" className="icon" />
           ) : (
-            <MdPending size="22" />
+            <MdPending size="22" className="icon" />
           )}
         </FollowProfileContainer>
       </Flex>

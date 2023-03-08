@@ -25,6 +25,14 @@ export const useConnect = (profileUser?: User) => {
   const { user, userFriends, posts, friends, isEdited } = GetStates();
   const { patchFriend } = useFriendsConnect(profileUser?._id, profileUser?._id);
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(
+      `${process.env.REACT_APP_URL}/profile/${profileUser?._id}`
+    );
+
+    successToast("Link copied to clipboard");
+  };
+
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = getIsProfile();
 
@@ -45,6 +53,8 @@ export const useConnect = (profileUser?: User) => {
     isUser: isProfile ? profileUser?._id === user._id : true,
     isRequest: isProfile ? getIsRequest(profileUser?._id) : false,
     totalLikes: getTotalLikes(!isProfile ? userPosts : posts),
+    text: user.isPublic ? "Public" : "Private",
+    fullName: `${user.firstName} ${user.lastName}`,
   };
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>(sanitizedUser);
@@ -117,5 +127,6 @@ export const useConnect = (profileUser?: User) => {
       : () => {
           successToast("You already sent the request!");
         },
+    copyToClipboard,
   };
 };
