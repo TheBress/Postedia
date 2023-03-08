@@ -7,6 +7,7 @@ import { Notifications } from "./pages/Notifications";
 import { PostPage } from "./pages/Post";
 import { Profile } from "./pages/Profile";
 import { Register } from "./pages/Register";
+import { Search } from "./pages/Search";
 
 function App() {
   const isAuth: boolean = IsAuth();
@@ -31,6 +32,10 @@ function App() {
         <Route
           path="/notifications"
           element={isAuth ? <Notifications /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/search"
+          element={isAuth ? <Search /> : <Navigate to="/login" />}
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

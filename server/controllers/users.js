@@ -2,6 +2,7 @@ import {
   addRemoveFriendRequest,
   createAcceptNotification,
   sanitizeFriends,
+  sanitizeUser,
 } from "../functions/index.js";
 import Request from "../models/Request.js";
 import User from "../models/User.js";
@@ -12,7 +13,21 @@ export const getUserById = async (req, res) => {
 
     const user = await User.findById(id);
 
-    res.status(200).json(user);
+    const sanitizedUser = sanitizeUser(user);
+
+    res.status(200).json(sanitizedUser);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    const sanitizedUsers = users.map((user) => sanitizeUser(user));
+
+    res.status(200).json(sanitizedUsers);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -130,9 +145,11 @@ export const updateProfile = async (req, res) => {
 
     const formattedFriends = await sanitizeFriends(friends);
 
+    const sanitizedUser = sanitizeUser(updatedUser);
+
     res
       .status(200)
-      .json({ user: updatedUser, friends: formattedFriends, requests });
+      .json({ user: sanitizedUser, friends: formattedFriends, requests });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -161,7 +178,56 @@ export const viewsProfile = async (req, res) => {
       }
     }
 
-    res.status(200).json(userProfile);
+    const sanitizedUser = sanitizeUser(userProfile);
+
+    res.status(200).json(sanitizedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const addToHistorial = async (req, res) => {
+  try {
+    const { id, historialUserId } = req.params;
+
+    const user = await User.findById(id);
+
+    if (!user.historial.some((id) => id === historialUserId)) {
+      if (user.historial.length > 8) user.historial.splice(-1);
+      else user.historial.push(historialUserId);
+    }
+
+    await user.save();
+
+    const userHistorial = await Promise.all(
+      user.historial.reverse().map((id) => User.findById(id))
+    );
+
+    const historial = await sanitizeFriends(userHistorial);
+
+    res.status(200).json(historial);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const removeFromHistorial = async (req, res) => {
+  try {
+    const { id, historialUserId } = req.params;
+
+    const user = await User.findById(id);
+
+    user.historial = user.historial.filter((id) => id !== historialUserId);
+
+    await user.save();
+
+    const userHistorial = await Promise.all(
+      user.historial.reverse().map((id) => User.findById(id))
+    );
+
+    const historial = await sanitizeFriends(userHistorial);
+
+    res.status(200).json(historial);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

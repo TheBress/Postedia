@@ -36,6 +36,9 @@ export const authSlice = createSlice({
         console.error("user friends non-existent :(");
       }
     },
+    setHistorial: (state, action) => {
+      state.user.historial = action.payload.historial;
+    },
     setUserFriends: (state, action) => {
       if (state.userFriends) {
         state.userFriends = action.payload.friends;
@@ -85,5 +88,6 @@ export const {
   setUserRequestsReceived,
   setUserNotifications,
   setUserRequestsSent,
+  setHistorial,
 } = authSlice.actions;
 export default authSlice.reducer;

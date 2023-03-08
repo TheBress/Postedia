@@ -1,15 +1,26 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { getNotReadNotifications, GetStates } from "../../../functions";
 import {
+  setLogout,
   setUserNotifications,
   setUserRequestsReceived,
   setUserRequestsSent,
 } from "../../../redux";
 
 export const useConnect = () => {
+  const navigate = useNavigate();
   const { user, requestsReceived, notifications } = GetStates();
   const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch(setLogout());
+  };
+
+  const goTo = (url: string) => {
+    navigate(url);
+  };
 
   useEffect(() => {
     const getUserRequestsReceived = async () => {
@@ -58,5 +69,7 @@ export const useConnect = () => {
     notifications,
     totalNotifications:
       requestsReceived.length + getNotReadNotifications().length,
+    logout,
+    goTo,
   };
 };

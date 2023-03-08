@@ -1,21 +1,14 @@
 import { Box, Flex, HStack, Button, Image } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
 import { BiLogOut } from "react-icons/bi";
 
-import { Link, useNavigate } from "react-router-dom";
-import { setLogout } from "../../../redux";
-import { MdNotifications } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { MdNotifications, MdSearch } from "react-icons/md";
 import { useConnect } from "./connect";
 import { NotificationsText } from "../Texts/NumberNotifications";
+import { IconNavbarContainer } from "../Containers/Navbar";
 
 export const Navbar = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { totalNotifications } = useConnect();
-
-  const logout = () => {
-    dispatch(setLogout());
-  };
+  const { totalNotifications, logout } = useConnect();
 
   return (
     <>
@@ -38,21 +31,18 @@ export const Navbar = () => {
             ></HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Flex
-              mr="25px"
-              _hover={{ background: "transparent", color: "white" }}
-              transition=".3s"
-              cursor="pointer"
-              onClick={() => {
-                navigate("/notifications");
-              }}
-            >
-              <MdNotifications size="25" />
+            <IconNavbarContainer url="search">
+              <MdSearch size="25" />
+            </IconNavbarContainer>
 
-              {totalNotifications ? (
-                <NotificationsText totalNotifications={totalNotifications} />
-              ) : null}
-            </Flex>
+            <IconNavbarContainer url="notifications">
+              <MdNotifications size="25" />
+              <>
+                {totalNotifications ? (
+                  <NotificationsText totalNotifications={totalNotifications} />
+                ) : null}
+              </>
+            </IconNavbarContainer>
 
             <Button
               transition=".3s"

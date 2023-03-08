@@ -40,6 +40,7 @@ export const sanitizeUser = (user) => {
     picturePath: user.picturePath,
     twitterUrl: user.twitterUrl,
     viewedProfile: user.viewedProfile,
+    historial: user.historial,
   };
 };
 

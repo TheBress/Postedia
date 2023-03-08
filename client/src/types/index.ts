@@ -59,6 +59,7 @@ export interface User {
   location: string;
   occupation: string;
   viewedProfile: string[];
+  historial: User[];
   twitterUrl: string;
   linkedinUrl: string;
   isPublic: boolean;
