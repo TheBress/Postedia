@@ -20,7 +20,7 @@ export interface Notification {
 }
 
 export interface UserInfo {
-  isFriendOrPublic?: boolean;
+  isFriend: boolean;
   isUser: boolean;
   isRequest: boolean;
   friendsNumber: string;

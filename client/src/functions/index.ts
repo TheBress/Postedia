@@ -211,12 +211,9 @@ export const getFeedHeight = (
   return "57.5vh";
 };
 
-export const getIsFriendOrPublic = (profileUser?: User) => {
+export const getIsFriend = (profileUser?: User) => {
   const { friends } = GetStates();
-  return (
-    friends.some((friend) => friend._id === profileUser?._id) ||
-    profileUser?.isPublic
-  );
+  return friends.some((friend) => friend._id === profileUser?._id);
 };
 
 export const getIsProfile = () => {

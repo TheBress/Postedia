@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import {
-  getIsFriendOrPublic,
+  getIsFriend,
   getIsProfile,
   getIsRequest,
   GetStates,
@@ -28,13 +28,12 @@ export const useConnect = (profileUser?: User) => {
   const sanitizedUser: UpdatedUser = sanitizeUser(user);
   const isProfile = getIsProfile();
 
-  const isFriendOrPublic: boolean | undefined =
-    getIsFriendOrPublic(profileUser);
+  const isFriend: boolean = getIsFriend(profileUser);
 
   const userPosts = posts.filter((post) => post.userId === user._id);
 
   const userInfo: UserInfo = {
-    isFriendOrPublic,
+    isFriend,
     friendsNumber: sanitizeText(
       !isProfile ? friends.length : userFriends.length,
       "friend"

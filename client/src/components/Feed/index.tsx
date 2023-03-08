@@ -13,29 +13,29 @@ interface Props {
 export const Feed = ({ userId, showFeed }: Props) => {
   const { posts, _id } = useConnect(userId);
 
-  if (!showFeed)
+  if (showFeed)
     return (
       <FeedContainer height={getFeedHeight(posts.length, showFeed)}>
-        <PrivateProfileText />
+        {posts.length && showFeed ? (
+          posts.map((post, index) => (
+            <Post
+              post={post}
+              myKey={index}
+              key={index}
+              userId={userId ? userId : _id}
+            />
+          ))
+        ) : (
+          <Text fontWeight="600" fontSize="1.2rem">
+            No posts yet
+          </Text>
+        )}
       </FeedContainer>
     );
 
   return (
     <FeedContainer height={getFeedHeight(posts.length, showFeed)}>
-      {posts.length && showFeed ? (
-        posts.map((post, index) => (
-          <Post
-            post={post}
-            myKey={index}
-            key={index}
-            userId={userId ? userId : _id}
-          />
-        ))
-      ) : (
-        <Text fontWeight="600" fontSize="1.2rem">
-          No posts yet
-        </Text>
-      )}
+      <PrivateProfileText />
     </FeedContainer>
   );
 };

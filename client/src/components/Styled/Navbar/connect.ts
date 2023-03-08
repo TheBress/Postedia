@@ -19,7 +19,7 @@ export const useConnect = () => {
   };
 
   const goTo = (url: string) => {
-    navigate(url);
+    navigate(`../${url}`, { replace: true });
   };
 
   useEffect(() => {
