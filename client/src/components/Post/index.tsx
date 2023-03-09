@@ -53,23 +53,23 @@ export const Post = ({ post, myKey, userId }: Props) => {
       {post.picturePath && <Image src={post.picturePath} />}
 
       <Flex pt="2" gap="5" alignItems="center">
-        <ActionsContainer onClickAction={likePost}>
+        <ActionsContainer>
           {!postInfo.isLiked ? (
-            <AiOutlineHeart className="icon" />
+            <AiOutlineHeart className="icon" onClick={likePost} />
           ) : (
-            <AiFillHeart color="#3a9dc7" />
+            <AiFillHeart color="#3a9dc7" onClick={likePost} />
           )}
-          <Text>{postInfo.likeCount}</Text>
+          <Text pointerEvents="none">{postInfo.likeCount}</Text>
         </ActionsContainer>
 
-        <ActionsContainer onClickAction={changeIsComment}>
-          <VscComment className="icon" />
-          <Text>{post.comments.length}</Text>
+        <ActionsContainer>
+          <VscComment className="icon" onClick={changeIsComment} />
+          <Text pointerEvents="none">{post.comments.length}</Text>
         </ActionsContainer>
 
-        <ActionsContainer onClickAction={copyToClipboard}>
-          <MdShare className="icon" />
-          <Text>{post.timesShared}</Text>
+        <ActionsContainer>
+          <MdShare className="icon" onClick={copyToClipboard} />
+          <Text pointerEvents="none">{post.timesShared}</Text>
         </ActionsContainer>
       </Flex>
 
@@ -84,7 +84,9 @@ export const Post = ({ post, myKey, userId }: Props) => {
         mt={postInfo.isComment ? "10px" : ""}
       >
         {post.isEdited && <MdModeEdit size="10" />}
-        <Text fontSize="0.7rem">{postInfo.updatedAt}</Text>
+        <Text pointerEvents="none" fontSize="0.7rem">
+          {postInfo.updatedAt}
+        </Text>
       </Flex>
     </Box>
   );
