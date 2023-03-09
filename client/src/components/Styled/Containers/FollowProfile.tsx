@@ -9,7 +9,7 @@ export const FollowProfileContainer = ({
   onClickAction,
 }: ChildrenProps) => {
   return (
-    <Flex ml="auto" display={userInfo?.isUser ? "none" : "flex"} gap="3">
+    <Flex ml="auto" display={userInfo?.isUser ? "none" : "flex"} gap="4">
       <MdShare className="icon" size="20" onClick={onClickAction} />
       <Box onClick={addFriend}>{children}</Box>
     </Flex>

@@ -23,6 +23,7 @@ export const useConnect = () => {
     createdAt: "",
     isEdited: false,
     lastUpdated: "",
+    timesShared: 0,
   });
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {

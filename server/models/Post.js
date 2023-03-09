@@ -26,6 +26,7 @@ const PostSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    timesShared: { type: Number, default: 0 },
     isEdited: Boolean,
     lastUpdated: Date,
   },
