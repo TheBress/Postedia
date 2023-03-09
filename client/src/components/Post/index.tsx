@@ -69,6 +69,7 @@ export const Post = ({ post, myKey, userId }: Props) => {
 
         <ActionsContainer onClickAction={copyToClipboard}>
           <MdShare className="icon" />
+          <Text>{post.timesShared}</Text>
         </ActionsContainer>
       </Flex>
 

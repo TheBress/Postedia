@@ -133,3 +133,21 @@ export const updatePost = async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 };
+
+export const updateTimesShared = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await Post.findById(id);
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { timesShared: post.timesShared + 1 },
+      { new: true }
+    );
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};

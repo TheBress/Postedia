@@ -39,7 +39,7 @@ export const ProfileCard = ({ user }: Props) => {
           {userInfo.isUser && <Text fontSize="0.9rem">{userInfo.text}</Text>}
         </Box>
         {userInfo.isUser && (
-          <Flex ml="auto" gap="3">
+          <Flex ml="auto" gap="4">
             <MdShare className="icon" size="20" onClick={copyToClipboard} />
             <Box onClick={changeIsEdited}>
               {isEdited ? (

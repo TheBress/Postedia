@@ -11,10 +11,22 @@ export const useConnect = (post: Post) => {
   const [isUpdate, setisUpdate] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const copyToClipboard = () => {
+  const copyToClipboard = async () => {
     navigator.clipboard.writeText(
-      `${process.env.REACT_APP_URL}/post/${post?._id}`
+      `${process.env.REACT_APP_URL}/post/${post._id}`
     );
+
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/posts/${post._id}/timesShared`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
 
     successToast("Link copied to clipboard");
   };
