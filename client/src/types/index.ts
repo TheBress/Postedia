@@ -81,6 +81,7 @@ export interface Post {
   comments: Comment[];
   isEdited: boolean;
   lastUpdated: string;
+  timesShared: number;
 }
 
 export interface Comment {

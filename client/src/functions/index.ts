@@ -185,6 +185,7 @@ export const emptyPost = (): Post => {
     comments: [],
     isEdited: false,
     lastUpdated: "",
+    timesShared: 0,
   };
 };
 
